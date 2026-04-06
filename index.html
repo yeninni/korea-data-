@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>민원 런치패스 | 실시간 민원 추천</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="site-shell">
+      <div class="utility-bar">
+        <div class="utility-inner">
+          <div class="utility-left">
+            <span class="utility-flag" aria-hidden="true"></span>
+            공공데이터 기반 점심시간 민원 처리 가능성 추천 서비스
+          </div>
+          <div class="utility-links">
+            <a href="#">이용안내</a>
+            <a href="#">추천 기준</a>
+            <a href="#">데이터 상태</a>
+          </div>
+        </div>
+      </div>
+
+      <header class="main-header">
+        <div class="main-header-inner">
+          <div class="brand-block">
+            <div class="brand-mark" aria-hidden="true">
+              <span class="brand-red"></span>
+              <span class="brand-blue"></span>
+            </div>
+            <div class="brand-text">
+              <strong>민원 런치패스</strong>
+              <span>실시간 민원실 대기현황 기반 추천 서비스</span>
+            </div>
+          </div>
+
+          <nav class="main-nav" aria-label="주요 메뉴">
+            <a href="#">서비스 소개</a>
+            <a class="is-active" href="#">추천 시뮬레이션</a>
+            <a href="#">데이터 활용</a>
+          </nav>
+
+          <div class="header-status" id="header-status">실시간 데이터 연결 준비 중</div>
+        </div>
+      </header>
+
+      <main class="page-backdrop">
+        <section class="page-panel">
+          <div class="breadcrumb">
+            홈 &gt; 공공서비스 &gt; 민원 추천 &gt; <strong>실시간 추천</strong>
+          </div>
+
+          <div class="page-heading">
+            <div>
+              <h1>점심시간 민원 추천</h1>
+              <p>
+                현재 위치와 민원 종류를 입력하면, 실시간 민원실 대기현황을 반영해
+                점심시간 내 처리 가능성이 높은 후보를 추천합니다.
+              </p>
+            </div>
+            <div class="heading-meta">
+              <span id="office-count">민원실 0곳 분석</span>
+              <span id="data-updated">실시간 정보 확인 전</span>
+            </div>
+          </div>
+
+          <section class="content-section">
+            <div class="section-head">
+              <h2>조건 입력</h2>
+              <p>필요한 정보만 입력하면 추천 결과를 즉시 다시 계산합니다.</p>
+            </div>
+
+            <form id="planner-form" class="planner-form">
+              <label>
+                <span>현재 출발 권역</span>
+                <select id="origin">
+                  <option value="gangnam">강남 업무권역</option>
+                  <option value="gwanghwamun">광화문 업무권역</option>
+                  <option value="yeouido">여의도 업무권역</option>
+                </select>
+              </label>
+
+              <label>
+                <span>민원 종류</span>
+                <select id="serviceType">
+                  <option value="resident">주민등록 등·초본</option>
+                  <option value="seal">인감 및 제증명</option>
+                  <option value="business">사업자·인허가</option>
+                  <option value="family">가족관계 신고·증명</option>
+                </select>
+              </label>
+
+              <label>
+                <span>출발 시각</span>
+                <input id="departureTime" type="time" value="12:10" />
+              </label>
+
+              <label>
+                <span>복귀 마감 시각</span>
+                <input id="returnDeadline" type="time" value="13:00" />
+              </label>
+
+              <label>
+                <span>우선 기준</span>
+                <select id="priority">
+                  <option value="balanced">균형형 추천</option>
+                  <option value="speed">가장 빠른 처리</option>
+                  <option value="certainty">복귀 안정성 우선</option>
+                </select>
+              </label>
+
+              <button type="submit" class="primary-button">추천 다시 계산</button>
+            </form>
+
+            <div class="insight-strip">
+              <article>
+                <span class="insight-label">실시간 평균 대기</span>
+                <strong id="avgWait">-</strong>
+              </article>
+              <article>
+                <span class="insight-label">가장 빠른 예상 소요</span>
+                <strong id="fastestTotal">-</strong>
+              </article>
+              <article>
+                <span class="insight-label">점심시간 내 복귀 가능성</span>
+                <strong id="successRate">-</strong>
+              </article>
+            </div>
+          </section>
+
+          <section class="content-section">
+            <div class="section-head">
+              <h2>추천 결과</h2>
+              <p id="summary-text">실시간 데이터를 불러오는 중입니다.</p>
+            </div>
+
+            <div id="recommendation-list" class="recommendation-list"></div>
+          </section>
+
+          <section class="content-section">
+            <div class="section-head">
+              <h2>상세 분석</h2>
+              <p>추천 사유, 대응 창구, 예상 처리 흐름을 확인할 수 있습니다.</p>
+            </div>
+
+            <div class="detail-grid">
+              <article class="analysis-panel">
+                <div class="panel-label">추천 사유</div>
+                <h3 id="detail-title">민원실을 선택하면 상세 내용이 표시됩니다.</h3>
+                <p id="detail-description" class="detail-description"></p>
+                <div id="reason-chips" class="reason-chips"></div>
+              </article>
+
+              <article class="timeline-panel">
+                <div class="panel-label">예상 흐름</div>
+                <h3>처리 타임라인</h3>
+                <div id="timeline" class="timeline"></div>
+              </article>
+            </div>
+          </section>
+
+          <div id="data-message" class="data-message" hidden></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
