@@ -1,0 +1,161 @@
+export const lockers = [
+  {
+    id: "locker-gwanghwamun-01",
+    name: "Gwanghwamun Public Locker Center",
+    district: "Jongno-gu",
+    address: "172 Sejong-daero, Jongno-gu, Seoul",
+    latitude: 37.5716,
+    longitude: 126.9768,
+    availabilityStatus: "Almost Full",
+    availableUnits: 6,
+    totalUnits: 42,
+    largeLuggage: true,
+    price: "Small 2,000 KRW / Large 4,000 KRW",
+    openHours: "05:30-24:00",
+    nearbyLandmark: "Gwanghwamun",
+    nearestBusStop: "Gwanghwamun Square",
+    estimatedWalkMinutes: 4,
+    estimatedBusMinutes: 7,
+    supportedLanguages: ["ko", "en", "zh", "ja"],
+    busRoutes: ["171", "272", "601", "N51"],
+    nextBuses: [
+      { route: "171", minutes: 3 },
+      { route: "601", minutes: 8 }
+    ],
+    coordinatesOnMap: { x: 50, y: 28 }
+  },
+  {
+    id: "locker-myeongdong-01",
+    name: "Myeongdong Station Smart Locker",
+    district: "Jung-gu",
+    address: "Myeongdong Station Exit 6, Jung-gu, Seoul",
+    latitude: 37.5609,
+    longitude: 126.9855,
+    availabilityStatus: "Available",
+    availableUnits: 22,
+    totalUnits: 56,
+    largeLuggage: true,
+    price: "Small 2,000 KRW / Medium 3,000 KRW / Large 5,000 KRW",
+    openHours: "05:00-24:00",
+    nearbyLandmark: "Myeongdong",
+    nearestBusStop: "Myeongdong Entrance",
+    estimatedWalkMinutes: 2,
+    estimatedBusMinutes: 5,
+    supportedLanguages: ["ko", "en", "zh", "ja"],
+    busRoutes: ["104", "421", "463"],
+    nextBuses: [
+      { route: "421", minutes: 4 },
+      { route: "463", minutes: 10 }
+    ],
+    coordinatesOnMap: { x: 58, y: 48 }
+  },
+  {
+    id: "locker-seoulstation-01",
+    name: "Seoul Station Travel Locker",
+    district: "Yongsan-gu",
+    address: "Seoul Station Transfer Hall, 405 Hangang-daero",
+    latitude: 37.5547,
+    longitude: 126.9706,
+    availabilityStatus: "Almost Full",
+    availableUnits: 9,
+    totalUnits: 80,
+    largeLuggage: true,
+    price: "Small 2,000 KRW / Large 5,000 KRW",
+    openHours: "04:30-01:00",
+    nearbyLandmark: "Seoul Station",
+    nearestBusStop: "Seoul Station Bus Transfer Center",
+    estimatedWalkMinutes: 3,
+    estimatedBusMinutes: 4,
+    supportedLanguages: ["ko", "en", "zh", "ja"],
+    busRoutes: ["100", "150", "500", "7016"],
+    nextBuses: [
+      { route: "150", minutes: 2 },
+      { route: "7016", minutes: 7 }
+    ],
+    coordinatesOnMap: { x: 42, y: 61 }
+  },
+  {
+    id: "locker-hongdae-01",
+    name: "Hongdae Tourist Locker",
+    district: "Mapo-gu",
+    address: "Hongik University Station Exit 9, Mapo-gu, Seoul",
+    latitude: 37.5572,
+    longitude: 126.9245,
+    availabilityStatus: "Available",
+    availableUnits: 31,
+    totalUnits: 60,
+    largeLuggage: true,
+    price: "Small 2,000 KRW / Large 4,500 KRW",
+    openHours: "05:30-24:00",
+    nearbyLandmark: "Hongdae",
+    nearestBusStop: "Hongik University Station",
+    estimatedWalkMinutes: 4,
+    estimatedBusMinutes: 8,
+    supportedLanguages: ["ko", "en", "zh"],
+    busRoutes: ["271", "602", "7612"],
+    nextBuses: [
+      { route: "271", minutes: 5 },
+      { route: "602", minutes: 9 }
+    ],
+    coordinatesOnMap: { x: 23, y: 45 }
+  },
+  {
+    id: "locker-dongdaemun-01",
+    name: "Dongdaemun Design Plaza Locker",
+    district: "Jung-gu",
+    address: "DDP Visitor Center, Eulji-ro, Jung-gu",
+    latitude: 37.5665,
+    longitude: 127.0092,
+    availabilityStatus: "Available",
+    availableUnits: 18,
+    totalUnits: 48,
+    largeLuggage: false,
+    price: "Small 2,000 KRW / Medium 3,000 KRW",
+    openHours: "06:00-23:30",
+    nearbyLandmark: "Dongdaemun",
+    nearestBusStop: "Dongdaemun Design Plaza",
+    estimatedWalkMinutes: 5,
+    estimatedBusMinutes: 10,
+    supportedLanguages: ["ko", "en", "ja"],
+    busRoutes: ["105", "152", "261"],
+    nextBuses: [
+      { route: "105", minutes: 6 },
+      { route: "261", minutes: 12 }
+    ],
+    coordinatesOnMap: { x: 76, y: 43 }
+  },
+  {
+    id: "locker-incheonairport-01",
+    name: "Incheon Airport Public Storage Desk",
+    district: "Jung-gu, Incheon",
+    address: "Terminal 1 Arrival Hall, Incheon International Airport",
+    latitude: 37.4602,
+    longitude: 126.4407,
+    availabilityStatus: "Full",
+    availableUnits: 0,
+    totalUnits: 90,
+    largeLuggage: true,
+    price: "Small 4,000 KRW / Large 8,000 KRW",
+    openHours: "24 hours",
+    nearbyLandmark: "Incheon Airport",
+    nearestBusStop: "Incheon Airport T1",
+    estimatedWalkMinutes: 6,
+    estimatedBusMinutes: 18,
+    supportedLanguages: ["ko", "en", "zh", "ja"],
+    busRoutes: ["6001", "6015", "6701"],
+    nextBuses: [
+      { route: "6001", minutes: 9 },
+      { route: "6701", minutes: 14 }
+    ],
+    coordinatesOnMap: { x: 12, y: 78 }
+  }
+];
+
+export const landmarks = [
+  "Gwanghwamun",
+  "Myeongdong",
+  "Seoul Station",
+  "Hongdae",
+  "Dongdaemun",
+  "Incheon Airport"
+];
