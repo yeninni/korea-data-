@@ -3,7 +3,6 @@ import AboutSection from "./components/AboutSection";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import MapExplorer from "./components/MapExplorer";
-import TouristRecommendations from "./components/TouristRecommendations";
 import { landmarks, regions } from "./data/lockers";
 import { dictionary } from "./i18n/dictionary";
 import { fetchLockerStatus, getMockLockerPayload } from "./services/publicDataClient";
@@ -126,13 +125,6 @@ export default function App() {
         onSortModeChange={setSortMode}
         largeOnly={largeOnly}
         onLargeOnlyChange={setLargeOnly}
-      />
-      <TouristRecommendations
-        t={t}
-        landmarks={landmarks}
-        lockers={lockerData}
-        selectedLocker={selectedLocker}
-        onSelectLocker={(locker) => setSelectedLockerId(locker.id)}
       />
       <AboutSection t={t} />
     </div>

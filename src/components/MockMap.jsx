@@ -91,12 +91,59 @@ function createOverlayContent(locker) {
   `;
 }
 
+function MapStatusArtwork() {
+  return (
+    <div className="mx-auto mb-4 flex h-28 w-28 items-center justify-center rounded-[1.5rem] bg-[#0d2457] shadow-sm">
+      <svg
+        viewBox="0 0 120 120"
+        className="h-24 w-24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <g stroke="#F8FAFC" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+          <path
+            opacity="0.95"
+            d="M26 33c8-10 18-16 34-18 22-2 44 8 54 28 8 16 6 34-4 48-12 16-30 24-50 22-16-2-29-8-40-21-14-16-16-37-6-55 2-3 4-6 6-8Z"
+          />
+          <path opacity="0.7" d="M31 31c10 10 16 22 16 37 0 14-4 27-12 38" />
+          <path opacity="0.7" d="M84 26c-6 10-10 20-10 33 0 17 5 32 14 44" />
+          <path opacity="0.7" d="M22 58c12-6 24-9 39-9 17 0 31 4 46 12" />
+          <path opacity="0.7" d="M34 86c13-6 28-8 43-6 11 1 21 4 31 10" />
+          <path opacity="0.7" d="M60 16c-4 13-5 25-2 37 3 13 8 24 16 34" />
+          <rect x="47" y="41" width="26" height="40" rx="6" />
+          <path d="M54 41v-5a6 6 0 0 1 6-6h0a6 6 0 0 1 6 6v5" />
+        </g>
+        {[
+          [25, 34],
+          [43, 22],
+          [59, 28],
+          [78, 34],
+          [95, 22],
+          [102, 47],
+          [90, 69],
+          [74, 84],
+          [52, 90],
+          [33, 77],
+          [20, 56],
+          [39, 53],
+          [81, 52],
+          [65, 66]
+        ].map(([cx, cy], index) => (
+          <circle key={index} cx={cx} cy={cy} r="4.5" fill="#F8FAFC" />
+        ))}
+      </svg>
+    </div>
+  );
+}
+
 export default function MockMap({ lockers, selectedLocker, onSelect, t }) {
   const containerRef = useRef(null);
   const mapRef = useRef(null);
   const markersRef = useRef([]);
   const overlayRef = useRef(null);
   const [mapState, setMapState] = useState(KAKAO_MAP_APP_KEY ? "loading" : "missing-key");
+  const [mapErrorMessage, setMapErrorMessage] = useState("");
 
   const visibleLockers = useMemo(
     () =>
@@ -111,10 +158,12 @@ export default function MockMap({ lockers, selectedLocker, onSelect, t }) {
 
     if (!KAKAO_MAP_APP_KEY) {
       setMapState("missing-key");
+      setMapErrorMessage("");
       return undefined;
     }
 
     setMapState("loading");
+    setMapErrorMessage("");
 
     loadKakaoMaps(KAKAO_MAP_APP_KEY)
       .then((kakao) => {
@@ -129,9 +178,10 @@ export default function MockMap({ lockers, selectedLocker, onSelect, t }) {
 
         setMapState("ready");
       })
-      .catch(() => {
+      .catch((error) => {
         if (!cancelled) {
           setMapState("error");
+          setMapErrorMessage(error?.message ?? "Unknown Kakao Maps error");
         }
       });
 
@@ -223,14 +273,20 @@ export default function MockMap({ lockers, selectedLocker, onSelect, t }) {
       {mapState !== "ready" && (
         <div className="absolute inset-0 z-20 flex items-center justify-center bg-slate-900/10 px-6">
           <div className="max-w-md rounded-2xl bg-white p-5 text-center shadow-sm ring-1 ring-slate-200">
+            <MapStatusArtwork />
             <p className="text-lg font-black text-slate-950">
               {mapState === "missing-key" ? t.mapSetup : t.mapError}
             </p>
             <p className="mt-2 text-sm leading-6 text-slate-500">
               {mapState === "missing-key"
                 ? "Set VITE_KAKAO_MAP_APP_KEY in your .env file to load the nationwide map."
-                : t.mapErrorDetail}
+                : mapErrorMessage || t.mapErrorDetail}
             </p>
+            {mapState === "error" && (
+              <p className="mt-2 text-xs text-slate-400">
+                Current origin: {window.location.origin}
+              </p>
+            )}
           </div>
         </div>
       )}
