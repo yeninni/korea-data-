@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { statusStyles } from "../utils/lockerUtils";
+import { localizeValue, statusStyles } from "../utils/lockerUtils";
 
 const DEFAULT_CENTER = { lat: 36.35, lng: 127.85 };
 const KAKAO_MAP_APP_KEY = import.meta.env.VITE_KAKAO_MAP_APP_KEY;
@@ -82,10 +82,10 @@ function createMarkerImage(kakao, status, selected) {
   );
 }
 
-function createOverlayContent(locker) {
+function createOverlayContent(locker, t) {
   return `
     <div class="kakao-map-overlay">
-      <strong>${locker.name}</strong>
+      <strong>${localizeValue(locker.name, t)}</strong>
       <span>${locker.availableUnits}/${locker.totalUnits}</span>
     </div>
   `;
@@ -219,7 +219,7 @@ export default function MockMap({ lockers, selectedLocker, onSelect, t }) {
       const selected = selectedLocker?.id === locker.id;
       const marker = new kakao.maps.Marker({
         position,
-        title: locker.name,
+        title: localizeValue(locker.name, t),
         image: createMarkerImage(kakao, locker.availabilityStatus, selected),
         zIndex: selected ? 5 : 1
       });
@@ -232,7 +232,7 @@ export default function MockMap({ lockers, selectedLocker, onSelect, t }) {
       if (selected) {
         overlayRef.current = new kakao.maps.CustomOverlay({
           position,
-          content: createOverlayContent(locker),
+          content: createOverlayContent(locker, t),
           yAnchor: 1.8,
           zIndex: 6
         });
@@ -246,7 +246,7 @@ export default function MockMap({ lockers, selectedLocker, onSelect, t }) {
     } else {
       map.setBounds(bounds, 60, 60, 60, 60);
     }
-  }, [mapState, onSelect, selectedLocker, visibleLockers]);
+  }, [mapState, onSelect, selectedLocker, t, visibleLockers]);
 
   const statusList = Object.entries(statusStyles);
 
@@ -279,12 +279,12 @@ export default function MockMap({ lockers, selectedLocker, onSelect, t }) {
             </p>
             <p className="mt-2 text-sm leading-6 text-slate-500">
               {mapState === "missing-key"
-                ? "Set VITE_KAKAO_MAP_APP_KEY in your .env file to load the nationwide map."
+                ? t.mapEnvSetup
                 : mapErrorMessage || t.mapErrorDetail}
             </p>
             {mapState === "error" && (
               <p className="mt-2 text-xs text-slate-400">
-                Current origin: {window.location.origin}
+                {t.currentOrigin}: {window.location.origin}
               </p>
             )}
           </div>

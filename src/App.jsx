@@ -17,7 +17,7 @@ export default function App() {
   const [largeOnly, setLargeOnly] = useState(false);
   const [selectedLockerId, setSelectedLockerId] = useState("locker-gwanghwamun-01");
   const [lockerPayload, setLockerPayload] = useState(getMockLockerPayload);
-  const [dataStatus, setDataStatus] = useState("Loading public locker data...");
+  const [dataStatus, setDataStatus] = useState(dictionary.ko.dataStatusLoading);
 
   const t = dictionary[language];
   const lockerData = lockerPayload.lockers;
@@ -29,7 +29,7 @@ export default function App() {
       .then((payload) => {
         if (ignore) return;
         setLockerPayload(payload);
-        setDataStatus(`Live public locker data + nationwide demo coverage · ${payload.lockers.length} locations`);
+        setDataStatus(t.dataStatusLive.replace("{count}", payload.lockers.length));
         setSelectedLockerId(payload.lockers[0]?.id ?? "locker-gwanghwamun-01");
         setSelectedRegion(payload.lockers[0]?.region ?? "All Korea");
         setSelectedLandmark(payload.lockers[0]?.nearbyLandmark ?? "Gwanghwamun");
@@ -38,13 +38,13 @@ export default function App() {
         if (ignore) return;
         const fallbackPayload = getMockLockerPayload();
         setLockerPayload(fallbackPayload);
-        setDataStatus("Demo fallback data · API proxy not connected");
+        setDataStatus(t.dataStatusFallback);
       });
 
     return () => {
       ignore = true;
     };
-  }, []);
+  }, [t.dataStatusFallback, t.dataStatusLive]);
 
   const filteredLockers = useMemo(() => {
     const regionFiltered = lockerData.filter((locker) => {
@@ -57,18 +57,16 @@ export default function App() {
       return locker.nearbyLandmark === selectedLandmark;
     });
 
-    const queryFiltered = landmarkFiltered
-      .filter((locker) => matchesSearch(locker, query))
-      .filter((locker) => (largeOnly ? locker.largeLuggage : true));
-
-    const sorted = sortLockers(queryFiltered, sortMode);
-    return sorted;
+    return sortLockers(
+      landmarkFiltered
+        .filter((locker) => matchesSearch(locker, query))
+        .filter((locker) => (largeOnly ? locker.largeLuggage : true)),
+      sortMode
+    );
   }, [largeOnly, lockerData, query, selectedLandmark, selectedRegion, sortMode]);
 
   const selectedLocker =
-    filteredLockers.find((locker) => locker.id === selectedLockerId) ||
-    filteredLockers[0] ||
-    null;
+    filteredLockers.find((locker) => locker.id === selectedLockerId) || filteredLockers[0] || null;
 
   const summary = summarize(lockerData);
 

@@ -1,6 +1,6 @@
 import Icon from "./Icon";
 import StatusBadge from "./StatusBadge";
-import { getLanguageLabel } from "../utils/lockerUtils";
+import { getLanguageLabel, localizeValue } from "../utils/lockerUtils";
 
 export default function LockerCard({ locker, t, selected, onSelect }) {
   return (
@@ -13,9 +13,11 @@ export default function LockerCard({ locker, t, selected, onSelect }) {
     >
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h3 className="text-xl font-black tracking-tight text-slate-950">{locker.name}</h3>
+          <h3 className="text-xl font-black tracking-tight text-slate-950">
+            {localizeValue(locker.name, t)}
+          </h3>
           <p className="mt-1 text-sm font-semibold text-slate-500">
-            {locker.nearbyLandmark} · {locker.district}
+            {localizeValue(locker.nearbyLandmark, t)} · {localizeValue(locker.district, t)}
           </p>
         </div>
         <StatusBadge status={locker.availabilityStatus} t={t} />
@@ -30,11 +32,17 @@ export default function LockerCard({ locker, t, selected, onSelect }) {
         </div>
         <div className="rounded-2xl bg-slate-50 p-3">
           <span className="block text-slate-500">{t.walk}</span>
-          <strong className="mt-1 block text-lg">{locker.estimatedWalkMinutes}m</strong>
+          <strong className="mt-1 block text-lg">
+            {locker.estimatedWalkMinutes}
+            {t.minuteUnit}
+          </strong>
         </div>
         <div className="rounded-2xl bg-slate-50 p-3">
           <span className="block text-slate-500">{t.bus}</span>
-          <strong className="mt-1 block text-lg">{locker.estimatedBusMinutes}m</strong>
+          <strong className="mt-1 block text-lg">
+            {locker.estimatedBusMinutes}
+            {t.minuteUnit}
+          </strong>
         </div>
       </div>
 
@@ -50,7 +58,7 @@ export default function LockerCard({ locker, t, selected, onSelect }) {
             key={language}
             className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600"
           >
-            {getLanguageLabel(language)}
+            {getLanguageLabel(language, t)}
           </span>
         ))}
       </div>

@@ -31,13 +31,7 @@ export function matchesSearch(locker, query) {
   const normalized = query.trim().toLowerCase();
   if (!normalized) return true;
 
-  return [
-    locker.name,
-    locker.district,
-    locker.address,
-    locker.nearbyLandmark,
-    locker.nearestBusStop
-  ]
+  return [locker.name, locker.district, locker.address, locker.nearbyLandmark, locker.nearestBusStop]
     .join(" ")
     .toLowerCase()
     .includes(normalized);
@@ -87,11 +81,11 @@ export function getAlternative(lockers, currentLocker) {
     })[0];
 }
 
-export function getLanguageLabel(languageCode) {
-  return {
-    ko: "KO",
-    en: "EN",
-    zh: "中文",
-    ja: "日本語"
-  }[languageCode];
+export function getLanguageLabel(languageCode, t) {
+  return t.languageNames?.[languageCode] ?? languageCode;
+}
+
+export function localizeValue(value, t) {
+  if (typeof value !== "string") return value;
+  return t.placeNames?.[value] ?? value;
 }

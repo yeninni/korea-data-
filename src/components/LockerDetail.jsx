@@ -1,6 +1,6 @@
 import Icon from "./Icon";
 import StatusBadge from "./StatusBadge";
-import { getAlternative, getLanguageLabel } from "../utils/lockerUtils";
+import { getAlternative, getLanguageLabel, localizeValue } from "../utils/lockerUtils";
 
 export default function LockerDetail({ locker, lockers, t }) {
   const alternative = getAlternative(lockers, locker);
@@ -10,8 +10,10 @@ export default function LockerDetail({ locker, lockers, t }) {
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-sm font-bold text-civic-600">{t.detailTitle}</p>
-          <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">{locker.name}</h2>
-          <p className="mt-2 text-sm leading-6 text-slate-500">{locker.address}</p>
+          <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">
+            {localizeValue(locker.name, t)}
+          </h2>
+          <p className="mt-2 text-sm leading-6 text-slate-500">{localizeValue(locker.address, t)}</p>
         </div>
         <StatusBadge status={locker.availabilityStatus} t={t} />
       </div>
@@ -19,10 +21,10 @@ export default function LockerDetail({ locker, lockers, t }) {
       <dl className="mt-6 grid gap-3">
         {[
           [t.availableUnits, `${locker.availableUnits} / ${locker.totalUnits}`],
-          [t.openHours, locker.openHours],
-          [t.price, locker.price],
-          [t.largeLuggage, locker.largeLuggage ? "Yes" : "No"],
-          [t.languages, locker.supportedLanguages.map(getLanguageLabel).join(", ")]
+          [t.openHours, localizeValue(locker.openHours, t)],
+          [t.price, localizeValue(locker.price, t)],
+          [t.largeLuggage, locker.largeLuggage ? t.yes : t.no],
+          [t.languages, locker.supportedLanguages.map((language) => getLanguageLabel(language, t)).join(", ")]
         ].map(([label, value]) => (
           <div key={label} className="rounded-2xl bg-slate-50 p-4">
             <dt className="text-sm font-bold text-slate-500">{label}</dt>
@@ -37,7 +39,7 @@ export default function LockerDetail({ locker, lockers, t }) {
           {t.nearbyBusInfo}
         </div>
         <p className="mt-2 text-sm text-slate-600">
-          {t.nearestStop}: <strong>{locker.nearestBusStop}</strong>
+          {t.nearestStop}: <strong>{localizeValue(locker.nearestBusStop, t)}</strong>
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
           {locker.nextBuses.map((bus) => (
@@ -45,21 +47,25 @@ export default function LockerDetail({ locker, lockers, t }) {
               key={bus.route}
               className="rounded-full bg-white px-3 py-1 text-sm font-black text-civic-700"
             >
-              {bus.route} · {bus.minutes} min
+              {bus.route} · {bus.minutes}
+              {t.minuteUnit}
             </span>
           ))}
         </div>
         <p className="mt-3 text-sm text-slate-500">
-          {t.walk} {locker.estimatedWalkMinutes}m · {t.bus} {locker.estimatedBusMinutes}m
+          {t.walk} {locker.estimatedWalkMinutes}
+          {t.minuteUnit} · {t.bus} {locker.estimatedBusMinutes}
+          {t.minuteUnit}
         </p>
       </div>
 
       {locker.availabilityStatus !== "Available" && alternative && (
         <div className="mt-5 rounded-2xl border border-amber-200 bg-amber-50 p-4">
           <p className="text-sm font-black text-amber-700">{t.recommendedAlternative}</p>
-          <p className="mt-1 font-bold text-slate-900">{alternative.name}</p>
+          <p className="mt-1 font-bold text-slate-900">{localizeValue(alternative.name, t)}</p>
           <p className="mt-1 text-sm text-slate-600">
-            {alternative.availableUnits} / {alternative.totalUnits} · {alternative.nearbyLandmark}
+            {alternative.availableUnits} / {alternative.totalUnits} ·{" "}
+            {localizeValue(alternative.nearbyLandmark, t)}
           </p>
         </div>
       )}
