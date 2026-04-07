@@ -8,6 +8,9 @@ export default function Hero({
   landmarks,
   selectedLandmark,
   onLandmarkChange,
+  regions,
+  selectedRegion,
+  onRegionChange,
   summary,
   dataStatus
 }) {
@@ -51,7 +54,27 @@ export default function Hero({
           </div>
 
           <div className="mt-6">
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-civic-100">{t.popularAreas}</p>
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-civic-100">{t.region}</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {regions.map((region) => (
+                <button
+                  key={region}
+                  type="button"
+                  onClick={() => onRegionChange(region)}
+                  className={`focus-ring rounded-full px-4 py-2 text-sm font-bold transition ${
+                    selectedRegion === region
+                      ? "bg-transit-400 text-civic-900"
+                      : "bg-white/10 text-white ring-1 ring-white/20 hover:bg-white/20"
+                  }`}
+                >
+                  {region === "All Korea" ? t.allRegions : region}
+                </button>
+              ))}
+            </div>
+
+            <p className="mt-6 text-sm font-bold uppercase tracking-[0.2em] text-civic-100">
+              {t.popularAreas}
+            </p>
             <div className="mt-3 flex flex-wrap gap-2">
               {landmarks.map((landmark) => (
                 <button
