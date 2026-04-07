@@ -66,9 +66,8 @@ export default function LockerDetail({ locker, lockers, t }) {
 
       <button
         type="button"
-        className="focus-ring mt-5 inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl bg-civic-600 px-5 font-black text-white hover:bg-civic-700"
+        className="focus-ring mt-5 inline-flex min-h-14 w-full items-center justify-center rounded-2xl bg-civic-600 px-5 font-black text-white hover:bg-civic-700"
       >
-        <Icon name="route" className="h-5 w-5" />
         {t.directions}
       </button>
     </aside>
