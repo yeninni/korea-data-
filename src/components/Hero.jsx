@@ -18,6 +18,8 @@ export default function Hero({
   onSearchSubmit
 }) {
   const showSuggestions = query.trim().length > 0;
+  const heroBadgeClass =
+    "inline-flex min-h-[44px] items-center justify-center rounded-full px-5 py-2 text-center font-display text-sm leading-none font-semibold";
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -29,12 +31,16 @@ export default function Hero({
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(33,168,154,0.35),transparent_28%),radial-gradient(circle_at_85%_15%,rgba(37,111,174,0.42),transparent_32%)]" />
       <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.08fr_0.92fr] lg:px-8 lg:py-20">
         <div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-bold ring-1 ring-white/20">
-            <Icon name="shield" className="h-4 w-4" />
-            <span className="font-soft">{t.heroBadge}</span>
-          </div>
-          <div className="mt-3 inline-flex items-center rounded-full bg-transit-400/15 px-4 py-2 font-display text-sm font-semibold text-civic-50 ring-1 ring-white/15">
-            {dataStatus}
+          <div className="flex max-w-2xl flex-col gap-3 sm:flex-row sm:items-stretch">
+            <div className={`${heroBadgeClass} gap-2 bg-white/10 ring-1 ring-white/20 sm:flex-1`}>
+              <Icon name="shield" className="h-4 w-4" />
+              {t.heroBadge}
+            </div>
+            <div
+              className={`${heroBadgeClass} bg-transit-400/15 text-civic-50 ring-1 ring-white/15 sm:flex-1`}
+            >
+              {dataStatus}
+            </div>
           </div>
           <h1 className="mt-6 max-w-3xl font-display font-bold text-4xl tracking-[-0.045em] sm:text-5xl lg:text-6xl">
             {t.heroTitle}
