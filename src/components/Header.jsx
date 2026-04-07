@@ -10,10 +10,10 @@ export default function Header({ t, language, onLanguageChange }) {
             <Icon name="lockerPin" className="h-6 w-6" />
           </span>
           <span>
-            <span className="block text-lg font-extrabold tracking-tight text-slate-950">
+            <span className="block font-display font-semibold text-lg tracking-tight text-slate-950">
               {t.serviceName}
             </span>
-            <span className="block text-sm text-slate-500">{t.tagline}</span>
+            <span className="block font-soft text-sm text-slate-500">{t.tagline}</span>
           </span>
         </a>
 
@@ -28,7 +28,7 @@ export default function Header({ t, language, onLanguageChange }) {
               <a
                 key={href}
                 href={href}
-                className="focus-ring rounded-full px-4 py-2 hover:bg-civic-50 hover:text-civic-700"
+                className="focus-ring rounded-full px-4 py-2 font-display font-semibold hover:bg-civic-50 hover:text-civic-700"
               >
                 {label}
               </a>

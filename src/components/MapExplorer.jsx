@@ -124,12 +124,12 @@ export default function MapExplorer({
             <div className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-slate-200">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                  <h2 className="text-2xl font-black tracking-tight text-slate-950">
+                  <h2 className="font-display font-semibold text-2xl tracking-tight text-slate-950">
                     {t.areaOverview}
                   </h2>
-                  <p className="mt-1 text-sm text-slate-500">{t.areaOverviewHint}</p>
+                  <p className="mt-1 font-soft text-sm text-slate-500">{t.areaOverviewHint}</p>
                 </div>
-                <p className="text-sm font-black text-civic-700">
+                <p className="font-display text-sm font-semibold text-civic-700">
                   {fillTemplate(t.stationsInRegion, { region: selectedRegionLabel })}
                 </p>
               </div>
@@ -151,16 +151,16 @@ export default function MapExplorer({
                       }`}
                     >
                       <div className="flex items-center justify-between gap-3">
-                        <h3 className="text-xl font-black">{regionLabel}</h3>
+                        <h3 className="font-display font-semibold text-xl">{regionLabel}</h3>
                         <span
-                          className={`rounded-full px-3 py-1 text-xs font-black ${
+                          className={`rounded-full px-3 py-1 font-display text-xs font-semibold ${
                             selected ? "bg-white/15 text-white" : "bg-white text-civic-700"
                           }`}
                         >
                           {fillTemplate(t.lockersCount, { count: summary.lockers.length })}
                         </span>
                       </div>
-                      <p className={`mt-3 text-sm ${selected ? "text-civic-50" : "text-slate-500"}`}>
+                      <p className={`mt-3 font-soft text-sm ${selected ? "text-civic-50" : "text-slate-500"}`}>
                         {summary.availableUnits} / {summary.totalUnits} {t.availableUnits}
                       </p>
                     </button>
@@ -182,13 +182,13 @@ export default function MapExplorer({
                     />
                   ))
                 ) : (
-                  <div className="rounded-[1.75rem] bg-white p-6 text-slate-600 shadow-sm ring-1 ring-slate-200 md:col-span-2">
+                  <div className="rounded-[1.75rem] bg-white p-6 font-soft text-slate-600 shadow-sm ring-1 ring-slate-200 md:col-span-2">
                     {t.noResults}
                   </div>
                 )}
               </div>
             ) : (
-              <div className="rounded-[1.75rem] bg-white p-6 text-slate-600 shadow-sm ring-1 ring-slate-200">
+              <div className="rounded-[1.75rem] bg-white p-6 font-soft text-slate-600 shadow-sm ring-1 ring-slate-200">
                 {t.selectRegionPrompt}
               </div>
             )}

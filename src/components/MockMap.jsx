@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { formatLockerName, statusStyles } from "../utils/lockerUtils";
+import { formatLandmark, formatLockerName, statusStyles } from "../utils/lockerUtils";
 
 const DEFAULT_CENTER = { lat: 36.35, lng: 127.85 };
 const TILE_SIZE = 256;
@@ -262,13 +262,13 @@ export default function MockMap({ lockers, selectedLocker, onSelect, onRegionSel
       </div>
 
       <div className="absolute left-6 top-6 z-10 max-w-sm rounded-2xl bg-white/95 p-4 shadow-sm ring-1 ring-slate-200 backdrop-blur">
-        <h3 className="font-black text-slate-950">{t.mapTitle}</h3>
-        <p className="mt-1 text-sm text-slate-500">{t.mapHint}</p>
+        <h3 className="font-display font-semibold text-slate-950">{t.mapTitle}</h3>
+        <p className="mt-1 font-soft text-sm text-slate-500">{t.mapHint}</p>
         <div className="mt-3 flex flex-wrap gap-2">
           {statusList.map(([status, style]) => (
             <span
               key={status}
-              className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold ring-1 ${style.badge}`}
+              className={`inline-flex items-center gap-2 rounded-full px-3 py-1 font-display text-xs font-semibold ring-1 ${style.badge}`}
             >
               <span className={`h-2.5 w-2.5 rounded-full ${style.marker}`} />
               {t[style.labelKey]}
@@ -280,9 +280,7 @@ export default function MockMap({ lockers, selectedLocker, onSelect, onRegionSel
       {visibleLockers.map((locker) => {
         const isSelected = selectedVisibleLocker?.id === locker.id;
         const position = getMarkerPosition(locker, centerPoint, zoom, mapSize);
-        const markerLabel = locker.isRegionMarker
-          ? locker.name
-          : t.landmarkNames?.[locker.nearbyLandmark] ?? locker.nearbyLandmark;
+        const markerLabel = locker.isRegionMarker ? locker.name : formatLandmark(locker.nearbyLandmark, t);
 
         if (
           position.left < -40 ||
@@ -320,11 +318,11 @@ export default function MockMap({ lockers, selectedLocker, onSelect, onRegionSel
                   statusStyles[locker.availabilityStatus].marker
                 }`}
               />
-              <span className="max-w-[150px] truncate text-xs font-black text-slate-700">
+              <span className="max-w-[150px] truncate font-display text-xs font-semibold text-slate-700">
                 {markerLabel}
               </span>
               {locker.isRegionMarker && (
-                <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[0.65rem] font-black text-slate-500">
+                <span className="rounded-full bg-slate-100 px-2 py-0.5 font-display text-[0.65rem] font-semibold text-slate-500">
                   {locker.lockerCount}
                 </span>
               )}
@@ -335,22 +333,21 @@ export default function MockMap({ lockers, selectedLocker, onSelect, onRegionSel
 
       {selectedVisibleLocker && !selectedVisibleLocker.isRegionMarker && (
         <div className="absolute bottom-5 right-5 z-10 max-w-xs rounded-2xl bg-white/95 p-4 text-sm shadow-sm ring-1 ring-slate-200 backdrop-blur">
-          <p className="font-black text-slate-950">{formatLockerName(selectedVisibleLocker, t)}</p>
-          <p className="mt-1 text-slate-500">
+          <p className="font-display font-semibold text-slate-950">{formatLockerName(selectedVisibleLocker, t)}</p>
+          <p className="mt-1 font-soft text-slate-500">
             {selectedVisibleLocker.availableUnits} / {selectedVisibleLocker.totalUnits} ·{" "}
-            {t.landmarkNames?.[selectedVisibleLocker.nearbyLandmark] ??
-              selectedVisibleLocker.nearbyLandmark}
+            {formatLandmark(selectedVisibleLocker.nearbyLandmark, t)}
           </p>
         </div>
       )}
 
       {visibleLockers.some((locker) => locker.isRegionMarker) && (
-        <div className="absolute bottom-5 right-5 z-10 max-w-xs rounded-2xl bg-white/95 p-4 text-sm text-slate-600 shadow-sm ring-1 ring-slate-200 backdrop-blur">
+        <div className="absolute bottom-5 right-5 z-10 max-w-xs rounded-2xl bg-white/95 p-4 font-soft text-sm text-slate-600 shadow-sm ring-1 ring-slate-200 backdrop-blur">
           {t.regionMarkerHint}
         </div>
       )}
 
-      <div className="absolute bottom-5 left-5 z-10 rounded-2xl bg-white/95 px-4 py-3 text-sm text-slate-500 shadow-sm ring-1 ring-slate-200 backdrop-blur">
+      <div className="absolute bottom-5 left-5 z-10 rounded-2xl bg-white/95 px-4 py-3 font-soft text-sm text-slate-500 shadow-sm ring-1 ring-slate-200 backdrop-blur">
         {t.mapNotice}
       </div>
     </div>

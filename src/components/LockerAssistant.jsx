@@ -151,13 +151,13 @@ export default function LockerAssistant({ t, lockers, selectedLocker, onSelectLo
     <section id="tourist" className="bg-white py-14">
       <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:px-8">
         <div className="rounded-[2rem] bg-civic-900 p-6 text-white shadow-civic">
-          <p className="text-sm font-black uppercase tracking-[0.2em] text-transit-300">
+          <p className="font-soft text-sm uppercase tracking-[0.2em] text-transit-300">
             {t.assistantEyebrow}
           </p>
-          <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl">
+          <h2 className="mt-4 font-display font-semibold text-3xl tracking-tight sm:text-4xl">
             {t.assistantTitle}
           </h2>
-          <p className="mt-4 leading-7 text-civic-100">{t.assistantText}</p>
+          <p className="mt-4 font-soft leading-7 text-civic-100">{t.assistantText}</p>
 
           <div className="mt-8 grid gap-3">
             {quickQuestions.map((item) => (
@@ -165,14 +165,14 @@ export default function LockerAssistant({ t, lockers, selectedLocker, onSelectLo
                 key={item.id}
                 type="button"
                 onClick={() => askAssistant(item.id, t[item.labelKey])}
-                className="focus-ring rounded-2xl bg-white/10 px-4 py-3 text-left text-sm font-black text-white ring-1 ring-white/15 transition hover:bg-white/20"
+                className="focus-ring rounded-2xl bg-white/10 px-4 py-3 text-left font-display text-sm font-semibold text-white ring-1 ring-white/15 transition hover:bg-white/20"
               >
                 {t[item.labelKey]}
               </button>
             ))}
           </div>
 
-          <div className="mt-8 rounded-2xl bg-white/10 p-4 text-sm text-civic-50 ring-1 ring-white/15">
+          <div className="mt-8 rounded-2xl bg-white/10 p-4 font-display text-sm font-semibold text-civic-50 ring-1 ring-white/15">
             {availableCount} {t.availableNow}
           </div>
         </div>
@@ -191,12 +191,14 @@ export default function LockerAssistant({ t, lockers, selectedLocker, onSelectLo
                       : "bg-white text-slate-700 ring-1 ring-slate-200"
                   }`}
                 >
-                  <p>{message.text}</p>
+                  <p className={message.role === "user" ? "font-display font-semibold" : "font-soft"}>
+                    {message.text}
+                  </p>
                   {message.locker && (
                     <button
                       type="button"
                       onClick={() => onSelectLocker(message.locker)}
-                      className="focus-ring mt-3 rounded-full bg-transit-400/15 px-3 py-1 text-xs font-black text-civic-700 hover:bg-transit-400/25"
+                      className="focus-ring mt-3 rounded-full bg-transit-400/15 px-3 py-1 font-display text-xs font-semibold text-civic-700 hover:bg-transit-400/25"
                     >
                       {t.assistantViewLocker}
                     </button>
@@ -220,7 +222,7 @@ export default function LockerAssistant({ t, lockers, selectedLocker, onSelectLo
               />
               <button
                 type="submit"
-                className="focus-ring min-h-12 rounded-2xl bg-civic-600 px-5 text-sm font-black text-white hover:bg-civic-700"
+                className="focus-ring min-h-12 rounded-2xl bg-civic-600 px-5 font-display text-sm font-semibold text-white hover:bg-civic-700"
               >
                 {t.assistantSend}
               </button>

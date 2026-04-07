@@ -6,11 +6,11 @@ export default function AboutSection({ t }) {
     <section id="about" className="bg-civic-900 py-14 text-white">
       <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
         <div>
-          <p className="text-sm font-black uppercase tracking-[0.2em] text-civic-100">
+          <p className="font-soft text-sm uppercase tracking-[0.2em] text-civic-100">
             {t.aboutEyebrow}
           </p>
-          <h2 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">{t.aboutTitle}</h2>
-          <p className="mt-5 text-lg leading-8 text-civic-100">{t.aboutText}</p>
+          <h2 className="mt-3 font-display font-semibold text-3xl tracking-tight sm:text-4xl">{t.aboutTitle}</h2>
+          <p className="mt-5 font-soft text-lg leading-8 text-civic-100">{t.aboutText}</p>
         </div>
 
         <div className="rounded-[2rem] bg-white p-5 text-slate-900 shadow-civic">
@@ -18,7 +18,7 @@ export default function AboutSection({ t }) {
             <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-civic-50 text-civic-700">
               <Icon name="shield" className="h-6 w-6" />
             </span>
-            <h3 className="text-2xl font-black tracking-tight">{t.dataTitle}</h3>
+            <h3 className="font-display font-semibold text-2xl tracking-tight">{t.dataTitle}</h3>
           </div>
 
           <div className="mt-6 grid gap-4">
@@ -30,8 +30,8 @@ export default function AboutSection({ t }) {
                   key={source.name}
                   className="rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-200"
                 >
-                  <h4 className="font-black text-slate-950">{localizedSource.name}</h4>
-                  <p className="mt-1 text-sm font-semibold text-civic-700">
+                  <h4 className="font-display font-semibold text-slate-950">{localizedSource.name}</h4>
+                  <p className="mt-1 font-soft text-sm text-civic-700">
                     {localizedSource.provider}
                   </p>
                   <p className="mt-3 text-sm leading-6 text-slate-600">{localizedSource.role}</p>

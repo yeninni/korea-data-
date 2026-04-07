@@ -31,15 +31,15 @@ export default function Hero({
         <div>
           <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-bold ring-1 ring-white/20">
             <Icon name="shield" className="h-4 w-4" />
-            {t.heroBadge}
+            <span className="font-soft">{t.heroBadge}</span>
           </div>
-          <div className="mt-3 inline-flex items-center rounded-full bg-transit-400/15 px-4 py-2 text-sm font-bold text-civic-50 ring-1 ring-white/15">
+          <div className="mt-3 inline-flex items-center rounded-full bg-transit-400/15 px-4 py-2 font-display text-sm font-semibold text-civic-50 ring-1 ring-white/15">
             {dataStatus}
           </div>
-          <h1 className="mt-6 max-w-3xl text-4xl font-black tracking-tight sm:text-5xl lg:text-6xl">
+          <h1 className="mt-6 max-w-3xl font-display font-bold text-4xl tracking-[-0.045em] sm:text-5xl lg:text-6xl">
             {t.heroTitle}
           </h1>
-          <p className="mt-5 max-w-2xl text-lg leading-8 text-civic-100">{t.heroText}</p>
+          <p className="mt-5 max-w-2xl font-soft text-lg leading-8 text-civic-100">{t.heroText}</p>
 
           <form onSubmit={handleSubmit} className="mt-8 rounded-[2rem] bg-white p-3 shadow-civic">
             <div className="flex flex-col gap-3 md:flex-row">
@@ -56,7 +56,7 @@ export default function Hero({
 
                 {showSuggestions && (
                   <div className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-30 overflow-hidden rounded-[1.5rem] bg-white text-slate-900 shadow-civic ring-1 ring-slate-200">
-                    <p className="px-4 py-3 text-xs font-black uppercase tracking-[0.18em] text-civic-600">
+                    <p className="px-4 py-3 font-soft text-xs uppercase tracking-[0.18em] text-civic-600">
                       {t.searchSuggestions}
                     </p>
                     {searchSuggestions.length > 0 ? (
@@ -69,11 +69,11 @@ export default function Hero({
                             className="focus-ring flex w-full items-center justify-between gap-4 border-t border-slate-100 px-4 py-3 text-left hover:bg-civic-50"
                           >
                             <span>
-                              <span className="block font-black text-slate-950">{suggestion.label}</span>
-                              <span className="mt-1 block text-sm text-slate-500">{suggestion.meta}</span>
+                              <span className="block font-display font-semibold text-slate-950">{suggestion.label}</span>
+                              <span className="mt-1 block font-soft text-sm text-slate-500">{suggestion.meta}</span>
                             </span>
                             {suggestion.count !== undefined && (
-                              <span className="rounded-full bg-civic-50 px-3 py-1 text-xs font-black text-civic-700">
+                              <span className="rounded-full bg-civic-50 px-3 py-1 font-display text-xs font-semibold text-civic-700">
                                 {suggestion.count}
                               </span>
                             )}
@@ -90,14 +90,14 @@ export default function Hero({
               </div>
               <button
                 type="submit"
-                className="focus-ring inline-flex min-h-14 items-center justify-center rounded-3xl bg-transit-400 px-6 font-bold text-civic-950 hover:bg-transit-300"
+                className="focus-ring inline-flex min-h-14 items-center justify-center rounded-3xl bg-transit-400 px-6 font-display font-semibold text-civic-950 hover:bg-transit-300"
               >
                 {t.search}
               </button>
               <button
                 type="button"
                 onClick={onUseLocation}
-                className="focus-ring inline-flex min-h-14 items-center justify-center gap-2 rounded-3xl bg-civic-600 px-6 font-bold text-white hover:bg-civic-700"
+                className="focus-ring inline-flex min-h-14 items-center justify-center gap-2 rounded-3xl bg-civic-600 px-6 font-display font-semibold text-white hover:bg-civic-700"
               >
                 <Icon name="map" className="h-5 w-5" />
                 {t.useLocation}
@@ -106,14 +106,14 @@ export default function Hero({
           </form>
 
           <div className="mt-6">
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-civic-100">{t.region}</p>
+              <p className="font-soft text-sm uppercase tracking-[0.2em] text-civic-100">{t.region}</p>
             <div className="mt-3 flex flex-wrap gap-2">
               {regions.map((region) => (
                 <button
                   key={region}
                   type="button"
                   onClick={() => onRegionChange(region)}
-                  className={`focus-ring rounded-full px-4 py-2 text-sm font-bold transition ${
+                  className={`focus-ring rounded-full px-4 py-2 font-display text-sm font-semibold transition ${
                     selectedRegion === region
                       ? "bg-transit-400 text-civic-900"
                       : "bg-white/10 text-white ring-1 ring-white/20 hover:bg-white/20"
@@ -124,7 +124,7 @@ export default function Hero({
               ))}
             </div>
 
-            <p className="mt-6 text-sm font-bold uppercase tracking-[0.2em] text-civic-100">
+            <p className="mt-6 font-soft text-sm uppercase tracking-[0.2em] text-civic-100">
               {t.popularAreas}
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
@@ -133,7 +133,7 @@ export default function Hero({
                   key={landmark}
                   type="button"
                   onClick={() => onLandmarkChange(landmark)}
-                  className={`focus-ring rounded-full px-4 py-2 text-sm font-bold transition ${
+                  className={`focus-ring rounded-full px-4 py-2 font-display text-sm font-semibold transition ${
                     selectedLandmark === landmark
                       ? "bg-white text-civic-700"
                       : "bg-white/10 text-white ring-1 ring-white/20 hover:bg-white/20"
@@ -149,8 +149,8 @@ export default function Hero({
         <div className="rounded-[2rem] bg-white p-5 text-slate-900 shadow-civic">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <p className="text-sm font-bold text-civic-600">{t.liveSummary}</p>
-              <h2 className="mt-1 text-2xl font-black tracking-tight">
+              <p className="font-soft text-sm text-civic-600">{t.liveSummary}</p>
+              <h2 className="mt-1 font-display font-semibold text-2xl tracking-tight">
                 {t.statusTitle ?? "Public locker status"}
               </h2>
             </div>
@@ -163,12 +163,12 @@ export default function Hero({
               [t.full, summary.Full, "bg-rose-50 text-rose-700"]
             ].map(([label, count, color]) => (
               <div key={label} className="flex items-center justify-between rounded-2xl bg-slate-50 p-4">
-                <span className="font-bold text-slate-700">{label}</span>
-                <span className={`rounded-full px-3 py-1 text-lg font-black ${color}`}>{count}</span>
+                <span className="font-display font-semibold text-slate-700">{label}</span>
+                <span className={`rounded-full px-3 py-1 font-display text-lg font-bold ${color}`}>{count}</span>
               </div>
             ))}
           </div>
-          <div className="mt-5 rounded-2xl bg-civic-50 p-4 text-sm leading-6 text-civic-700">
+          <div className="mt-5 rounded-2xl bg-civic-50 p-4 font-soft text-sm leading-6 text-civic-700">
             {(t.availabilitySummary ?? "{available} / {total} lockers are shown as available in this demo dataset.")
               .replace("{available}", summary.available)
               .replace("{total}", summary.total)}
