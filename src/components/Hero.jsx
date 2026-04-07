@@ -173,14 +173,16 @@ export default function Hero({
         </div>
 
         <div className="rounded-[2rem] bg-white p-5 text-slate-900 shadow-civic">
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex items-start justify-between gap-4">
             <div>
               <p className="font-soft text-sm text-civic-600">{t.liveSummary}</p>
               <h2 className="mt-1 font-display font-semibold text-2xl tracking-tight">
                 {t.statusTitle ?? "Public locker status"}
               </h2>
             </div>
-            <Icon name="luggage" className="h-10 w-10 text-transit-500" />
+            <span className="mt-1 flex h-11 w-11 items-center justify-center rounded-2xl bg-civic-50 text-transit-500">
+              <Icon name="luggage" className="h-7 w-7" />
+            </span>
           </div>
           <div className="mt-6 grid gap-3">
             {[
