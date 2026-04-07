@@ -11,7 +11,7 @@ export default function FilterBar({
     <div className="flex flex-col gap-3 rounded-[1.75rem] bg-white p-4 shadow-sm ring-1 ring-slate-200 lg:flex-row lg:items-center lg:justify-between">
       <div className="flex items-center gap-3 text-sm font-bold text-slate-600">
         <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-civic-50 text-civic-700">
-          <Icon name="route" className="h-5 w-5" />
+          <Icon name="sliders" className="h-5 w-5" />
         </span>
         {t.sortBy}
       </div>

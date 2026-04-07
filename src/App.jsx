@@ -4,7 +4,7 @@ import Header from "./components/Header";
 import Hero from "./components/Hero";
 import MapExplorer from "./components/MapExplorer";
 import TouristRecommendations from "./components/TouristRecommendations";
-import { landmarks } from "./data/lockers";
+import { landmarks, regions } from "./data/lockers";
 import { dictionary } from "./i18n/dictionary";
 import { fetchLockerStatus, getMockLockerPayload } from "./services/publicDataClient";
 import { matchesSearch, sortLockers, summarize } from "./utils/lockerUtils";
@@ -12,6 +12,7 @@ import { matchesSearch, sortLockers, summarize } from "./utils/lockerUtils";
 export default function App() {
   const [language, setLanguage] = useState("ko");
   const [query, setQuery] = useState("");
+  const [selectedRegion, setSelectedRegion] = useState("All Korea");
   const [selectedLandmark, setSelectedLandmark] = useState("Gwanghwamun");
   const [sortMode, setSortMode] = useState("nearest");
   const [largeOnly, setLargeOnly] = useState(false);
@@ -29,8 +30,9 @@ export default function App() {
       .then((payload) => {
         if (ignore) return;
         setLockerPayload(payload);
-        setDataStatus(`Live public locker data · ${payload.lockers.length} locations`);
+        setDataStatus(`Live public locker data + nationwide demo coverage · ${payload.lockers.length} locations`);
         setSelectedLockerId(payload.lockers[0]?.id ?? "locker-gwanghwamun-01");
+        setSelectedRegion(payload.lockers[0]?.region ?? "All Korea");
         setSelectedLandmark(payload.lockers[0]?.nearbyLandmark ?? "Gwanghwamun");
       })
       .catch(() => {
@@ -46,7 +48,11 @@ export default function App() {
   }, []);
 
   const filteredLockers = useMemo(() => {
-    const landmarkFiltered = lockerData.filter((locker) => {
+    const regionFiltered = lockerData.filter((locker) => {
+      return selectedRegion === "All Korea" || locker.region === selectedRegion;
+    });
+
+    const landmarkFiltered = regionFiltered.filter((locker) => {
       if (!selectedLandmark) return true;
       if (query) return locker.nearbyLandmark === selectedLandmark || matchesSearch(locker, query);
       return locker.nearbyLandmark === selectedLandmark;
@@ -58,7 +64,7 @@ export default function App() {
 
     const sorted = sortLockers(queryFiltered, sortMode);
     return sorted;
-  }, [largeOnly, query, selectedLandmark, sortMode]);
+  }, [largeOnly, lockerData, query, selectedLandmark, selectedRegion, sortMode]);
 
   const selectedLocker =
     filteredLockers.find((locker) => locker.id === selectedLockerId) ||
@@ -69,6 +75,7 @@ export default function App() {
 
   function handleUseLocation() {
     setQuery("Seoul Station");
+    setSelectedRegion("All Korea");
     setSelectedLandmark("Seoul Station");
     setSelectedLockerId("locker-seoulstation-01");
   }
@@ -77,7 +84,20 @@ export default function App() {
     setSelectedLandmark(landmark);
     setQuery("");
     const locker = lockerData.find((item) => item.nearbyLandmark === landmark);
-    if (locker) setSelectedLockerId(locker.id);
+    if (locker) {
+      setSelectedLockerId(locker.id);
+      setSelectedRegion(locker.region ?? "All Korea");
+    }
+  }
+
+  function handleRegionChange(region) {
+    setSelectedRegion(region);
+    setQuery("");
+    const locker = lockerData.find((item) => region === "All Korea" || item.region === region);
+    if (locker) {
+      setSelectedLockerId(locker.id);
+      setSelectedLandmark(locker.nearbyLandmark);
+    }
   }
 
   return (
@@ -91,6 +111,9 @@ export default function App() {
         landmarks={landmarks}
         selectedLandmark={selectedLandmark}
         onLandmarkChange={handleLandmarkChange}
+        regions={regions}
+        selectedRegion={selectedRegion}
+        onRegionChange={handleRegionChange}
         summary={summary}
         dataStatus={dataStatus}
       />

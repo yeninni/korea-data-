@@ -1,6 +1,10 @@
 import LockerCard from "./LockerCard";
 
 export default function TouristRecommendations({ t, landmarks, lockers, selectedLocker, onSelectLocker }) {
+  const activeLandmarks = landmarks.filter((landmark) =>
+    lockers.some((locker) => locker.nearbyLandmark === landmark)
+  );
+
   return (
     <section id="tourist" className="bg-white py-14">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -12,7 +16,7 @@ export default function TouristRecommendations({ t, landmarks, lockers, selected
         </div>
 
         <div className="mt-8 grid gap-5 lg:grid-cols-3">
-          {landmarks.map((landmark) => {
+          {activeLandmarks.map((landmark) => {
             const bestLocker = lockers
               .filter((locker) => locker.nearbyLandmark === landmark)
               .sort((a, b) => b.availableUnits - a.availableUnits)[0];

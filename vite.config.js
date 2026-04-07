@@ -9,8 +9,24 @@ const landmarkCoordinates = [
   { name: "Seoul Station", lat: 37.5547, lon: 126.9706 },
   { name: "Hongdae", lat: 37.5572, lon: 126.9245 },
   { name: "Dongdaemun", lat: 37.5665, lon: 127.0092 },
-  { name: "Incheon Airport", lat: 37.4602, lon: 126.4407 }
+  { name: "Incheon Airport", lat: 37.4602, lon: 126.4407 },
+  { name: "Busan Station", lat: 35.1151, lon: 129.0415 },
+  { name: "Haeundae", lat: 35.1587, lon: 129.1604 },
+  { name: "Jeju Airport", lat: 33.5071, lon: 126.4934 },
+  { name: "Hwangnidan-gil", lat: 35.8383, lon: 129.2114 },
+  { name: "Gangneung Station", lat: 37.7644, lon: 128.8994 }
 ];
+
+function getRegion(info, landmark) {
+  if (info.ctpvNm === "서울특별시") return "Seoul";
+  if (info.ctpvNm === "부산광역시") return "Busan";
+  if (info.ctpvNm === "인천광역시") return "Incheon";
+  if (info.ctpvNm === "제주특별자치도") return "Jeju";
+  if (info.sggNm?.includes("경주")) return "Gyeongju";
+  if (info.sggNm?.includes("강릉")) return "Gangneung";
+  if (landmark?.name === "Incheon Airport") return "Incheon";
+  return info.ctpvNm || "All Korea";
+}
 
 function parseNumber(value, fallback = 0) {
   const parsed = Number(value);
@@ -80,6 +96,7 @@ function normalizeLocker(info, realtime, detail, index) {
   return {
     id: info.stlckId,
     name: info.stlckRprsPstnNm,
+    region: getRegion(info, landmark),
     district: info.sggNm || info.lclgvNm,
     address: info.fcltRoadNmAddr || info.fcltLotnoAddr,
     latitude: lat,
@@ -154,7 +171,6 @@ function publicLockerPlugin(env) {
           const realtimeById = new Map(realtimeItems.map((item) => [item.stlckId, item]));
           const detailById = new Map(detailItems.map((item) => [item.stlckId, item]));
           const lockers = infoItems
-            .filter((item) => item.ctpvNm === "서울특별시")
             .map((item, index) =>
               normalizeLocker(item, realtimeById.get(item.stlckId), detailById.get(item.stlckId), index)
             )

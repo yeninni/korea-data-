@@ -2,6 +2,7 @@ export const lockers = [
   {
     id: "locker-gwanghwamun-01",
     name: "Gwanghwamun Public Locker Center",
+    region: "Seoul",
     district: "Jongno-gu",
     address: "172 Sejong-daero, Jongno-gu, Seoul",
     latitude: 37.5716,
@@ -27,6 +28,7 @@ export const lockers = [
   {
     id: "locker-myeongdong-01",
     name: "Myeongdong Station Smart Locker",
+    region: "Seoul",
     district: "Jung-gu",
     address: "Myeongdong Station Exit 6, Jung-gu, Seoul",
     latitude: 37.5609,
@@ -52,6 +54,7 @@ export const lockers = [
   {
     id: "locker-seoulstation-01",
     name: "Seoul Station Travel Locker",
+    region: "Seoul",
     district: "Yongsan-gu",
     address: "Seoul Station Transfer Hall, 405 Hangang-daero",
     latitude: 37.5547,
@@ -77,6 +80,7 @@ export const lockers = [
   {
     id: "locker-hongdae-01",
     name: "Hongdae Tourist Locker",
+    region: "Seoul",
     district: "Mapo-gu",
     address: "Hongik University Station Exit 9, Mapo-gu, Seoul",
     latitude: 37.5572,
@@ -102,6 +106,7 @@ export const lockers = [
   {
     id: "locker-dongdaemun-01",
     name: "Dongdaemun Design Plaza Locker",
+    region: "Seoul",
     district: "Jung-gu",
     address: "DDP Visitor Center, Eulji-ro, Jung-gu",
     latitude: 37.5665,
@@ -127,6 +132,7 @@ export const lockers = [
   {
     id: "locker-incheonairport-01",
     name: "Incheon Airport Public Storage Desk",
+    region: "Incheon",
     district: "Jung-gu, Incheon",
     address: "Terminal 1 Arrival Hall, Incheon International Airport",
     latitude: 37.4602,
@@ -148,6 +154,136 @@ export const lockers = [
       { route: "6701", minutes: 14 }
     ],
     coordinatesOnMap: { x: 12, y: 78 }
+  },
+  {
+    id: "locker-busanstation-01",
+    name: "Busan Station Tourist Locker",
+    region: "Busan",
+    district: "Dong-gu, Busan",
+    address: "Busan Station Main Hall, Jungang-daero, Dong-gu, Busan",
+    latitude: 35.1151,
+    longitude: 129.0415,
+    availabilityStatus: "Available",
+    availableUnits: 34,
+    totalUnits: 72,
+    largeLuggage: true,
+    price: "Small 2,000 KRW / Large 5,000 KRW",
+    openHours: "05:00-24:00",
+    nearbyLandmark: "Busan Station",
+    nearestBusStop: "Busan Station",
+    estimatedWalkMinutes: 3,
+    estimatedBusMinutes: 5,
+    supportedLanguages: ["ko", "en", "zh", "ja"],
+    busRoutes: ["17", "43", "1004"],
+    nextBuses: [
+      { route: "17", minutes: 4 },
+      { route: "1004", minutes: 8 }
+    ],
+    coordinatesOnMap: { x: 34, y: 64 }
+  },
+  {
+    id: "locker-haeundae-01",
+    name: "Haeundae Beach Public Locker",
+    region: "Busan",
+    district: "Haeundae-gu, Busan",
+    address: "Haeundae Beach Tourist Information Center, Busan",
+    latitude: 35.1587,
+    longitude: 129.1604,
+    availabilityStatus: "Almost Full",
+    availableUnits: 7,
+    totalUnits: 46,
+    largeLuggage: true,
+    price: "Small 2,000 KRW / Large 4,500 KRW",
+    openHours: "06:00-23:00",
+    nearbyLandmark: "Haeundae",
+    nearestBusStop: "Haeundae Beach",
+    estimatedWalkMinutes: 5,
+    estimatedBusMinutes: 9,
+    supportedLanguages: ["ko", "en", "zh", "ja"],
+    busRoutes: ["39", "100", "141"],
+    nextBuses: [
+      { route: "100", minutes: 6 },
+      { route: "141", minutes: 11 }
+    ],
+    coordinatesOnMap: { x: 72, y: 66 }
+  },
+  {
+    id: "locker-jejuairport-01",
+    name: "Jeju Airport Arrival Locker",
+    region: "Jeju",
+    district: "Jeju-si",
+    address: "Jeju International Airport Arrival Hall, Jeju",
+    latitude: 33.5071,
+    longitude: 126.4934,
+    availabilityStatus: "Available",
+    availableUnits: 26,
+    totalUnits: 54,
+    largeLuggage: true,
+    price: "Small 3,000 KRW / Large 6,000 KRW",
+    openHours: "06:00-23:30",
+    nearbyLandmark: "Jeju Airport",
+    nearestBusStop: "Jeju International Airport",
+    estimatedWalkMinutes: 4,
+    estimatedBusMinutes: 6,
+    supportedLanguages: ["ko", "en", "zh", "ja"],
+    busRoutes: ["365", "600", "800"],
+    nextBuses: [
+      { route: "600", minutes: 5 },
+      { route: "800", minutes: 13 }
+    ],
+    coordinatesOnMap: { x: 44, y: 82 }
+  },
+  {
+    id: "locker-gyeongju-01",
+    name: "Gyeongju Historic Area Locker",
+    region: "Gyeongju",
+    district: "Gyeongju-si",
+    address: "Hwangnidan-gil Tourist Information Area, Gyeongju",
+    latitude: 35.8383,
+    longitude: 129.2114,
+    availabilityStatus: "Available",
+    availableUnits: 15,
+    totalUnits: 32,
+    largeLuggage: false,
+    price: "Small 2,000 KRW / Medium 3,000 KRW",
+    openHours: "08:00-22:00",
+    nearbyLandmark: "Hwangnidan-gil",
+    nearestBusStop: "Daereungwon Tomb Complex",
+    estimatedWalkMinutes: 6,
+    estimatedBusMinutes: 11,
+    supportedLanguages: ["ko", "en", "ja"],
+    busRoutes: ["10", "11", "700"],
+    nextBuses: [
+      { route: "10", minutes: 7 },
+      { route: "700", minutes: 15 }
+    ],
+    coordinatesOnMap: { x: 64, y: 50 }
+  },
+  {
+    id: "locker-gangneung-01",
+    name: "Gangneung Station Easy Locker",
+    region: "Gangneung",
+    district: "Gangneung-si",
+    address: "Gangneung Station Tourist Zone, Gangneung",
+    latitude: 37.7644,
+    longitude: 128.8994,
+    availabilityStatus: "Available",
+    availableUnits: 19,
+    totalUnits: 40,
+    largeLuggage: true,
+    price: "Small 2,000 KRW / Large 4,000 KRW",
+    openHours: "05:30-23:30",
+    nearbyLandmark: "Gangneung Station",
+    nearestBusStop: "Gangneung Station",
+    estimatedWalkMinutes: 3,
+    estimatedBusMinutes: 6,
+    supportedLanguages: ["ko", "en", "ja"],
+    busRoutes: ["202", "302", "315"],
+    nextBuses: [
+      { route: "202", minutes: 5 },
+      { route: "315", minutes: 10 }
+    ],
+    coordinatesOnMap: { x: 74, y: 22 }
   }
 ];
 
@@ -157,5 +293,20 @@ export const landmarks = [
   "Seoul Station",
   "Hongdae",
   "Dongdaemun",
-  "Incheon Airport"
+  "Incheon Airport",
+  "Busan Station",
+  "Haeundae",
+  "Jeju Airport",
+  "Hwangnidan-gil",
+  "Gangneung Station"
+];
+
+export const regions = [
+  "All Korea",
+  "Seoul",
+  "Busan",
+  "Incheon",
+  "Jeju",
+  "Gyeongju",
+  "Gangneung"
 ];

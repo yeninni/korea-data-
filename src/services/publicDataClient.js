@@ -1,5 +1,18 @@
 import { lockers as mockLockers } from "../data/lockers";
 
+function mergeDemoCoverage(liveLockers) {
+  const existingLandmarks = new Set(liveLockers.map((locker) => locker.nearbyLandmark));
+  const supplementalLockers = mockLockers
+    .filter((locker) => !existingLandmarks.has(locker.nearbyLandmark))
+    .map((locker) => ({
+      ...locker,
+      id: `demo-${locker.id}`,
+      mode: "demo"
+    }));
+
+  return [...liveLockers, ...supplementalLockers];
+}
+
 export async function fetchLockerStatus() {
   const response = await fetch("/api/lockers");
 
@@ -7,7 +20,12 @@ export async function fetchLockerStatus() {
     throw new Error("Locker public-data API is not available.");
   }
 
-  return response.json();
+  const payload = await response.json();
+
+  return {
+    ...payload,
+    lockers: mergeDemoCoverage(payload.lockers)
+  };
 }
 
 export async function fetchBusRealtimeLocation() {

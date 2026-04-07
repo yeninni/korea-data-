@@ -7,7 +7,7 @@ export default function Header({ t, language, onLanguageChange }) {
       <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
         <a href="#home" className="focus-ring flex items-center gap-3 rounded-xl">
           <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-civic-600 text-white shadow-sm">
-            <Icon name="locker" className="h-6 w-6" />
+            <Icon name="lockerPin" className="h-6 w-6" />
           </span>
           <span>
             <span className="block text-lg font-extrabold tracking-tight text-slate-950">
