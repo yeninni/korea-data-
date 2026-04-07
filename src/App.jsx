@@ -10,7 +10,7 @@ import { fetchLockerStatus, getMockLockerPayload } from "./services/publicDataCl
 import { matchesSearch, sortLockers, summarize } from "./utils/lockerUtils";
 
 export default function App() {
-  const [language, setLanguage] = useState("en");
+  const [language, setLanguage] = useState("ko");
   const [query, setQuery] = useState("");
   const [selectedLandmark, setSelectedLandmark] = useState("Gwanghwamun");
   const [sortMode, setSortMode] = useState("nearest");

@@ -40,7 +40,7 @@ export default function MapExplorer({
                 ))
               ) : (
                 <div className="rounded-[1.75rem] bg-white p-6 text-slate-600 shadow-sm ring-1 ring-slate-200 md:col-span-2">
-                  No lockers match the current search. Try another area or turn off large luggage filter.
+                  {t.noResults}
                 </div>
               )}
             </div>

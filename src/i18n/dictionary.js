@@ -49,7 +49,11 @@ export const dictionary = {
     bus: "버스",
     nearestStop: "가까운 정류장",
     availableUnits: "남은 칸",
-    mockNotice: "지도는 데모 UI이며 실제 지도 SDK 연결을 고려한 구조입니다."
+    mapNotice: "전국 지도에서 보관함 위치와 혼잡도를 함께 확인할 수 있습니다.",
+    mapSetup: "카카오맵 키를 연결하면 전국 지도를 불러올 수 있습니다.",
+    mapError: "지도를 불러오지 못했습니다.",
+    mapErrorDetail: "잠시 후 다시 시도해 주세요.",
+    noResults: "조건에 맞는 보관함이 없습니다. 다른 지역을 선택하거나 대형 짐 필터를 해제해 보세요."
   },
   en: {
     serviceName: "Seoul Easy Locker",
@@ -94,7 +98,11 @@ export const dictionary = {
     bus: "Bus",
     nearestStop: "Nearest stop",
     availableUnits: "Available units",
-    mockNotice: "The map is a demo UI prepared for future map SDK integration."
+    mapNotice: "See nationwide locker locations and crowding on one map.",
+    mapSetup: "Add your Kakao Maps key to load the nationwide map.",
+    mapError: "The map could not be loaded.",
+    mapErrorDetail: "Please try again in a moment.",
+    noResults: "No lockers match the current search. Try another area or turn off the large luggage filter."
   },
   zh: {
     serviceName: "Seoul Easy Locker",
@@ -138,7 +146,11 @@ export const dictionary = {
     bus: "公交",
     nearestStop: "最近车站",
     availableUnits: "可用数量",
-    mockNotice: "地图为演示 UI，后续可连接真实地图 SDK。"
+    mapNotice: "可在全国地图上同时查看保管柜位置与拥挤程度。",
+    mapSetup: "连接 Kakao Maps 密钥后即可加载全国地图。",
+    mapError: "地图加载失败。",
+    mapErrorDetail: "请稍后再试。",
+    noResults: "当前条件下没有匹配的保管柜。请尝试其他区域或关闭大件行李筛选。"
   },
   ja: {
     serviceName: "Seoul Easy Locker",
@@ -182,6 +194,10 @@ export const dictionary = {
     bus: "バス",
     nearestStop: "最寄り停留所",
     availableUnits: "空き数",
-    mockNotice: "地図はデモ UI で、今後の地図 SDK 連携を想定しています。"
+    mapNotice: "全国地図でロッカーの位置と混雑状況をまとめて確認できます。",
+    mapSetup: "Kakao Maps キーを設定すると全国地図を読み込めます。",
+    mapError: "地図を読み込めませんでした。",
+    mapErrorDetail: "少し時間をおいて再度お試しください。",
+    noResults: "条件に合うロッカーが見つかりません。別のエリアを選ぶか、大型荷物フィルターを解除してください。"
   }
 };
