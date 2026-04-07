@@ -1,6 +1,6 @@
 import Icon from "./Icon";
 import StatusBadge from "./StatusBadge";
-import { getAlternative, getLanguageLabel } from "../utils/lockerUtils";
+import { formatLockerName, getAlternative, getLanguageLabel } from "../utils/lockerUtils";
 
 export default function LockerDetail({ locker, lockers, t }) {
   const alternative = getAlternative(lockers, locker);
@@ -10,7 +10,9 @@ export default function LockerDetail({ locker, lockers, t }) {
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-sm font-bold text-civic-600">{t.detailTitle}</p>
-          <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">{locker.name}</h2>
+          <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">
+            {formatLockerName(locker, t)}
+          </h2>
           <p className="mt-2 text-sm leading-6 text-slate-500">{locker.address}</p>
         </div>
         <StatusBadge status={locker.availabilityStatus} t={t} />
@@ -57,9 +59,10 @@ export default function LockerDetail({ locker, lockers, t }) {
       {locker.availabilityStatus !== "Available" && alternative && (
         <div className="mt-5 rounded-2xl border border-amber-200 bg-amber-50 p-4">
           <p className="text-sm font-black text-amber-700">{t.recommendedAlternative}</p>
-          <p className="mt-1 font-bold text-slate-900">{alternative.name}</p>
+          <p className="mt-1 font-bold text-slate-900">{formatLockerName(alternative, t)}</p>
           <p className="mt-1 text-sm text-slate-600">
-            {alternative.availableUnits} / {alternative.totalUnits} · {alternative.nearbyLandmark}
+            {alternative.availableUnits} / {alternative.totalUnits} ·{" "}
+            {t.landmarkNames?.[alternative.nearbyLandmark] ?? alternative.nearbyLandmark}
           </p>
         </div>
       )}

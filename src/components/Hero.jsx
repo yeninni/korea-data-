@@ -67,7 +67,7 @@ export default function Hero({
                       : "bg-white/10 text-white ring-1 ring-white/20 hover:bg-white/20"
                   }`}
                 >
-                  {region === "All Korea" ? t.allRegions : region}
+                  {t.regionNames?.[region] ?? (region === "All Korea" ? t.allRegions : region)}
                 </button>
               ))}
             </div>
@@ -87,7 +87,7 @@ export default function Hero({
                       : "bg-white/10 text-white ring-1 ring-white/20 hover:bg-white/20"
                   }`}
                 >
-                  {landmark}
+                  {t.landmarkNames?.[landmark] ?? landmark}
                 </button>
               ))}
             </div>
@@ -98,7 +98,9 @@ export default function Hero({
           <div className="flex items-center justify-between gap-4">
             <div>
               <p className="text-sm font-bold text-civic-600">{t.liveSummary}</p>
-              <h2 className="mt-1 text-2xl font-black tracking-tight">Public locker status</h2>
+              <h2 className="mt-1 text-2xl font-black tracking-tight">
+                {t.statusTitle ?? "Public locker status"}
+              </h2>
             </div>
             <Icon name="luggage" className="h-10 w-10 text-transit-500" />
           </div>
@@ -115,7 +117,9 @@ export default function Hero({
             ))}
           </div>
           <div className="mt-5 rounded-2xl bg-civic-50 p-4 text-sm leading-6 text-civic-700">
-            {summary.available} / {summary.total} lockers are shown as available in this demo dataset.
+            {(t.availabilitySummary ?? "{available} / {total} lockers are shown as available in this demo dataset.")
+              .replace("{available}", summary.available)
+              .replace("{total}", summary.total)}
           </div>
         </div>
       </div>

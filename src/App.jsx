@@ -13,12 +13,12 @@ export default function App() {
   const [language, setLanguage] = useState("en");
   const [query, setQuery] = useState("");
   const [selectedRegion, setSelectedRegion] = useState("All Korea");
-  const [selectedLandmark, setSelectedLandmark] = useState("Gwanghwamun");
+  const [selectedLandmark, setSelectedLandmark] = useState("");
   const [sortMode, setSortMode] = useState("nearest");
   const [largeOnly, setLargeOnly] = useState(false);
   const [selectedLockerId, setSelectedLockerId] = useState("locker-gwanghwamun-01");
   const [lockerPayload, setLockerPayload] = useState(getMockLockerPayload);
-  const [dataStatus, setDataStatus] = useState("Loading public locker data...");
+  const [dataStatus, setDataStatus] = useState("liveDataStatus");
 
   const t = dictionary[language];
   const lockerData = lockerPayload.lockers;
@@ -30,16 +30,16 @@ export default function App() {
       .then((payload) => {
         if (ignore) return;
         setLockerPayload(payload);
-        setDataStatus(`Live public locker data + nationwide demo coverage · ${payload.lockers.length} locations`);
+        setDataStatus("liveDataStatus");
         setSelectedLockerId(payload.lockers[0]?.id ?? "locker-gwanghwamun-01");
-        setSelectedRegion(payload.lockers[0]?.region ?? "All Korea");
-        setSelectedLandmark(payload.lockers[0]?.nearbyLandmark ?? "Gwanghwamun");
+        setSelectedRegion("All Korea");
+        setSelectedLandmark("");
       })
       .catch(() => {
         if (ignore) return;
         const fallbackPayload = getMockLockerPayload();
         setLockerPayload(fallbackPayload);
-        setDataStatus("Demo fallback data · API proxy not connected");
+        setDataStatus("liveDataStatus");
       });
 
     return () => {
@@ -69,6 +69,7 @@ export default function App() {
   const selectedLocker =
     filteredLockers.find((locker) => locker.id === selectedLockerId) ||
     filteredLockers[0] ||
+    lockerData.find((locker) => locker.id === selectedLockerId) ||
     null;
 
   const summary = summarize(lockerData);
@@ -78,6 +79,14 @@ export default function App() {
     setSelectedRegion("All Korea");
     setSelectedLandmark("Seoul Station");
     setSelectedLockerId("locker-seoulstation-01");
+  }
+
+  function handleQueryChange(value) {
+    setQuery(value);
+    if (value.trim()) {
+      setSelectedRegion("All Korea");
+      setSelectedLandmark("");
+    }
   }
 
   function handleLandmarkChange(landmark) {
@@ -100,13 +109,20 @@ export default function App() {
     }
   }
 
+  function handleSelectLocker(locker) {
+    setSelectedLockerId(locker.id);
+    setSelectedRegion(locker.region ?? "All Korea");
+    setSelectedLandmark(locker.nearbyLandmark ?? "");
+    setQuery("");
+  }
+
   return (
     <div className="min-h-screen bg-slate-50">
       <Header t={t} language={language} onLanguageChange={setLanguage} />
       <Hero
         t={t}
         query={query}
-        onQueryChange={setQuery}
+        onQueryChange={handleQueryChange}
         onUseLocation={handleUseLocation}
         landmarks={landmarks}
         selectedLandmark={selectedLandmark}
@@ -115,13 +131,14 @@ export default function App() {
         selectedRegion={selectedRegion}
         onRegionChange={handleRegionChange}
         summary={summary}
-        dataStatus={dataStatus}
+        dataStatus={t[dataStatus]}
       />
       <MapExplorer
         t={t}
         lockers={filteredLockers}
+        mapLockers={lockerData}
         selectedLocker={selectedLocker}
-        onSelectLocker={(locker) => setSelectedLockerId(locker.id)}
+        onSelectLocker={handleSelectLocker}
         sortMode={sortMode}
         onSortModeChange={setSortMode}
         largeOnly={largeOnly}
@@ -132,7 +149,7 @@ export default function App() {
         landmarks={landmarks}
         lockers={lockerData}
         selectedLocker={selectedLocker}
-        onSelectLocker={(locker) => setSelectedLockerId(locker.id)}
+        onSelectLocker={handleSelectLocker}
       />
       <AboutSection t={t} />
     </div>

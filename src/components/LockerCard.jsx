@@ -1,6 +1,6 @@
 import Icon from "./Icon";
 import StatusBadge from "./StatusBadge";
-import { getLanguageLabel } from "../utils/lockerUtils";
+import { formatLockerName, getLanguageLabel } from "../utils/lockerUtils";
 
 export default function LockerCard({ locker, t, selected, onSelect }) {
   return (
@@ -13,9 +13,11 @@ export default function LockerCard({ locker, t, selected, onSelect }) {
     >
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h3 className="text-xl font-black tracking-tight text-slate-950">{locker.name}</h3>
+          <h3 className="text-xl font-black tracking-tight text-slate-950">
+            {formatLockerName(locker, t)}
+          </h3>
           <p className="mt-1 text-sm font-semibold text-slate-500">
-            {locker.nearbyLandmark} · {locker.district}
+            {t.landmarkNames?.[locker.nearbyLandmark] ?? locker.nearbyLandmark} · {locker.district}
           </p>
         </div>
         <StatusBadge status={locker.availabilityStatus} t={t} />

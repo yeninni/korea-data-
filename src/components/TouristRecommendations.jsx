@@ -25,7 +25,9 @@ export default function TouristRecommendations({ t, landmarks, lockers, selected
 
             return (
               <div key={landmark} className="rounded-[2rem] bg-slate-50 p-4 ring-1 ring-slate-200">
-                <h3 className="mb-4 text-xl font-black text-slate-950">{landmark}</h3>
+                <h3 className="mb-4 text-xl font-black text-slate-950">
+                  {t.landmarkNames?.[landmark] ?? landmark}
+                </h3>
                 <LockerCard
                   locker={bestLocker}
                   t={t}

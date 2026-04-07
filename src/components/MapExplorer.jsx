@@ -6,6 +6,7 @@ import MockMap from "./MockMap";
 export default function MapExplorer({
   t,
   lockers,
+  mapLockers = lockers,
   selectedLocker,
   onSelectLocker,
   sortMode,
@@ -26,7 +27,7 @@ export default function MapExplorer({
 
         <div className="grid gap-6 lg:grid-cols-[1fr_390px]">
           <div className="space-y-5">
-            <MockMap lockers={lockers} selectedLocker={selectedLocker} onSelect={onSelectLocker} t={t} />
+            <MockMap lockers={mapLockers} selectedLocker={selectedLocker} onSelect={onSelectLocker} t={t} />
             <div className="grid gap-4 md:grid-cols-2">
               {lockers.length > 0 ? (
                 lockers.map((locker) => (
@@ -40,13 +41,13 @@ export default function MapExplorer({
                 ))
               ) : (
                 <div className="rounded-[1.75rem] bg-white p-6 text-slate-600 shadow-sm ring-1 ring-slate-200 md:col-span-2">
-                  No lockers match the current search. Try another area or turn off large luggage filter.
+                  {t.noResults}
                 </div>
               )}
             </div>
           </div>
 
-          {selectedLocker && <LockerDetail locker={selectedLocker} lockers={lockers} t={t} />}
+          {selectedLocker && <LockerDetail locker={selectedLocker} lockers={mapLockers} t={t} />}
         </div>
       </div>
     </section>

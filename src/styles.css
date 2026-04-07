@@ -22,4 +22,16 @@
   .focus-ring {
     @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-civic-500;
   }
+
+  .map-overlay {
+    @apply flex min-w-[180px] flex-col rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-md;
+  }
+
+  .map-overlay strong {
+    @apply font-bold text-slate-900;
+  }
+
+  .map-overlay span {
+    @apply mt-1 text-slate-500;
+  }
 }
