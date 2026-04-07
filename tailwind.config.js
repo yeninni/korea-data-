@@ -25,6 +25,22 @@ export default {
           "Apple SD Gothic Neo",
           "Malgun Gothic",
           "sans-serif"
+        ],
+        soft: [
+          "Gowun Dodum",
+          "Pretendard",
+          "Noto Sans KR",
+          "Apple SD Gothic Neo",
+          "Malgun Gothic",
+          "sans-serif"
+        ],
+        display: [
+          "Isamanru",
+          "Pretendard",
+          "Noto Sans KR",
+          "Apple SD Gothic Neo",
+          "Malgun Gothic",
+          "sans-serif"
         ]
       },
       boxShadow: {

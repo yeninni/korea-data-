@@ -10,7 +10,7 @@ export default function LanguageSwitcher({ language, onChange }) {
           key={item.code}
           type="button"
           onClick={() => onChange(item.code)}
-          className={`focus-ring rounded-full px-3 py-2 text-sm font-semibold transition ${
+          className={`focus-ring rounded-full px-3 py-2 font-display text-sm font-semibold transition ${
             language === item.code
               ? "bg-civic-600 text-white"
               : "text-slate-600 hover:bg-civic-50 hover:text-civic-700"

@@ -260,6 +260,32 @@ export const lockers = [
     coordinatesOnMap: { x: 64, y: 50 }
   },
   {
+    id: "locker-dongdaegu-01",
+    name: "Dongdaegu Station Public Locker",
+    region: "Daegu",
+    district: "Dong-gu, Daegu",
+    address: "Dongdaegu Station Transfer Center, Dong-gu, Daegu",
+    latitude: 35.8797,
+    longitude: 128.6285,
+    availabilityStatus: "Available",
+    availableUnits: 21,
+    totalUnits: 44,
+    largeLuggage: true,
+    price: "Small 2,000 KRW / Large 4,500 KRW",
+    openHours: "05:00-24:00",
+    nearbyLandmark: "Dongdaegu Station",
+    nearestBusStop: "Dongdaegu Station Transfer Center",
+    estimatedWalkMinutes: 3,
+    estimatedBusMinutes: 7,
+    supportedLanguages: ["ko", "en", "zh", "ja"],
+    busRoutes: ["401", "708", "814"],
+    nextBuses: [
+      { route: "401", minutes: 4 },
+      { route: "814", minutes: 12 }
+    ],
+    coordinatesOnMap: { x: 66, y: 56 }
+  },
+  {
     id: "locker-gangneung-01",
     name: "Gangneung Station Easy Locker",
     region: "Gangneung",
@@ -298,6 +324,7 @@ export const landmarks = [
   "Haeundae",
   "Jeju Airport",
   "Hwangnidan-gil",
+  "Dongdaegu Station",
   "Gangneung Station"
 ];
 
@@ -308,5 +335,12 @@ export const regions = [
   "Incheon",
   "Jeju",
   "Gyeongju",
+  "Daegu",
+  "Gyeonggi",
+  "Gangwon",
+  "Jeollanamdo",
+  "Jeonbuk",
+  "Gyeongsangbukdo",
+  "Gyeongsangnamdo",
   "Gangneung"
 ];
