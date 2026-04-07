@@ -7,18 +7,21 @@ import TouristRecommendations from "./components/TouristRecommendations";
 import { landmarks, regions } from "./data/lockers";
 import { dictionary } from "./i18n/dictionary";
 import { fetchLockerStatus, getMockLockerPayload } from "./services/publicDataClient";
-import { matchesSearch, sortLockers, summarize } from "./utils/lockerUtils";
+import { haversineDistanceKm, matchesSearch, sortLockers, summarize } from "./utils/lockerUtils";
 
 export default function App() {
   const [language, setLanguage] = useState("ko");
   const [query, setQuery] = useState("");
   const [selectedRegion, setSelectedRegion] = useState("All Korea");
-  const [selectedLandmark, setSelectedLandmark] = useState("Gwanghwamun");
+  const [selectedLandmark, setSelectedLandmark] = useState("");
   const [sortMode, setSortMode] = useState("nearest");
   const [largeOnly, setLargeOnly] = useState(false);
   const [selectedLockerId, setSelectedLockerId] = useState("locker-gwanghwamun-01");
   const [lockerPayload, setLockerPayload] = useState(getMockLockerPayload);
   const [dataStatus, setDataStatus] = useState("Loading public locker data...");
+  const [currentLocation, setCurrentLocation] = useState(null);
+  const [locationStatus, setLocationStatus] = useState("idle");
+  const [locationFocusToken, setLocationFocusToken] = useState(0);
 
   const t = dictionary[language];
   const lockerData = lockerPayload.lockers;
@@ -32,8 +35,8 @@ export default function App() {
         setLockerPayload(payload);
         setDataStatus(`Live public locker data + nationwide demo coverage · ${payload.lockers.length} locations`);
         setSelectedLockerId(payload.lockers[0]?.id ?? "locker-gwanghwamun-01");
-        setSelectedRegion(payload.lockers[0]?.region ?? "All Korea");
-        setSelectedLandmark(payload.lockers[0]?.nearbyLandmark ?? "Gwanghwamun");
+        setSelectedRegion("All Korea");
+        setSelectedLandmark("");
       })
       .catch(() => {
         if (ignore) return;
@@ -62,9 +65,15 @@ export default function App() {
       .filter((locker) => matchesSearch(locker, query))
       .filter((locker) => (largeOnly ? locker.largeLuggage : true));
 
-    const sorted = sortLockers(queryFiltered, sortMode);
-    return sorted;
-  }, [largeOnly, lockerData, query, selectedLandmark, selectedRegion, sortMode]);
+    const distanceAware = queryFiltered.map((locker) => ({
+      ...locker,
+      distanceFromUserKm: currentLocation
+        ? haversineDistanceKm(currentLocation, { lat: locker.latitude, lon: locker.longitude })
+        : null
+    }));
+
+    return sortLockers(distanceAware, sortMode, currentLocation);
+  }, [currentLocation, largeOnly, lockerData, query, selectedLandmark, selectedRegion, sortMode]);
 
   const selectedLocker =
     filteredLockers.find((locker) => locker.id === selectedLockerId) ||
@@ -74,10 +83,47 @@ export default function App() {
   const summary = summarize(lockerData);
 
   function handleUseLocation() {
-    setQuery("Seoul Station");
-    setSelectedRegion("All Korea");
-    setSelectedLandmark("Seoul Station");
-    setSelectedLockerId("locker-seoulstation-01");
+    if (!navigator.geolocation) {
+      setLocationStatus("unsupported");
+      return;
+    }
+
+    setLocationStatus("loading");
+
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => {
+        const nextLocation = { lat: coords.latitude, lon: coords.longitude };
+        setCurrentLocation(nextLocation);
+        setLocationStatus("ready");
+        setLocationFocusToken(Date.now());
+        setQuery("");
+        setSelectedRegion("All Korea");
+        setSelectedLandmark("");
+        setSortMode("nearest");
+
+        const nearestLocker = [...lockerData]
+          .map((locker) => ({
+            ...locker,
+            distanceFromUserKm: haversineDistanceKm(nextLocation, {
+              lat: locker.latitude,
+              lon: locker.longitude
+            })
+          }))
+          .sort((a, b) => a.distanceFromUserKm - b.distanceFromUserKm)[0];
+
+        if (nearestLocker) {
+          setSelectedLockerId(nearestLocker.id);
+        }
+      },
+      () => {
+        setLocationStatus("denied");
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 60000
+      }
+    );
   }
 
   function handleLandmarkChange(landmark) {
@@ -105,6 +151,7 @@ export default function App() {
       <Header t={t} language={language} onLanguageChange={setLanguage} />
       <Hero
         t={t}
+        language={language}
         query={query}
         onQueryChange={setQuery}
         onUseLocation={handleUseLocation}
@@ -119,6 +166,7 @@ export default function App() {
       />
       <MapExplorer
         t={t}
+        language={language}
         lockers={filteredLockers}
         selectedLocker={selectedLocker}
         onSelectLocker={(locker) => setSelectedLockerId(locker.id)}
@@ -126,6 +174,10 @@ export default function App() {
         onSortModeChange={setSortMode}
         largeOnly={largeOnly}
         onLargeOnlyChange={setLargeOnly}
+        currentLocation={currentLocation}
+        onUseLocation={handleUseLocation}
+        locationStatus={locationStatus}
+        locationFocusToken={locationFocusToken}
       />
       <TouristRecommendations
         t={t}

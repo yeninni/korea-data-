@@ -27,6 +27,19 @@ export function getCrowdingScore(locker) {
   return 1 - getAvailabilityRatio(locker);
 }
 
+export function haversineDistanceKm(from, to) {
+  const toRadians = (value) => (value * Math.PI) / 180;
+  const earthRadius = 6371;
+  const dLat = toRadians(to.lat - from.lat);
+  const dLon = toRadians(to.lon - from.lon);
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRadians(from.lat)) *
+      Math.cos(toRadians(to.lat)) *
+      Math.sin(dLon / 2) ** 2;
+  return earthRadius * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
 export function matchesSearch(locker, query) {
   const normalized = query.trim().toLowerCase();
   if (!normalized) return true;
@@ -43,7 +56,7 @@ export function matchesSearch(locker, query) {
     .includes(normalized);
 }
 
-export function sortLockers(lockers, sortMode) {
+export function sortLockers(lockers, sortMode, currentLocation = null) {
   const sorted = [...lockers];
 
   if (sortMode === "leastCrowded") {
@@ -58,6 +71,18 @@ export function sortLockers(lockers, sortMode) {
 
   if (sortMode === "fastestBus") {
     return sorted.sort((a, b) => a.estimatedBusMinutes - b.estimatedBusMinutes);
+  }
+
+  if (currentLocation) {
+    return sorted.sort((a, b) => {
+      const distanceA =
+        a.distanceFromUserKm ??
+        haversineDistanceKm(currentLocation, { lat: a.latitude, lon: a.longitude });
+      const distanceB =
+        b.distanceFromUserKm ??
+        haversineDistanceKm(currentLocation, { lat: b.latitude, lon: b.longitude });
+      return distanceA - distanceB;
+    });
   }
 
   return sorted.sort((a, b) => a.estimatedWalkMinutes - b.estimatedWalkMinutes);

@@ -5,13 +5,18 @@ import MockMap from "./MockMap";
 
 export default function MapExplorer({
   t,
+  language,
   lockers,
   selectedLocker,
   onSelectLocker,
   sortMode,
   onSortModeChange,
   largeOnly,
-  onLargeOnlyChange
+  onLargeOnlyChange,
+  currentLocation,
+  onUseLocation,
+  locationStatus,
+  locationFocusToken
 }) {
   return (
     <section id="map" className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -26,7 +31,17 @@ export default function MapExplorer({
 
         <div className="grid gap-6 lg:grid-cols-[1fr_390px]">
           <div className="space-y-5">
-            <MockMap lockers={lockers} selectedLocker={selectedLocker} onSelect={onSelectLocker} t={t} />
+            <MockMap
+              lockers={lockers}
+              selectedLocker={selectedLocker}
+              onSelect={onSelectLocker}
+              t={t}
+              language={language}
+              currentLocation={currentLocation}
+              onUseLocation={onUseLocation}
+              locationStatus={locationStatus}
+              locationFocusToken={locationFocusToken}
+            />
             <div className="grid gap-4 md:grid-cols-2">
               {lockers.length > 0 ? (
                 lockers.map((locker) => (

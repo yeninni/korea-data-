@@ -24,14 +24,14 @@
   }
 
   .kakao-map-overlay {
-    @apply flex min-w-[180px] flex-col rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-md;
+    @apply flex max-w-[200px] flex-col rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-xs shadow-md;
   }
 
   .kakao-map-overlay strong {
-    @apply font-bold text-slate-900;
+    @apply font-bold leading-5 text-slate-900;
   }
 
   .kakao-map-overlay span {
-    @apply mt-1 text-slate-500;
+    @apply mt-0.5 text-slate-500;
   }
 }
