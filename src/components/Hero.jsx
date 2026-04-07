@@ -20,6 +20,26 @@ export default function Hero({
   const showSuggestions = query.trim().length > 0;
   const heroBadgeClass =
     "inline-flex min-h-[44px] items-center justify-center rounded-full px-5 py-2 text-center font-display text-sm leading-none font-semibold";
+  const lockerSizeGuide = [
+    {
+      key: "small",
+      label: t.sizeSmall,
+      description: t.sizeSmallDescription,
+      tone: "bg-civic-50 text-civic-700"
+    },
+    {
+      key: "medium",
+      label: t.sizeMedium,
+      description: t.sizeMediumDescription,
+      tone: "bg-amber-50 text-amber-700"
+    },
+    {
+      key: "large",
+      label: t.sizeLarge,
+      description: t.sizeLargeDescription,
+      tone: "bg-emerald-50 text-emerald-700"
+    }
+  ];
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -178,6 +198,40 @@ export default function Hero({
             {(t.availabilitySummary ?? "{available} / {total} lockers are shown as available in this demo dataset.")
               .replace("{available}", summary.available)
               .replace("{total}", summary.total)}
+          </div>
+
+          <div className="mt-5 rounded-[1.75rem] border border-slate-200 bg-slate-50/80 p-4">
+            <div className="flex items-center gap-3">
+              <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-civic-700 ring-1 ring-slate-200">
+                <Icon name="luggage" className="h-5 w-5" />
+              </span>
+              <div>
+                <p className="font-soft text-xs uppercase tracking-[0.18em] text-civic-600">
+                  {t.sizeGuideEyebrow}
+                </p>
+                <h3 className="mt-1 font-display font-semibold text-lg text-slate-950">
+                  {t.sizeGuideTitle}
+                </h3>
+              </div>
+            </div>
+
+            <div className="mt-4 grid gap-3">
+              {lockerSizeGuide.map((item) => (
+                <div
+                  key={item.key}
+                  className="flex items-start gap-3 rounded-2xl bg-white px-4 py-3 ring-1 ring-slate-200"
+                >
+                  <span
+                    className={`inline-flex min-w-[62px] items-center justify-center rounded-full px-3 py-1 font-display text-xs font-semibold ${item.tone}`}
+                  >
+                    {item.label}
+                  </span>
+                  <p className="font-soft text-sm leading-6 text-slate-600">{item.description}</p>
+                </div>
+              ))}
+            </div>
+
+            <p className="mt-4 font-soft text-xs leading-5 text-slate-500">{t.sizeGuideNote}</p>
           </div>
         </div>
       </div>
