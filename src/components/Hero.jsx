@@ -12,8 +12,18 @@ export default function Hero({
   selectedRegion,
   onRegionChange,
   summary,
-  dataStatus
+  dataStatus,
+  searchSuggestions,
+  onSearchSelect,
+  onSearchSubmit
 }) {
+  const showSuggestions = query.trim().length > 0;
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    onSearchSubmit();
+  }
+
   return (
     <section id="home" className="relative overflow-hidden bg-civic-900 text-white">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(33,168,154,0.35),transparent_28%),radial-gradient(circle_at_85%_15%,rgba(37,111,174,0.42),transparent_32%)]" />
@@ -31,17 +41,59 @@ export default function Hero({
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-8 text-civic-100">{t.heroText}</p>
 
-          <div className="mt-8 rounded-[2rem] bg-white p-3 shadow-civic">
+          <form onSubmit={handleSubmit} className="mt-8 rounded-[2rem] bg-white p-3 shadow-civic">
             <div className="flex flex-col gap-3 md:flex-row">
-              <label className="flex flex-1 items-center gap-3 rounded-3xl bg-slate-50 px-5 py-4 text-slate-700 ring-1 ring-slate-200">
-                <Icon name="search" className="h-5 w-5 text-civic-600" />
-                <input
-                  value={query}
-                  onChange={(event) => onQueryChange(event.target.value)}
-                  className="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-slate-400"
-                  placeholder={t.searchPlaceholder}
-                />
-              </label>
+              <div className="relative flex-1">
+                <label className="flex items-center gap-3 rounded-3xl bg-slate-50 px-5 py-4 text-slate-700 ring-1 ring-slate-200 focus-within:ring-2 focus-within:ring-civic-500">
+                  <Icon name="search" className="h-5 w-5 text-civic-600" />
+                  <input
+                    value={query}
+                    onChange={(event) => onQueryChange(event.target.value)}
+                    className="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-slate-400"
+                    placeholder={t.searchPlaceholder}
+                  />
+                </label>
+
+                {showSuggestions && (
+                  <div className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-30 overflow-hidden rounded-[1.5rem] bg-white text-slate-900 shadow-civic ring-1 ring-slate-200">
+                    <p className="px-4 py-3 text-xs font-black uppercase tracking-[0.18em] text-civic-600">
+                      {t.searchSuggestions}
+                    </p>
+                    {searchSuggestions.length > 0 ? (
+                      <div className="max-h-80 overflow-y-auto">
+                        {searchSuggestions.map((suggestion) => (
+                          <button
+                            key={suggestion.id}
+                            type="button"
+                            onClick={() => onSearchSelect(suggestion)}
+                            className="focus-ring flex w-full items-center justify-between gap-4 border-t border-slate-100 px-4 py-3 text-left hover:bg-civic-50"
+                          >
+                            <span>
+                              <span className="block font-black text-slate-950">{suggestion.label}</span>
+                              <span className="mt-1 block text-sm text-slate-500">{suggestion.meta}</span>
+                            </span>
+                            {suggestion.count !== undefined && (
+                              <span className="rounded-full bg-civic-50 px-3 py-1 text-xs font-black text-civic-700">
+                                {suggestion.count}
+                              </span>
+                            )}
+                          </button>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="border-t border-slate-100 px-4 py-4 text-sm text-slate-500">
+                        {t.searchNoResults}
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
+              <button
+                type="submit"
+                className="focus-ring inline-flex min-h-14 items-center justify-center rounded-3xl bg-transit-400 px-6 font-bold text-civic-950 hover:bg-transit-300"
+              >
+                {t.search}
+              </button>
               <button
                 type="button"
                 onClick={onUseLocation}
@@ -51,7 +103,7 @@ export default function Hero({
                 {t.useLocation}
               </button>
             </div>
-          </div>
+          </form>
 
           <div className="mt-6">
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-civic-100">{t.region}</p>

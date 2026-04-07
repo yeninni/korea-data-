@@ -336,5 +336,11 @@ export const regions = [
   "Jeju",
   "Gyeongju",
   "Daegu",
+  "Gyeonggi",
+  "Gangwon",
+  "Jeollanamdo",
+  "Jeonbuk",
+  "Gyeongsangbukdo",
+  "Gyeongsangnamdo",
   "Gangneung"
 ];

@@ -21,7 +21,14 @@ function getRegion(info, landmark) {
   if (info.ctpvNm === "서울특별시") return "Seoul";
   if (info.ctpvNm === "부산광역시") return "Busan";
   if (info.ctpvNm === "인천광역시") return "Incheon";
+  if (info.ctpvNm === "대구광역시") return "Daegu";
   if (info.ctpvNm === "제주특별자치도") return "Jeju";
+  if (info.ctpvNm === "경기도") return "Gyeonggi";
+  if (info.ctpvNm === "강원특별자치도") return "Gangwon";
+  if (info.ctpvNm === "전라남도") return "Jeollanamdo";
+  if (info.ctpvNm === "전북특별자치도") return "Jeonbuk";
+  if (info.ctpvNm === "경상북도") return "Gyeongsangbukdo";
+  if (info.ctpvNm === "경상남도") return "Gyeongsangnamdo";
   if (info.sggNm?.includes("경주")) return "Gyeongju";
   if (info.sggNm?.includes("강릉")) return "Gangneung";
   if (landmark?.name === "Incheon Airport") return "Incheon";
@@ -174,8 +181,7 @@ function publicLockerPlugin(env) {
             .map((item, index) =>
               normalizeLocker(item, realtimeById.get(item.stlckId), detailById.get(item.stlckId), index)
             )
-            .filter((locker) => locker.totalUnits > 0)
-            .slice(0, 80);
+            .filter((locker) => locker.totalUnits > 0);
 
           response.setHeader("Content-Type", "application/json; charset=utf-8");
           response.end(

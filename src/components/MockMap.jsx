@@ -102,7 +102,7 @@ function getMarkerPosition(locker, centerPoint, zoom, mapSize) {
   };
 }
 
-export default function MockMap({ lockers, selectedLocker, onSelect, t }) {
+export default function MockMap({ lockers, selectedLocker, onSelect, onRegionSelect, t }) {
   const mapRef = useRef(null);
   const dragStateRef = useRef(null);
   const [mapSize, setMapSize] = useState(DEFAULT_MAP_SIZE);
@@ -110,7 +110,9 @@ export default function MockMap({ lockers, selectedLocker, onSelect, t }) {
   const [manualZoom, setManualZoom] = useState(null);
   const visibleLockers = useMemo(() => lockers.filter(isValidCoordinate), [lockers]);
   const selectedVisibleLocker =
-    selectedLocker && isValidCoordinate(selectedLocker) ? selectedLocker : visibleLockers[0];
+    selectedLocker && visibleLockers.some((locker) => locker.id === selectedLocker.id) && isValidCoordinate(selectedLocker)
+      ? selectedLocker
+      : null;
 
   useEffect(() => {
     if (!mapRef.current) return undefined;
@@ -278,6 +280,9 @@ export default function MockMap({ lockers, selectedLocker, onSelect, t }) {
       {visibleLockers.map((locker) => {
         const isSelected = selectedVisibleLocker?.id === locker.id;
         const position = getMarkerPosition(locker, centerPoint, zoom, mapSize);
+        const markerLabel = locker.isRegionMarker
+          ? locker.name
+          : t.landmarkNames?.[locker.nearbyLandmark] ?? locker.nearbyLandmark;
 
         if (
           position.left < -40 ||
@@ -292,7 +297,14 @@ export default function MockMap({ lockers, selectedLocker, onSelect, t }) {
           <button
             key={locker.id}
             type="button"
-            onClick={() => onSelect(locker)}
+            onClick={() => {
+              if (locker.isRegionMarker) {
+                onRegionSelect?.(locker.region);
+                return;
+              }
+
+              onSelect(locker);
+            }}
             className={`focus-ring absolute z-20 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white px-3 py-2 shadow-lg ring-1 ring-slate-200 transition hover:scale-105 ${
               isSelected ? "scale-110 ring-4 ring-civic-500/25" : ""
             }`}
@@ -300,7 +312,7 @@ export default function MockMap({ lockers, selectedLocker, onSelect, t }) {
               left: position.left,
               top: position.top
             }}
-            aria-label={formatLockerName(locker, t)}
+            aria-label={locker.isRegionMarker ? locker.name : formatLockerName(locker, t)}
           >
             <span className="flex items-center gap-2">
               <span
@@ -308,15 +320,20 @@ export default function MockMap({ lockers, selectedLocker, onSelect, t }) {
                   statusStyles[locker.availabilityStatus].marker
                 }`}
               />
-              <span className="hidden max-w-[150px] truncate text-xs font-black text-slate-700 sm:inline">
-                {t.landmarkNames?.[locker.nearbyLandmark] ?? locker.nearbyLandmark}
+              <span className="max-w-[150px] truncate text-xs font-black text-slate-700">
+                {markerLabel}
               </span>
+              {locker.isRegionMarker && (
+                <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[0.65rem] font-black text-slate-500">
+                  {locker.lockerCount}
+                </span>
+              )}
             </span>
           </button>
         );
       })}
 
-      {selectedVisibleLocker && (
+      {selectedVisibleLocker && !selectedVisibleLocker.isRegionMarker && (
         <div className="absolute bottom-5 right-5 z-10 max-w-xs rounded-2xl bg-white/95 p-4 text-sm shadow-sm ring-1 ring-slate-200 backdrop-blur">
           <p className="font-black text-slate-950">{formatLockerName(selectedVisibleLocker, t)}</p>
           <p className="mt-1 text-slate-500">
@@ -324,6 +341,12 @@ export default function MockMap({ lockers, selectedLocker, onSelect, t }) {
             {t.landmarkNames?.[selectedVisibleLocker.nearbyLandmark] ??
               selectedVisibleLocker.nearbyLandmark}
           </p>
+        </div>
+      )}
+
+      {visibleLockers.some((locker) => locker.isRegionMarker) && (
+        <div className="absolute bottom-5 right-5 z-10 max-w-xs rounded-2xl bg-white/95 p-4 text-sm text-slate-600 shadow-sm ring-1 ring-slate-200 backdrop-blur">
+          {t.regionMarkerHint}
         </div>
       )}
 
