@@ -1,6 +1,17 @@
 import Icon from "./Icon";
 import StatusBadge from "./StatusBadge";
-import { formatLockerName, getAlternative, getLanguageLabel } from "../utils/lockerUtils";
+import {
+  formatAddress,
+  formatBusRouteLabel,
+  formatBusStop,
+  formatDuration,
+  formatLockerName,
+  formatOpenHours,
+  formatPrice,
+  formatSupportLabel,
+  getAlternative,
+  getLanguageLabel
+} from "../utils/lockerUtils";
 
 export default function LockerDetail({ locker, lockers, t }) {
   const alternative = getAlternative(lockers, locker);
@@ -13,7 +24,7 @@ export default function LockerDetail({ locker, lockers, t }) {
           <h2 className="mt-1 text-2xl font-black tracking-tight text-slate-950">
             {formatLockerName(locker, t)}
           </h2>
-          <p className="mt-2 text-sm leading-6 text-slate-500">{locker.address}</p>
+          <p className="mt-2 text-sm leading-6 text-slate-500">{formatAddress(locker.address, t)}</p>
         </div>
         <StatusBadge status={locker.availabilityStatus} t={t} />
       </div>
@@ -21,10 +32,10 @@ export default function LockerDetail({ locker, lockers, t }) {
       <dl className="mt-6 grid gap-3">
         {[
           [t.availableUnits, `${locker.availableUnits} / ${locker.totalUnits}`],
-          [t.openHours, locker.openHours],
-          [t.price, locker.price],
-          [t.largeLuggage, locker.largeLuggage ? "Yes" : "No"],
-          [t.languages, locker.supportedLanguages.map(getLanguageLabel).join(", ")]
+          [t.openHours, formatOpenHours(locker.openHours, t)],
+          [t.price, formatPrice(locker.price, t)],
+          [t.largeLuggage, formatSupportLabel(locker.largeLuggage, t)],
+          [t.languages, locker.supportedLanguages.map((language) => getLanguageLabel(language, t)).join(", ")]
         ].map(([label, value]) => (
           <div key={label} className="rounded-2xl bg-slate-50 p-4">
             <dt className="text-sm font-bold text-slate-500">{label}</dt>
@@ -39,7 +50,7 @@ export default function LockerDetail({ locker, lockers, t }) {
           {t.nearbyBusInfo}
         </div>
         <p className="mt-2 text-sm text-slate-600">
-          {t.nearestStop}: <strong>{locker.nearestBusStop}</strong>
+          {t.nearestStop}: <strong>{formatBusStop(locker.nearestBusStop, t)}</strong>
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
           {locker.nextBuses.map((bus) => (
@@ -47,12 +58,13 @@ export default function LockerDetail({ locker, lockers, t }) {
               key={bus.route}
               className="rounded-full bg-white px-3 py-1 text-sm font-black text-civic-700"
             >
-              {bus.route} · {bus.minutes} min
+              {formatBusRouteLabel(bus.route, t)} · {formatDuration(bus.minutes, t)}
             </span>
           ))}
         </div>
         <p className="mt-3 text-sm text-slate-500">
-          {t.walk} {locker.estimatedWalkMinutes}m · {t.bus} {locker.estimatedBusMinutes}m
+          {t.walk} {formatDuration(locker.estimatedWalkMinutes, t)} · {t.bus}{" "}
+          {formatDuration(locker.estimatedBusMinutes, t)}
         </p>
       </div>
 

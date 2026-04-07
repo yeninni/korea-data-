@@ -10,6 +10,7 @@ export const dictionary = {
     locale: "ko",
     serviceName: "Korea Easy Locker",
     tagline: "전국 관광거점 공영 물품보관함 다국어 안내",
+    aboutEyebrow: "공공 가치",
     navHome: "홈",
     navMap: "지도 탐색",
     navSpots: "안내 챗봇",
@@ -83,11 +84,20 @@ export const dictionary = {
       "외국인 관광객은 언어장벽 때문에 지역별 공공시설 정보를 찾기 어렵고, 관광 밀집지역에서는 짐보관 수요가 한곳에 몰려 불편이 커집니다. 전국 공공 물품보관함 정보를 실시간·다국어로 제공하면 관광객 편의와 도시 혼잡 완화에 도움이 됩니다.",
     dataTitle: "공공데이터 활용 구조",
     largeLuggage: "대형 짐",
+    supported: "가능",
+    notSupported: "불가",
+    languageLabels: {
+      ko: "한국어",
+      en: "영어",
+      zh: "중국어",
+      ja: "일본어"
+    },
     price: "요금",
     openHours: "운영시간",
     languages: "언어",
     walk: "도보",
     bus: "버스",
+    minuteSuffix: "분",
     nearestStop: "가까운 정류장",
     availableUnits: "남은 칸",
     mockNotice: "지도는 데모 UI이며 실제 지도 SDK 연결을 고려한 구조입니다.",
@@ -97,6 +107,8 @@ export const dictionary = {
     mapSetupDetail: "OpenStreetMap 타일을 불러오면 전국 지도가 표시됩니다.",
     mapError: "지도를 불러오지 못했습니다.",
     mapErrorDetail: "잠시 후 다시 시도해 주세요.",
+    zoomIn: "지도 확대",
+    zoomOut: "지도 축소",
     noResults: "조건에 맞는 보관함이 없습니다. 다른 지역을 선택하거나 대형 짐 필터를 해제해 보세요.",
     regionNames: {
       "All Korea": "전국",
@@ -126,13 +138,15 @@ export const dictionary = {
       "Jeju Airport": "제주공항",
       "Hwangnidan-gil": "황리단길",
       "Dongdaegu Station": "동대구역",
-      "Gangneung Station": "강릉역"
+      "Gangneung Station": "강릉역",
+      "수원시": "수원시"
     }
   },
   en: {
     locale: "en",
     serviceName: "Korea Easy Locker",
     tagline: "Multilingual public locker guide across Korea",
+    aboutEyebrow: "Public value",
     navHome: "Home",
     navMap: "Map",
     navSpots: "Assistant",
@@ -206,11 +220,20 @@ export const dictionary = {
       "Visitors often struggle to find local public facilities because of language barriers. In crowded tourist areas across Korea, locker demand can concentrate in one place. Real-time, multilingual public locker information helps visitors move comfortably and supports congestion relief.",
     dataTitle: "Public data integration plan",
     largeLuggage: "Large luggage",
+    supported: "Supported",
+    notSupported: "Not supported",
+    languageLabels: {
+      ko: "Korean",
+      en: "English",
+      zh: "Chinese",
+      ja: "Japanese"
+    },
     price: "Price",
     openHours: "Open hours",
     languages: "Languages",
     walk: "Walk",
     bus: "Bus",
+    minuteSuffix: "m",
     nearestStop: "Nearest stop",
     availableUnits: "Available units",
     mockNotice: "The map is a demo UI prepared for future map SDK integration.",
@@ -220,6 +243,8 @@ export const dictionary = {
     mapSetupDetail: "OpenStreetMap tiles will show the nationwide map.",
     mapError: "The map could not be loaded.",
     mapErrorDetail: "Please try again in a moment.",
+    zoomIn: "Zoom in",
+    zoomOut: "Zoom out",
     noResults: "No lockers match the current search. Try another area or turn off the large luggage filter.",
     regionNames: {
       "All Korea": "All Korea",
@@ -249,13 +274,15 @@ export const dictionary = {
       "Jeju Airport": "Jeju Airport",
       "Hwangnidan-gil": "Hwangnidan-gil",
       "Dongdaegu Station": "Dongdaegu Station",
-      "Gangneung Station": "Gangneung Station"
+      "Gangneung Station": "Gangneung Station",
+      "수원시": "Suwon"
     }
   },
   zh: {
     locale: "zh",
     serviceName: "Korea Easy Locker",
     tagline: "韩国公共储物柜多语言指南",
+    aboutEyebrow: "公共价值",
     navHome: "首页",
     navMap: "地图",
     navSpots: "咨询助手",
@@ -327,11 +354,20 @@ export const dictionary = {
       "外国游客常因语言障碍难以找到各地区公共设施信息。韩国热门景区的行李寄存需求也容易集中。实时、多语言的公共储物柜信息有助于提升游客便利性并缓解城市拥挤。",
     dataTitle: "公共数据连接计划",
     largeLuggage: "大件行李",
+    supported: "可寄存",
+    notSupported: "不可寄存",
+    languageLabels: {
+      ko: "韩语",
+      en: "英语",
+      zh: "中文",
+      ja: "日语"
+    },
     price: "价格",
     openHours: "营业时间",
     languages: "语言",
     walk: "步行",
     bus: "公交",
+    minuteSuffix: "分",
     nearestStop: "最近车站",
     availableUnits: "可用数量",
     mockNotice: "地图为演示 UI，后续可连接真实地图 SDK。",
@@ -341,6 +377,8 @@ export const dictionary = {
     mapSetupDetail: "加载 OpenStreetMap 图块后即可显示全国地图。",
     mapError: "地图加载失败。",
     mapErrorDetail: "请稍后再试。",
+    zoomIn: "放大地图",
+    zoomOut: "缩小地图",
     noResults: "当前条件下没有匹配的保管柜。请尝试其他区域或关闭大件行李筛选。",
     regionNames: {
       "All Korea": "韩国全境",
@@ -370,13 +408,15 @@ export const dictionary = {
       "Jeju Airport": "济州机场",
       "Hwangnidan-gil": "皇理团路",
       "Dongdaegu Station": "东大邱站",
-      "Gangneung Station": "江陵站"
+      "Gangneung Station": "江陵站",
+      "수원시": "水原市"
     }
   },
   ja: {
     locale: "ja",
     serviceName: "Korea Easy Locker",
     tagline: "韓国の公共ロッカー案内サービス",
+    aboutEyebrow: "公共価値",
     navHome: "ホーム",
     navMap: "地図",
     navSpots: "案内チャット",
@@ -450,11 +490,20 @@ export const dictionary = {
       "外国人観光客は言語の壁で地域ごとの公共施設情報を見つけにくいことがあります。韓国の観光密集地域では荷物預かり需要も集中しがちです。公共ロッカー情報をリアルタイムかつ多言語で提供することで、旅行者の利便性と都市混雑の緩和に役立ちます。",
     dataTitle: "公共データ連携構造",
     largeLuggage: "大型荷物",
+    supported: "対応",
+    notSupported: "非対応",
+    languageLabels: {
+      ko: "韓国語",
+      en: "英語",
+      zh: "中国語",
+      ja: "日本語"
+    },
     price: "料金",
     openHours: "営業時間",
     languages: "言語",
     walk: "徒歩",
     bus: "バス",
+    minuteSuffix: "分",
     nearestStop: "最寄り停留所",
     availableUnits: "空き数",
     mockNotice: "地図はデモ表示です。今後、実際の地図 SDK と連携できます。",
@@ -464,6 +513,8 @@ export const dictionary = {
     mapSetupDetail: "OpenStreetMap の地図タイルを読み込むと全国地図が表示されます。",
     mapError: "地図を読み込めませんでした。",
     mapErrorDetail: "少し時間をおいて再度お試しください。",
+    zoomIn: "地図を拡大",
+    zoomOut: "地図を縮小",
     noResults: "条件に合うロッカーが見つかりません。別のエリアを選ぶか、大型荷物フィルターを解除してください。",
     regionNames: {
       "All Korea": "韓国全域",
@@ -493,7 +544,8 @@ export const dictionary = {
       "Jeju Airport": "済州空港",
       "Hwangnidan-gil": "皇理団通り",
       "Dongdaegu Station": "東大邱駅",
-      "Gangneung Station": "江陵駅"
+      "Gangneung Station": "江陵駅",
+      "수원시": "水原市"
     }
   }
 };

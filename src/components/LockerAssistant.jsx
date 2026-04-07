@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { formatLockerName, getCrowdingScore } from "../utils/lockerUtils";
+import { formatBusStop, formatLockerName, getCrowdingScore } from "../utils/lockerUtils";
 
 const quickQuestions = [
   { id: "large", labelKey: "assistantQuickLarge" },
@@ -84,7 +84,7 @@ function buildAnswer(type, locker, t) {
     total: locker.totalUnits,
     walk: locker.estimatedWalkMinutes,
     bus: locker.estimatedBusMinutes,
-    stop: locker.nearestBusStop
+    stop: formatBusStop(locker.nearestBusStop, t)
   });
 }
 

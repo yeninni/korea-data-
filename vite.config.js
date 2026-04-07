@@ -62,6 +62,11 @@ function nearestLandmark(lat, lon) {
     .sort((a, b) => a.distance - b.distance)[0];
 }
 
+function getDisplayLandmark(info, landmark) {
+  if (landmark?.distance <= 5) return landmark.name;
+  return info.sggNm || info.lclgvNm || info.ctpvNm || landmark?.name || "Nearby public locker";
+}
+
 function formatTime(value) {
   if (!value || value.length < 4) return "Open hours not provided";
   return `${value.slice(0, 2)}:${value.slice(2, 4)}`;
@@ -98,7 +103,8 @@ function normalizeLocker(info, realtime, detail, index) {
   const availableUnits = availableLarge + availableMedium + availableSmall;
   const totalUnits = parseNumber(info.stlckCnt, availableUnits);
   const landmark = nearestLandmark(lat, lon);
-  const walkMinutes = Math.max(2, Math.round(landmark.distance * 12));
+  const displayLandmark = getDisplayLandmark(info, landmark);
+  const walkMinutes = Math.max(3, Math.min(18, Math.round((landmark?.distance ?? 0) * 4)));
 
   return {
     id: info.stlckId,
@@ -112,10 +118,12 @@ function normalizeLocker(info, realtime, detail, index) {
     availableUnits,
     totalUnits,
     largeLuggage: availableLarge > 0 || detail?.stlckHgtExpln?.includes("대형"),
-    price: detail?.utztnCrgExpln?.split("\n").find((line) => line.includes("소형")) || "Price details in public-data detail API",
+    price:
+      detail?.utztnCrgExpln?.split("\n").find((line) => line.includes("소형")) ||
+      "요금 정보는 공공데이터 상세 API에서 확인하세요.",
     openHours: `${formatTime(info.wkdyOperBgngTm)}-${formatTime(info.wkdyOperEndTm)}`,
-    nearbyLandmark: landmark.name,
-    nearestBusStop: `${landmark.name} area stop`,
+    nearbyLandmark: displayLandmark,
+    nearestBusStop: `${displayLandmark} area stop`,
     estimatedWalkMinutes: walkMinutes,
     estimatedBusMinutes: Math.max(4, Math.round(walkMinutes * 0.65)),
     supportedLanguages: supportedLanguagesFromDetail(detail),

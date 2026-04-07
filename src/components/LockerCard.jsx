@@ -1,6 +1,11 @@
 import Icon from "./Icon";
 import StatusBadge from "./StatusBadge";
-import { formatLockerName, getLanguageLabel } from "../utils/lockerUtils";
+import {
+  formatDistrict,
+  formatDuration,
+  formatLockerName,
+  getLanguageLabel
+} from "../utils/lockerUtils";
 
 export default function LockerCard({ locker, t, selected, onSelect }) {
   return (
@@ -17,7 +22,8 @@ export default function LockerCard({ locker, t, selected, onSelect }) {
             {formatLockerName(locker, t)}
           </h3>
           <p className="mt-1 text-sm font-semibold text-slate-500">
-            {t.landmarkNames?.[locker.nearbyLandmark] ?? locker.nearbyLandmark} · {locker.district}
+            {t.landmarkNames?.[locker.nearbyLandmark] ?? locker.nearbyLandmark} ·{" "}
+            {formatDistrict(locker.district, t)}
           </p>
         </div>
         <StatusBadge status={locker.availabilityStatus} t={t} />
@@ -32,11 +38,11 @@ export default function LockerCard({ locker, t, selected, onSelect }) {
         </div>
         <div className="rounded-2xl bg-slate-50 p-3">
           <span className="block text-slate-500">{t.walk}</span>
-          <strong className="mt-1 block text-lg">{locker.estimatedWalkMinutes}m</strong>
+          <strong className="mt-1 block text-lg">{formatDuration(locker.estimatedWalkMinutes, t)}</strong>
         </div>
         <div className="rounded-2xl bg-slate-50 p-3">
           <span className="block text-slate-500">{t.bus}</span>
-          <strong className="mt-1 block text-lg">{locker.estimatedBusMinutes}m</strong>
+          <strong className="mt-1 block text-lg">{formatDuration(locker.estimatedBusMinutes, t)}</strong>
         </div>
       </div>
 
@@ -52,7 +58,7 @@ export default function LockerCard({ locker, t, selected, onSelect }) {
             key={language}
             className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600"
           >
-            {getLanguageLabel(language)}
+            {getLanguageLabel(language, t)}
           </span>
         ))}
       </div>

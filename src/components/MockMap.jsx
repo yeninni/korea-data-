@@ -245,7 +245,7 @@ export default function MockMap({ lockers, selectedLocker, onSelect, onRegionSel
           onClick={() => updateZoom(zoom + 1)}
           className="focus-ring h-11 w-11 text-xl font-black text-civic-700 hover:bg-civic-50 disabled:text-slate-300"
           disabled={zoom >= MAX_ZOOM}
-          aria-label="Zoom in"
+          aria-label={t.zoomIn}
         >
           +
         </button>
@@ -255,7 +255,7 @@ export default function MockMap({ lockers, selectedLocker, onSelect, onRegionSel
           onClick={() => updateZoom(zoom - 1)}
           className="focus-ring h-11 w-11 text-xl font-black text-civic-700 hover:bg-civic-50 disabled:text-slate-300"
           disabled={zoom <= MIN_ZOOM}
-          aria-label="Zoom out"
+          aria-label={t.zoomOut}
         >
           -
         </button>

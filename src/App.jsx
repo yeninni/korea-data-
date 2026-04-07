@@ -10,7 +10,7 @@ import { fetchLockerStatus, getMockLockerPayload } from "./services/publicDataCl
 import { formatLockerName, matchesSearch, sortLockers, summarize } from "./utils/lockerUtils";
 
 export default function App() {
-  const [language, setLanguage] = useState("en");
+  const [language, setLanguage] = useState("ko");
   const [query, setQuery] = useState("");
   const [selectedRegion, setSelectedRegion] = useState("All Korea");
   const [selectedLandmark, setSelectedLandmark] = useState("");
@@ -120,7 +120,7 @@ export default function App() {
   }
 
   function handleUseLocation() {
-    setQuery("Seoul Station");
+    setQuery(t.landmarkNames?.["Seoul Station"] ?? "Seoul Station");
     setSelectedRegion("All Korea");
     setSelectedLandmark("Seoul Station");
     setSelectedLockerId("locker-seoulstation-01");
