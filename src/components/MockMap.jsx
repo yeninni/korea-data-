@@ -114,11 +114,19 @@ function createOverlayContent(locker, language) {
         : language === "ja"
           ? "残り"
           : "Available";
+  const localizedAvailabilityLabel =
+    language === "ko"
+      ? "잔여"
+      : language === "zh"
+        ? "剩余"
+        : language === "ja"
+          ? "空き"
+          : "Available";
 
   return `
     <div class="kakao-map-overlay">
       <strong>${locker.name}</strong>
-      <span>${availabilityLabel} ${locker.availableUnits}/${locker.totalUnits}</span>
+      <span>${localizedAvailabilityLabel} ${locker.availableUnits}/${locker.totalUnits}</span>
     </div>
   `;
 }
