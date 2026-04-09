@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import RobotMascot from "./RobotMascot";
 import { formatBusStop, formatLockerName, getCrowdingScore, matchesSearch } from "../utils/lockerUtils";
 

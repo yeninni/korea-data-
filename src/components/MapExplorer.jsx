@@ -87,6 +87,17 @@ function getRegionMapMarkers(regionSummaries, t) {
     .filter(Boolean);
 }
 
+function getDefaultDetailLocker(lockers) {
+  return (
+    lockers.find((locker) => locker.id === "locker-seoulstation-01") ||
+    lockers.find((locker) => locker.nearbyLandmark === "Seoul Station") ||
+    lockers.find((locker) => locker.name?.includes("서울역")) ||
+    lockers.find((locker) => locker.region === "Seoul") ||
+    lockers[0] ||
+    null
+  );
+}
+
 export default function MapExplorer({
   t,
   lockers,
@@ -107,11 +118,12 @@ export default function MapExplorer({
   const displayedMapLockers = hasFocusedResults ? lockers : getRegionMapMarkers(regionSummaries, t);
   const selectedMapLocker =
     displayedMapLockers.some((locker) => locker.id === selectedLocker?.id) ? selectedLocker : null;
+  const defaultDetailLocker = getDefaultDetailLocker(mapLockers);
   const selectedDetailLocker = hasFocusedResults
     ? lockers.some((locker) => locker.id === selectedLocker?.id)
       ? selectedLocker
       : lockers[0] ?? null
-    : null;
+    : defaultDetailLocker;
 
   return (
     <section id="map" className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
