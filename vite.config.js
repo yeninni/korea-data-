@@ -78,6 +78,10 @@ function classifyAvailability(availableUnits, totalUnits) {
   return "Available";
 }
 
+function buildLockerMatchKey(item) {
+  return `${item?.stdgCd ?? ""}:${item?.stlckId ?? ""}`;
+}
+
 function mapCoordinates(lat, lon) {
   const x = Math.min(88, Math.max(10, 12 + ((lon - 126.75) / 0.32) * 76));
   const y = Math.min(84, Math.max(16, 84 - ((lat - 37.45) / 0.2) * 68));
@@ -94,14 +98,18 @@ function supportedLanguagesFromDetail(detail) {
   ].filter(Boolean);
 }
 
-function normalizeLocker(info, realtime, detail, index) {
+function normalizeLocker(info, realtime, detailEntries, index) {
   const lat = parseNumber(info.lat);
   const lon = parseNumber(info.lot);
+  const detail = detailEntries[0] ?? null;
   const availableLarge = parseNumber(realtime?.usePsbltyLrgszStlckCnt);
   const availableMedium = parseNumber(realtime?.usePsbltyMdmszStlckCnt);
   const availableSmall = parseNumber(realtime?.usePsbltySmlszStlckCnt);
-  const availableUnits = availableLarge + availableMedium + availableSmall;
-  const totalUnits = parseNumber(info.stlckCnt, availableUnits);
+  const rawAvailableUnits = availableLarge + availableMedium + availableSmall;
+  const totalUnits = parseNumber(info.stlckCnt, rawAvailableUnits);
+  const hasRealtimeCounts = [realtime?.usePsbltyLrgszStlckCnt, realtime?.usePsbltyMdmszStlckCnt, realtime?.usePsbltySmlszStlckCnt]
+    .some((value) => value !== undefined && value !== null && value !== "");
+  const availableUnits = hasRealtimeCounts ? Math.min(rawAvailableUnits, totalUnits) : 0;
   const landmark = nearestLandmark(lat, lon);
   const displayLandmark = getDisplayLandmark(info, landmark);
   const walkMinutes = Math.max(3, Math.min(18, Math.round((landmark?.distance ?? 0) * 4)));
@@ -118,13 +126,16 @@ function normalizeLocker(info, realtime, detail, index) {
     availableUnits,
     totalUnits,
     sizeAvailability: {
-      small: availableSmall,
-      medium: availableMedium,
-      large: availableLarge
+      small: hasRealtimeCounts ? Math.min(availableSmall, totalUnits) : null,
+      medium: hasRealtimeCounts ? Math.min(availableMedium, totalUnits) : null,
+      large: hasRealtimeCounts ? Math.min(availableLarge, totalUnits) : null
     },
     largeLuggage: availableLarge > 0 || detail?.stlckHgtExpln?.includes("대형"),
     price:
-      detail?.utztnCrgExpln?.split("\n").find((line) => line.includes("소형")) ||
+      detailEntries
+        .flatMap((entry) => entry?.utztnCrgExpln?.split("\n") ?? [])
+        .find((line) => line.includes("소형")) ||
+      detail?.utztnCrgExpln ||
       "요금 정보는 공공데이터 상세 API에서 확인하세요.",
     openHours: `${formatTime(info.wkdyOperBgngTm)}-${formatTime(info.wkdyOperEndTm)}`,
     nearbyLandmark: displayLandmark,
@@ -188,12 +199,36 @@ function publicLockerPlugin(env) {
             requestPublicData("locker_detail_info_v2", serviceKey, { numOfRows: "800" })
           ]);
 
+          const infoIdCounts = infoItems.reduce((counts, item) => {
+            counts.set(item.stlckId, (counts.get(item.stlckId) ?? 0) + 1);
+            return counts;
+          }, new Map());
           const realtimeById = new Map(realtimeItems.map((item) => [item.stlckId, item]));
-          const detailById = new Map(detailItems.map((item) => [item.stlckId, item]));
+          const realtimeByKey = new Map(realtimeItems.map((item) => [buildLockerMatchKey(item), item]));
+          const detailById = detailItems.reduce((grouped, item) => {
+            const current = grouped.get(item.stlckId) ?? [];
+            current.push(item);
+            grouped.set(item.stlckId, current);
+            return grouped;
+          }, new Map());
+          const detailByKey = detailItems.reduce((grouped, item) => {
+            const key = buildLockerMatchKey(item);
+            const current = grouped.get(key) ?? [];
+            current.push(item);
+            grouped.set(key, current);
+            return grouped;
+          }, new Map());
           const lockers = infoItems
-            .map((item, index) =>
-              normalizeLocker(item, realtimeById.get(item.stlckId), detailById.get(item.stlckId), index)
-            )
+            .map((item, index) => {
+              const matchKey = buildLockerMatchKey(item);
+              const hasDuplicateId = (infoIdCounts.get(item.stlckId) ?? 0) > 1;
+              const realtime =
+                realtimeByKey.get(matchKey) ?? (hasDuplicateId ? null : realtimeById.get(item.stlckId)) ?? null;
+              const detailEntries =
+                detailByKey.get(matchKey) ?? (hasDuplicateId ? [] : detailById.get(item.stlckId)) ?? [];
+
+              return normalizeLocker(item, realtime, detailEntries, index);
+            })
             .filter((locker) => locker.totalUnits > 0);
 
           response.setHeader("Content-Type", "application/json; charset=utf-8");

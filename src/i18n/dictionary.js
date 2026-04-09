@@ -130,6 +130,8 @@ export const dictionary = {
     zoomIn: "지도 확대",
     zoomOut: "지도 축소",
     moreSuffix: "외",
+    showMoreLockers: "더보기",
+    showLessLockers: "접기",
     noResults: "조건에 맞는 보관함이 없습니다. 다른 지역을 선택하거나 대형 짐 필터를 해제해 보세요.",
     regionNames: {
       "All Korea": "전국",
@@ -291,6 +293,8 @@ export const dictionary = {
     zoomIn: "Zoom in",
     zoomOut: "Zoom out",
     moreSuffix: "and more",
+    showMoreLockers: "Show more",
+    showLessLockers: "Show less",
     noResults: "No lockers match the current search. Try another area or turn off the large luggage filter.",
     regionNames: {
       "All Korea": "All Korea",
@@ -450,6 +454,8 @@ export const dictionary = {
     zoomIn: "放大地图",
     zoomOut: "缩小地图",
     moreSuffix: "等",
+    showMoreLockers: "查看更多",
+    showLessLockers: "收起",
     noResults: "当前条件下没有匹配的储物柜。请尝试其他区域或关闭大件行李筛选。",
     regionNames: {
       "All Korea": "韩国全境",
@@ -611,6 +617,8 @@ export const dictionary = {
     zoomIn: "地図を拡大",
     zoomOut: "地図を縮小",
     moreSuffix: "ほか",
+    showMoreLockers: "もっと見る",
+    showLessLockers: "閉じる",
     noResults: "条件に合うロッカーが見つかりません。別のエリアを選ぶか、大型荷物フィルターを解除してください。",
     regionNames: {
       "All Korea": "韓国全域",

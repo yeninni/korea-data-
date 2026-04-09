@@ -1,8 +1,39 @@
+import { useEffect, useMemo, useState } from "react";
 import FilterBar from "./FilterBar";
 import LockerCard from "./LockerCard";
 import LockerDetail from "./LockerDetail";
 import MockMap from "./MockMap";
 import { formatDistrict, formatLandmark, getCrowdingScore } from "../utils/lockerUtils";
+
+const SEOUL_FEATURED_GROUPS = [
+  {
+    id: "seoul-station",
+    matches: (locker) => locker.nearbyLandmark === "Seoul Station" || /서울역/.test(locker.name)
+  },
+  {
+    id: "myeongdong",
+    matches: (locker) => locker.nearbyLandmark === "Myeongdong" || /명동|을지로입구|을지로3가/.test(locker.name)
+  },
+  {
+    id: "hongdae",
+    matches: (locker) => locker.nearbyLandmark === "Hongdae" || /홍대입구|합정/.test(locker.name)
+  },
+  {
+    id: "dongdaemun",
+    matches: (locker) =>
+      locker.nearbyLandmark === "Dongdaemun" || /동대문|동대문역사문화공원|ddp/i.test(locker.name)
+  },
+  {
+    id: "gwanghwamun",
+    matches: (locker) => locker.nearbyLandmark === "Gwanghwamun" || /광화문|종각|시청/.test(locker.name)
+  },
+  {
+    id: "gangnam",
+    matches: (locker) =>
+      locker.nearbyLandmark === "강남구" ||
+      /강남|삼성|선릉|잠실|종합운동장/.test(`${locker.name} ${locker.district ?? ""}`)
+  }
+];
 
 function classifyAvailability(availableUnits, totalUnits) {
   if (availableUnits <= 0) return "Full";
@@ -87,6 +118,35 @@ function getRegionMapMarkers(regionSummaries, t) {
     .filter(Boolean);
 }
 
+function pickRepresentativeLocker(lockers) {
+  return [...lockers].sort((a, b) => {
+    return (
+      getCrowdingScore(a) - getCrowdingScore(b) ||
+      b.availableUnits - a.availableUnits ||
+      a.estimatedWalkMinutes - b.estimatedWalkMinutes
+    );
+  })[0] ?? null;
+}
+
+function getFeaturedSeoulLockers(lockers) {
+  const selected = [];
+  const usedIds = new Set();
+
+  SEOUL_FEATURED_GROUPS.forEach((group) => {
+    const chosen = pickRepresentativeLocker(
+      lockers.filter((locker) => !usedIds.has(locker.id) && group.matches(locker))
+    );
+
+    if (chosen) {
+      selected.push(chosen);
+      usedIds.add(chosen.id);
+    }
+  });
+
+  const remaining = lockers.filter((locker) => !usedIds.has(locker.id));
+  return [...selected, ...remaining].slice(0, 6);
+}
+
 function getDefaultDetailLocker(lockers) {
   return (
     lockers.find((locker) => locker.id === "locker-seoulstation-01") ||
@@ -112,9 +172,18 @@ export default function MapExplorer({
   selectedRegion,
   onRegionChange
 }) {
+  const [showAllSeoulLockers, setShowAllSeoulLockers] = useState(false);
   const regionSummaries = getRegionSummaries(mapLockers);
   const selectedRegionLabel = t.regionNames?.[selectedRegion] ?? selectedRegion;
   const hasFocusedResults = selectedRegion !== "All Korea" || lockers.length !== mapLockers.length;
+  const shouldCollapseSeoulLockers = selectedRegion === "Seoul" && lockers.length > 6;
+  const featuredSeoulLockers = useMemo(
+    () => (shouldCollapseSeoulLockers ? getFeaturedSeoulLockers(lockers) : lockers),
+    [lockers, shouldCollapseSeoulLockers]
+  );
+  const displayedLockerCards =
+    shouldCollapseSeoulLockers && !showAllSeoulLockers ? featuredSeoulLockers : lockers;
+  const hiddenSeoulLockerCount = Math.max(0, lockers.length - featuredSeoulLockers.length);
   const displayedMapLockers = hasFocusedResults ? lockers : getRegionMapMarkers(regionSummaries, t);
   const selectedMapLocker =
     displayedMapLockers.some((locker) => locker.id === selectedLocker?.id) ? selectedLocker : null;
@@ -124,6 +193,10 @@ export default function MapExplorer({
       ? selectedLocker
       : lockers[0] ?? null
     : defaultDetailLocker;
+
+  useEffect(() => {
+    setShowAllSeoulLockers(false);
+  }, [selectedRegion]);
 
   return (
     <section id="map" className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -207,8 +280,8 @@ export default function MapExplorer({
 
             {hasFocusedResults ? (
               <div className="grid gap-4 md:grid-cols-2">
-                {lockers.length > 0 ? (
-                  lockers.map((locker) => (
+                {displayedLockerCards.length > 0 ? (
+                  displayedLockerCards.map((locker) => (
                     <LockerCard
                       key={locker.id}
                       locker={locker}
@@ -221,6 +294,27 @@ export default function MapExplorer({
                   <div className="rounded-[1.75rem] bg-white p-6 font-soft text-slate-600 shadow-sm ring-1 ring-slate-200 md:col-span-2">
                     {t.noResults}
                   </div>
+                )}
+                {shouldCollapseSeoulLockers && !showAllSeoulLockers && hiddenSeoulLockerCount > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => setShowAllSeoulLockers(true)}
+                    className="focus-ring flex min-h-[250px] w-full flex-col items-center justify-center rounded-[1.75rem] bg-slate-50 p-6 text-center shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-0.5 hover:bg-white hover:shadow-civic"
+                  >
+                    <span className="font-display text-lg font-semibold text-slate-900">{t.showMoreLockers}</span>
+                    <span className="mt-2 font-soft text-sm text-slate-500">
+                      {fillTemplate(t.lockersCount, { count: hiddenSeoulLockerCount })}
+                    </span>
+                  </button>
+                )}
+                {shouldCollapseSeoulLockers && showAllSeoulLockers && (
+                  <button
+                    type="button"
+                    onClick={() => setShowAllSeoulLockers(false)}
+                    className="focus-ring rounded-[1.75rem] bg-slate-50 p-5 text-center font-display font-semibold text-civic-700 shadow-sm ring-1 ring-slate-200 transition hover:bg-white hover:shadow-civic md:col-span-2"
+                  >
+                    {t.showLessLockers}
+                  </button>
                 )}
               </div>
             ) : (
