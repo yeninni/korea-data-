@@ -69,7 +69,8 @@ const localizedLockerNames = {
     "Jeju Airport Arrival Locker": "제주공항 도착층 물품보관함",
     "Gyeongju Historic Area Locker": "경주 역사관광지 물품보관함",
     "Dongdaegu Station Public Locker": "동대구역 공영 물품보관함",
-    "Gangneung Station Easy Locker": "강릉역 간편 물품보관함"
+    "Gangneung Station Easy Locker": "강릉역 간편 물품보관함",
+    "Suwon Convention Center Locker": "수원컨벤션센터 물품보관함"
   },
   zh: {
     "Gwanghwamun Public Locker Center": "光化门公共储物柜",
@@ -83,7 +84,8 @@ const localizedLockerNames = {
     "Jeju Airport Arrival Locker": "济州机场到达层储物柜",
     "Gyeongju Historic Area Locker": "庆州历史景区储物柜",
     "Dongdaegu Station Public Locker": "东大邱站公共储物柜",
-    "Gangneung Station Easy Locker": "江陵站储物柜"
+    "Gangneung Station Easy Locker": "江陵站储物柜",
+    "Suwon Convention Center Locker": "水原会展中心储物柜"
   },
   ja: {
     "Gwanghwamun Public Locker Center": "光化門 公共ロッカー",
@@ -97,7 +99,8 @@ const localizedLockerNames = {
     "Jeju Airport Arrival Locker": "済州空港 到着階ロッカー",
     "Gyeongju Historic Area Locker": "慶州 歴史観光地ロッカー",
     "Dongdaegu Station Public Locker": "東大邱駅 公共ロッカー",
-    "Gangneung Station Easy Locker": "江陵駅 かんたんロッカー"
+    "Gangneung Station Easy Locker": "江陵駅 かんたんロッカー",
+    "Suwon Convention Center Locker": "水原コンベンションセンター ロッカー"
   }
 };
 
@@ -113,7 +116,8 @@ const localizedDistricts = {
     "Jeju-si": "제주시",
     "Gyeongju-si": "경주시",
     "Dong-gu, Daegu": "대구 동구",
-    "Gangneung-si": "강릉시"
+    "Gangneung-si": "강릉시",
+    "Yeongtong-gu, Suwon": "수원시 영통구"
   },
   zh: {
     "Jongno-gu": "钟路区",
@@ -126,7 +130,8 @@ const localizedDistricts = {
     "Jeju-si": "济州市",
     "Gyeongju-si": "庆州市",
     "Dong-gu, Daegu": "大邱东区",
-    "Gangneung-si": "江陵市"
+    "Gangneung-si": "江陵市",
+    "Yeongtong-gu, Suwon": "水原市灵通区"
   },
   ja: {
     "Jongno-gu": "鍾路区",
@@ -139,7 +144,8 @@ const localizedDistricts = {
     "Jeju-si": "済州市",
     "Gyeongju-si": "慶州市",
     "Dong-gu, Daegu": "大邱 東区",
-    "Gangneung-si": "江陵市"
+    "Gangneung-si": "江陵市",
+    "Yeongtong-gu, Suwon": "水原市 霊通区"
   }
 };
 
@@ -156,7 +162,8 @@ const localizedAddresses = {
     "Jeju International Airport Arrival Hall, Jeju": "제주국제공항 도착층",
     "Hwangnidan-gil Tourist Information Area, Gyeongju": "경주 황리단길 관광안내 구역",
     "Dongdaegu Station Transfer Center, Dong-gu, Daegu": "대구 동구 동대구역 환승센터",
-    "Gangneung Station Tourist Zone, Gangneung": "강릉역 관광안내 구역"
+    "Gangneung Station Tourist Zone, Gangneung": "강릉역 관광안내 구역",
+    "Suwon Convention Center, Gwanggyo Lake Park-ro, Suwon": "수원컨벤션센터, 광교호수공원로"
   },
   zh: {
     "172 Sejong-daero, Jongno-gu, Seoul": "首尔钟路区世宗大路172",
@@ -170,7 +177,8 @@ const localizedAddresses = {
     "Jeju International Airport Arrival Hall, Jeju": "济州国际机场到达层",
     "Hwangnidan-gil Tourist Information Area, Gyeongju": "庆州皇理团路旅游咨询区",
     "Dongdaegu Station Transfer Center, Dong-gu, Daegu": "大邱东区东大邱站换乘中心",
-    "Gangneung Station Tourist Zone, Gangneung": "江陵站旅游咨询区"
+    "Gangneung Station Tourist Zone, Gangneung": "江陵站旅游咨询区",
+    "Suwon Convention Center, Gwanggyo Lake Park-ro, Suwon": "水原会展中心，光教湖水公园路"
   },
   ja: {
     "172 Sejong-daero, Jongno-gu, Seoul": "ソウル 鍾路区 世宗大路 172",
@@ -184,7 +192,8 @@ const localizedAddresses = {
     "Jeju International Airport Arrival Hall, Jeju": "済州国際空港 到着階",
     "Hwangnidan-gil Tourist Information Area, Gyeongju": "慶州 皇理団通り 観光案内エリア",
     "Dongdaegu Station Transfer Center, Dong-gu, Daegu": "大邱 東区 東大邱駅 乗換センター",
-    "Gangneung Station Tourist Zone, Gangneung": "江陵駅 観光案内エリア"
+    "Gangneung Station Tourist Zone, Gangneung": "江陵駅 観光案内エリア",
+    "Suwon Convention Center, Gwanggyo Lake Park-ro, Suwon": "水原コンベンションセンター、光教湖水公園路"
   }
 };
 
@@ -201,7 +210,8 @@ const localizedBusStops = {
     "Jeju International Airport": "제주국제공항",
     "Daereungwon Tomb Complex": "대릉원",
     "Dongdaegu Station Transfer Center": "동대구역 환승센터",
-    "Gangneung Station": "강릉역"
+    "Gangneung Station": "강릉역",
+    "Suwon Convention Center": "수원컨벤션센터"
   },
   zh: {
     "Gwanghwamun Square": "光化门广场",
@@ -215,7 +225,8 @@ const localizedBusStops = {
     "Jeju International Airport": "济州国际机场",
     "Daereungwon Tomb Complex": "大陵苑",
     "Dongdaegu Station Transfer Center": "东大邱站换乘中心",
-    "Gangneung Station": "江陵站"
+    "Gangneung Station": "江陵站",
+    "Suwon Convention Center": "水原会展中心"
   },
   ja: {
     "Gwanghwamun Square": "光化門広場",
@@ -229,7 +240,8 @@ const localizedBusStops = {
     "Jeju International Airport": "済州国際空港",
     "Daereungwon Tomb Complex": "大陵苑",
     "Dongdaegu Station Transfer Center": "東大邱駅 乗換センター",
-    "Gangneung Station": "江陵駅"
+    "Gangneung Station": "江陵駅",
+    "Suwon Convention Center": "水原コンベンションセンター"
   }
 };
 

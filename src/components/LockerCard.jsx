@@ -1,14 +1,14 @@
 import Icon from "./Icon";
 import StatusBadge from "./StatusBadge";
-import {
-  formatDistrict,
-  formatDuration,
-  formatLandmark,
-  formatLockerName,
-  getLanguageLabel
-} from "../utils/lockerUtils";
+import { formatDistrict, formatDuration, formatLandmark, formatLockerName } from "../utils/lockerUtils";
 
 export default function LockerCard({ locker, t, selected, onSelect }) {
+  const landmarkLabel = formatLandmark(locker.nearbyLandmark, t);
+  const districtLabel = formatDistrict(locker.district, t);
+  const metaLabel = districtLabel && districtLabel !== landmarkLabel
+    ? `${landmarkLabel} · ${districtLabel}`
+    : landmarkLabel;
+
   return (
     <button
       type="button"
@@ -22,9 +22,7 @@ export default function LockerCard({ locker, t, selected, onSelect }) {
           <h3 className="font-display font-bold text-xl tracking-tight text-slate-950">
             {formatLockerName(locker, t)}
           </h3>
-          <p className="mt-1 font-soft text-sm text-slate-500">
-            {formatLandmark(locker.nearbyLandmark, t)} · {formatDistrict(locker.district, t)}
-          </p>
+          <p className="mt-1 font-soft text-sm text-slate-500">{metaLabel}</p>
         </div>
         <StatusBadge status={locker.availabilityStatus} t={t} />
       </div>
@@ -50,22 +48,14 @@ export default function LockerCard({ locker, t, selected, onSelect }) {
         </div>
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-2">
-        {locker.largeLuggage && (
+      {locker.largeLuggage && (
+        <div className="mt-4 flex flex-wrap gap-2">
           <span className="inline-flex items-center gap-1 rounded-full bg-transit-400/10 px-3 py-1 font-display text-xs font-semibold text-transit-500">
             <Icon name="luggage" className="h-4 w-4" />
             {t.largeLuggage}
           </span>
-        )}
-        {locker.supportedLanguages.map((language) => (
-          <span
-            key={language}
-            className="rounded-full bg-slate-100 px-3 py-1 font-display text-xs font-semibold text-slate-600"
-          >
-            {getLanguageLabel(language, t)}
-          </span>
-        ))}
-      </div>
+        </div>
+      )}
     </button>
   );
 }

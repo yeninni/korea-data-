@@ -1,16 +1,49 @@
 import { lockers as mockLockers } from "../data/lockers";
 
+function withMockSizeAvailability(locker) {
+  if (locker.sizeAvailability) {
+    return locker;
+  }
+
+  const baseTotal = Math.max(locker.availableUnits, 3);
+  const small = Math.max(1, Math.round(baseTotal * 0.4));
+  const medium = Math.max(0, Math.round(baseTotal * 0.35));
+  const remaining = Math.max(0, locker.availableUnits - small - medium);
+  const large = locker.largeLuggage ? Math.max(1, remaining) : 0;
+
+  const adjustedSmall = Math.min(small, locker.availableUnits);
+  const adjustedMedium = Math.min(medium, Math.max(0, locker.availableUnits - adjustedSmall));
+  const adjustedLarge = Math.max(0, locker.availableUnits - adjustedSmall - adjustedMedium);
+
+  return {
+    ...locker,
+    sizeAvailability: {
+      small: adjustedSmall,
+      medium: adjustedMedium,
+      large: locker.largeLuggage ? adjustedLarge : 0
+    }
+  };
+}
+
 function mergeDemoCoverage(liveLockers) {
   const existingLandmarks = new Set(liveLockers.map((locker) => locker.nearbyLandmark));
+  const hasLiveGyeonggi = liveLockers.some((locker) => locker.region === "Gyeonggi");
   const supplementalLockers = mockLockers
+    .filter((locker) => {
+      if (locker.region === "Gyeonggi") {
+        return !hasLiveGyeonggi;
+      }
+
+      return true;
+    })
     .filter((locker) => !existingLandmarks.has(locker.nearbyLandmark))
     .map((locker) => ({
-      ...locker,
+      ...withMockSizeAvailability(locker),
       id: `demo-${locker.id}`,
       mode: "demo"
     }));
 
-  return [...liveLockers, ...supplementalLockers];
+  return [...liveLockers.map(withMockSizeAvailability), ...supplementalLockers];
 }
 
 export async function fetchLockerStatus() {
@@ -40,7 +73,7 @@ export function getMockLockerPayload() {
   return {
     mode: "mock",
     source: "demo fallback",
-    lockers: mockLockers,
+    lockers: mockLockers.map(withMockSizeAvailability),
     retrievedAt: new Date().toISOString()
   };
 }

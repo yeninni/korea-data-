@@ -23,6 +23,7 @@ export default function App() {
   const [sortMode, setSortMode] = useState("nearest");
   const [largeOnly, setLargeOnly] = useState(false);
   const [selectedLockerId, setSelectedLockerId] = useState("locker-gwanghwamun-01");
+  const [focusedLockerId, setFocusedLockerId] = useState(null);
   const [lockerPayload, setLockerPayload] = useState(getMockLockerPayload);
   const [dataStatus, setDataStatus] = useState("liveDataStatus");
   const [currentLocation, setCurrentLocation] = useState(null);
@@ -41,12 +42,14 @@ export default function App() {
         setLockerPayload(payload);
         setDataStatus("liveDataStatus");
         setSelectedLockerId(payload.lockers[0]?.id ?? "locker-gwanghwamun-01");
+        setFocusedLockerId(null);
         setSelectedRegion("All Korea");
         setSelectedLandmark("");
       })
       .catch(() => {
         if (ignore) return;
-        setLockerPayload(getMockLockerPayload());
+        const fallbackPayload = getMockLockerPayload();
+        setLockerPayload(fallbackPayload);
         setDataStatus("liveDataStatus");
       });
 
@@ -126,7 +129,7 @@ export default function App() {
       }));
 
     return [...regionSuggestions, ...lockerSuggestions].slice(0, 8);
-  }, [currentLocation, lockerData, query, regions, sortMode, t]);
+  }, [currentLocation, lockerData, query, sortMode, t]);
 
   function scrollToMap() {
     window.setTimeout(() => {
@@ -165,6 +168,7 @@ export default function App() {
 
         if (nearestLocker) {
           setSelectedLockerId(nearestLocker.id);
+          setFocusedLockerId(nearestLocker.id);
         }
 
         scrollToMap();
@@ -185,6 +189,7 @@ export default function App() {
     if (value.trim()) {
       setSelectedRegion("All Korea");
       setSelectedLandmark("");
+      setFocusedLockerId(null);
     }
   }
 
@@ -214,6 +219,7 @@ export default function App() {
     const locker = lockerData.find((item) => item.nearbyLandmark === landmark);
     if (locker) {
       setSelectedLockerId(locker.id);
+      setFocusedLockerId(locker.id);
       setSelectedRegion(locker.region ?? "All Korea");
       scrollToMap();
     }
@@ -223,6 +229,7 @@ export default function App() {
     setSelectedRegion(region);
     setQuery("");
     setSelectedLandmark("");
+    setFocusedLockerId(null);
     const locker = lockerData.find((item) => region === "All Korea" || item.region === region);
     if (locker) {
       setSelectedLockerId(locker.id);
@@ -232,6 +239,7 @@ export default function App() {
 
   function handleSelectLocker(locker) {
     setSelectedLockerId(locker.id);
+    setFocusedLockerId(locker.id);
     setSelectedRegion(locker.region ?? "All Korea");
     setSelectedLandmark(locker.nearbyLandmark ?? "");
     setQuery("");
@@ -259,14 +267,17 @@ export default function App() {
       />
       <MapExplorer
         t={t}
-        language={language}
         lockers={filteredLockers}
+        mapLockers={lockerData}
         selectedLocker={selectedLocker}
+        focusedLockerId={focusedLockerId}
         onSelectLocker={handleSelectLocker}
         sortMode={sortMode}
         onSortModeChange={setSortMode}
         largeOnly={largeOnly}
         onLargeOnlyChange={setLargeOnly}
+        selectedRegion={selectedRegion}
+        onRegionChange={handleRegionChange}
         currentLocation={currentLocation}
         onUseLocation={handleUseLocation}
         locationStatus={locationStatus}

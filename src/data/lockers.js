@@ -310,6 +310,32 @@ export const lockers = [
       { route: "315", minutes: 10 }
     ],
     coordinatesOnMap: { x: 74, y: 22 }
+  },
+  {
+    id: "locker-suwon-01",
+    name: "Suwon Convention Center Locker",
+    region: "Gyeonggi",
+    district: "Yeongtong-gu, Suwon",
+    address: "Suwon Convention Center, Gwanggyo Lake Park-ro, Suwon",
+    latitude: 37.2851,
+    longitude: 127.0572,
+    availabilityStatus: "Available",
+    availableUnits: 17,
+    totalUnits: 36,
+    largeLuggage: true,
+    price: "Small 2,000 KRW / Medium 3,000 KRW / Large 5,000 KRW",
+    openHours: "06:00-23:00",
+    nearbyLandmark: "수원시",
+    nearestBusStop: "Suwon Convention Center",
+    estimatedWalkMinutes: 4,
+    estimatedBusMinutes: 8,
+    supportedLanguages: ["ko", "en", "zh"],
+    busRoutes: ["5-4", "80", "670"],
+    nextBuses: [
+      { route: "80", minutes: 4 },
+      { route: "670", minutes: 9 }
+    ],
+    coordinatesOnMap: { x: 57, y: 58 }
   }
 ];
 
@@ -325,7 +351,8 @@ export const landmarks = [
   "Jeju Airport",
   "Hwangnidan-gil",
   "Dongdaegu Station",
-  "Gangneung Station"
+  "Gangneung Station",
+  "수원시"
 ];
 
 export const regions = [

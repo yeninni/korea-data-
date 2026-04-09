@@ -61,6 +61,11 @@ export const dictionary = {
     backToNational: "전국 지도로 돌아가기",
     regionalMapHint: "지역을 확대한 데모 지도입니다. 관광거점 마커를 선택해 보관함을 확인하세요.",
     detailTitle: "보관함 상세 정보",
+    detailEmptyTitle: "상세 정보를 준비하고 있어요",
+    detailEmptyDescription: "지도 마커나 보관함 카드를 선택하면 오른쪽에 상세 정보가 표시됩니다.",
+    detailSelectRegionDescription: "먼저 지역을 선택하면 오른쪽에 해당 보관함의 상세 정보가 표시됩니다.",
+    detailSelectLockerHint: "보관함이나 지도 마커를 선택해 주세요.",
+    detailSelectRegionHint: "지역을 선택하시면 상세 정보가 열립니다.",
     directions: "여기로 가는 길",
     recommendedAlternative: "대체 보관함 추천",
     nearbyBusInfo: "주변 버스 정보",
@@ -105,6 +110,11 @@ export const dictionary = {
     price: "요금",
     openHours: "운영시간",
     languages: "언어",
+    sizeAvailabilityTitle: "사이즈별 남은 칸",
+    sizeAvailabilityHint: "소형, 중형, 대형 칸을 선택해 확인할 수 있어요.",
+    sizeRemainingCount: "{size} {count}칸",
+    sizeAvailabilityDescription: "{size} 칸은 현재 {count}칸 남아 있습니다.",
+    sizeAvailabilityUnavailable: "사이즈별 남은 칸 정보는 아직 제공되지 않습니다.",
     walk: "도보",
     bus: "버스",
     minuteSuffix: "분",
@@ -119,6 +129,9 @@ export const dictionary = {
     mapErrorDetail: "잠시 후 다시 시도해 주세요.",
     zoomIn: "지도 확대",
     zoomOut: "지도 축소",
+    moreSuffix: "외",
+    showMoreLockers: "더보기",
+    showLessLockers: "접기",
     noResults: "조건에 맞는 보관함이 없습니다. 다른 지역을 선택하거나 대형 짐 필터를 해제해 보세요.",
     regionNames: {
       "All Korea": "전국",
@@ -149,7 +162,11 @@ export const dictionary = {
       "Hwangnidan-gil": "황리단길",
       "Dongdaegu Station": "동대구역",
       "Gangneung Station": "강릉역",
-      "수원시": "수원시"
+      "수원시": "수원시",
+      "광명시": "광명시",
+      "성남시": "성남시",
+      "고양시": "고양시",
+      "구리시": "구리시"
     }
   },
   en: {
@@ -207,6 +224,11 @@ export const dictionary = {
     backToNational: "Back to national map",
     regionalMapHint: "This demo zooms into the selected region. Select a tourist hub marker to view lockers.",
     detailTitle: "Locker details",
+    detailEmptyTitle: "Details will appear here",
+    detailEmptyDescription: "Select a map marker or locker card to show the details in the panel.",
+    detailSelectRegionDescription: "Choose a region first to open locker details in the right panel.",
+    detailSelectLockerHint: "Select a locker card or map marker.",
+    detailSelectRegionHint: "Choose a region to open the detail panel.",
     directions: "Get directions",
     recommendedAlternative: "Recommended alternative",
     nearbyBusInfo: "Nearby bus info",
@@ -251,6 +273,11 @@ export const dictionary = {
     price: "Price",
     openHours: "Open hours",
     languages: "Languages",
+    sizeAvailabilityTitle: "Available units by size",
+    sizeAvailabilityHint: "Choose small, medium, or large to check the remaining units.",
+    sizeRemainingCount: "{size} {count}",
+    sizeAvailabilityDescription: "{count} {size} units are currently available.",
+    sizeAvailabilityUnavailable: "Size-specific availability is not available yet.",
     walk: "Walk",
     bus: "Bus",
     minuteSuffix: "m",
@@ -265,6 +292,9 @@ export const dictionary = {
     mapErrorDetail: "Please try again in a moment.",
     zoomIn: "Zoom in",
     zoomOut: "Zoom out",
+    moreSuffix: "and more",
+    showMoreLockers: "Show more",
+    showLessLockers: "Show less",
     noResults: "No lockers match the current search. Try another area or turn off the large luggage filter.",
     regionNames: {
       "All Korea": "All Korea",
@@ -295,7 +325,11 @@ export const dictionary = {
       "Hwangnidan-gil": "Hwangnidan-gil",
       "Dongdaegu Station": "Dongdaegu Station",
       "Gangneung Station": "Gangneung Station",
-      "수원시": "Suwon"
+      "수원시": "Suwon",
+      "광명시": "Gwangmyeong",
+      "성남시": "Seongnam",
+      "고양시": "Goyang",
+      "구리시": "Guri"
     }
   },
   zh: {
@@ -352,6 +386,11 @@ export const dictionary = {
     backToNational: "返回全国地图",
     regionalMapHint: "这是所选地区的放大示意图。请选择热门区域标记查看储物柜。",
     detailTitle: "储物柜详情",
+    detailEmptyTitle: "详细信息将在这里显示",
+    detailEmptyDescription: "选择地图标记或储物柜卡片后，右侧会显示详细信息。",
+    detailSelectRegionDescription: "请先选择地区，右侧将显示该储物柜的详细信息。",
+    detailSelectLockerHint: "请选择储物柜卡片或地图标记。",
+    detailSelectRegionHint: "选择地区后即可打开详细信息面板。",
     directions: "路线导航",
     recommendedAlternative: "推荐其他可选点位",
     nearbyBusInfo: "附近公共交通信息",
@@ -395,6 +434,11 @@ export const dictionary = {
     price: "价格",
     openHours: "营业时间",
     languages: "语言",
+    sizeAvailabilityTitle: "按尺寸查看剩余储物柜",
+    sizeAvailabilityHint: "可切换查看小型、中型和大型剩余数量。",
+    sizeRemainingCount: "{size} {count}",
+    sizeAvailabilityDescription: "{size} 当前剩余 {count} 个。",
+    sizeAvailabilityUnavailable: "暂不提供按尺寸区分的剩余数量。",
     walk: "步行",
     bus: "公共交通",
     minuteSuffix: "分",
@@ -409,6 +453,9 @@ export const dictionary = {
     mapErrorDetail: "请稍后再试。",
     zoomIn: "放大地图",
     zoomOut: "缩小地图",
+    moreSuffix: "等",
+    showMoreLockers: "查看更多",
+    showLessLockers: "收起",
     noResults: "当前条件下没有匹配的储物柜。请尝试其他区域或关闭大件行李筛选。",
     regionNames: {
       "All Korea": "韩国全境",
@@ -439,7 +486,11 @@ export const dictionary = {
       "Hwangnidan-gil": "皇理团路",
       "Dongdaegu Station": "东大邱站",
       "Gangneung Station": "江陵站",
-      "수원시": "水原市"
+      "수원시": "水原市",
+      "광명시": "光明市",
+      "성남시": "城南市",
+      "고양시": "高阳市",
+      "구리시": "九里市"
     }
   },
   ja: {
@@ -497,6 +548,11 @@ export const dictionary = {
     backToNational: "全国マップに戻る",
     regionalMapHint: "選択したエリアを拡大したデモ地図です。観光エリアのマーカーからロッカーを確認できます。",
     detailTitle: "ロッカー詳細",
+    detailEmptyTitle: "詳細情報はここに表示されます",
+    detailEmptyDescription: "地図マーカーまたはロッカーカードを選ぶと、右側に詳細情報が表示されます。",
+    detailSelectRegionDescription: "まずエリアを選ぶと、右側にロッカーの詳細情報が表示されます。",
+    detailSelectLockerHint: "ロッカーカードまたは地図マーカーを選んでください。",
+    detailSelectRegionHint: "エリアを選ぶと詳細パネルが開きます。",
     directions: "ここへ行く",
     recommendedAlternative: "代替候補",
     nearbyBusInfo: "近くのバス情報",
@@ -541,6 +597,11 @@ export const dictionary = {
     price: "料金",
     openHours: "営業時間",
     languages: "言語",
+    sizeAvailabilityTitle: "サイズ別の空き数",
+    sizeAvailabilityHint: "小型・中型・大型を選んで空き数を確認できます。",
+    sizeRemainingCount: "{size} {count}",
+    sizeAvailabilityDescription: "{size} は現在 {count} 個空いています。",
+    sizeAvailabilityUnavailable: "サイズ別の空き数情報はまだ提供されていません。",
     walk: "徒歩",
     bus: "バス",
     minuteSuffix: "分",
@@ -555,6 +616,9 @@ export const dictionary = {
     mapErrorDetail: "少し時間をおいて再度お試しください。",
     zoomIn: "地図を拡大",
     zoomOut: "地図を縮小",
+    moreSuffix: "ほか",
+    showMoreLockers: "もっと見る",
+    showLessLockers: "閉じる",
     noResults: "条件に合うロッカーが見つかりません。別のエリアを選ぶか、大型荷物フィルターを解除してください。",
     regionNames: {
       "All Korea": "韓国全域",
@@ -585,7 +649,11 @@ export const dictionary = {
       "Hwangnidan-gil": "皇理団通り",
       "Dongdaegu Station": "東大邱駅",
       "Gangneung Station": "江陵駅",
-      "수원시": "水原市"
+      "수원시": "水原市",
+      "광명시": "光明市",
+      "성남시": "城南市",
+      "고양시": "高陽市",
+      "구리시": "九里市"
     }
   }
 };
