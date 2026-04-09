@@ -74,16 +74,16 @@ const localizedLockerNames = {
   zh: {
     "Gwanghwamun Public Locker Center": "光化门公共储物柜",
     "Myeongdong Station Smart Locker": "明洞站智能储物柜",
-    "Seoul Station Travel Locker": "首尔站旅行者储物柜",
-    "Hongdae Tourist Locker": "弘大旅游储物柜",
+    "Seoul Station Travel Locker": "首尔站旅客储物柜",
+    "Hongdae Tourist Locker": "弘大游客储物柜",
     "Dongdaemun Design Plaza Locker": "东大门设计广场储物柜",
     "Incheon Airport Public Storage Desk": "仁川机场公共行李寄存处",
-    "Busan Station Tourist Locker": "釜山站旅游储物柜",
+    "Busan Station Tourist Locker": "釜山站游客储物柜",
     "Haeundae Beach Public Locker": "海云台海水浴场公共储物柜",
     "Jeju Airport Arrival Locker": "济州机场到达层储物柜",
     "Gyeongju Historic Area Locker": "庆州历史景区储物柜",
     "Dongdaegu Station Public Locker": "东大邱站公共储物柜",
-    "Gangneung Station Easy Locker": "江陵站便捷储物柜"
+    "Gangneung Station Easy Locker": "江陵站储物柜"
   },
   ja: {
     "Gwanghwamun Public Locker Center": "光化門 公共ロッカー",
@@ -206,7 +206,7 @@ const localizedBusStops = {
   zh: {
     "Gwanghwamun Square": "光化门广场",
     "Myeongdong Entrance": "明洞入口",
-    "Seoul Station Bus Transfer Center": "首尔站公交换乘中心",
+    "Seoul Station Bus Transfer Center": "首尔站公共交通换乘中心",
     "Hongik University Station": "弘大入口站",
     "Dongdaemun Design Plaza": "东大门设计广场",
     "Incheon Airport T1": "仁川机场 T1",
@@ -254,7 +254,7 @@ const localizedPrices = {
     "Small 2,000 KRW / Medium 3,000 KRW": "小型 2,000韩元 / 中型 3,000韩元",
     "Small 4,000 KRW / Large 8,000 KRW": "小型 4,000韩元 / 大型 8,000韩元",
     "Small 3,000 KRW / Large 6,000 KRW": "小型 3,000韩元 / 大型 6,000韩元",
-    "요금 정보는 공공데이터 상세 API에서 확인하세요.": "费用信息请在公共数据详细 API 中查看。"
+    "요금 정보는 공공데이터 상세 API에서 확인하세요.": "费用信息请以公共数据详情 API 为准。"
   },
   ja: {
     "Small 2,000 KRW / Large 4,000 KRW": "小型 2,000ウォン / 大型 4,000ウォン",
@@ -290,7 +290,7 @@ const localizedBusRouteLabels = {
     Transfer: "환승"
   },
   zh: {
-    "Public bus": "公交",
+    "Public bus": "公共交通",
     Transfer: "换乘"
   },
   ja: {
@@ -370,7 +370,7 @@ const chineseTextReplacements = [
   ["홍대입구역", "弘大入口站"],
   ["명동역", "明洞站"],
   ["동대문디자인플라자", "东大门设计广场"],
-  ["서울역버스환승센터", "首尔站公交换乘中心"],
+  ["서울역버스환승센터", "首尔站公共交通换乘中心"],
   ["동대구역 환승센터", "东大邱站换乘中心"],
   ["환승센터", "换乘中心"],
   ["환승통로", "换乘通道"],
@@ -391,7 +391,7 @@ const chineseTextReplacements = [
   ["도착층", "到达层"],
   ["광장", "广场"],
   ["입구", "入口"],
-  ["인근 정류장", "周边站点"],
+  ["인근 정류장", "附近站点"],
   ["제1터미널", "第1航站楼"],
   ["서울역", "首尔站"],
   ["인천공항", "仁川机场"],
@@ -509,7 +509,7 @@ export function formatBusStop(value, t) {
     const localizedBase = formatLandmark(baseName, t);
 
     if (t.locale === "ko") return `${localizedBase} 인근 정류장`;
-    if (t.locale === "zh") return `${localizedBase} 周边站点`;
+    if (t.locale === "zh") return `${localizedBase} 附近站点`;
     if (t.locale === "ja") return `${localizedBase} 周辺の停留所`;
     return `${localizedBase} area stop`;
   }
@@ -582,8 +582,7 @@ export function matchesSearch(locker, query) {
     ...(searchAliases[locker.region] ?? []),
     ...(searchAliases[locker.nearbyLandmark] ?? [])
   ];
-
-  return [
+  const searchCorpus = [
     locker.name,
     locker.region,
     locker.district,
@@ -593,8 +592,23 @@ export function matchesSearch(locker, query) {
     ...aliases
   ]
     .join(" ")
-    .toLowerCase()
-    .includes(normalized);
+    .toLowerCase();
+
+  if (searchCorpus.includes(normalized)) {
+    return true;
+  }
+
+  if (aliases.some((alias) => normalized.includes(alias.toLowerCase()))) {
+    return true;
+  }
+
+  const tokens = normalized
+    .split(/[\s,./!?()\-_:;]+/)
+    .map((token) => token.trim())
+    .filter(Boolean)
+    .filter((token) => token.length >= 2);
+
+  return tokens.some((token) => searchCorpus.includes(token));
 }
 
 export function sortLockers(lockers, sortMode) {
