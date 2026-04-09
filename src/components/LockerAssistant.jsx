@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { formatBusStop, formatLockerName, getCrowdingScore } from "../utils/lockerUtils";
+import RobotMascot from "./RobotMascot";
+import { formatBusStop, formatLockerName, getCrowdingScore, matchesSearch } from "../utils/lockerUtils";
 
 const quickQuestions = [
   { id: "large", labelKey: "assistantQuickLarge" },
@@ -30,7 +31,7 @@ function inferQuestionType(question) {
     return "large";
   }
 
-  if (/bus|버스|バス|公交/.test(normalized)) {
+  if (/bus|버스|バス|公交|公共交通/.test(normalized)) {
     return "bus";
   }
 
@@ -41,29 +42,59 @@ function inferQuestionType(question) {
   return "nearest";
 }
 
-function getRecommendation(type, lockers, selectedLocker) {
+function getFocusedPool(lockers, selectedLocker, question) {
   const availableLockers = lockers.filter((locker) => locker.availabilityStatus !== "Full");
   const searchPool = availableLockers.length > 0 ? availableLockers : lockers;
+  const trimmedQuestion = question.trim();
+  const directQuestionMatches = trimmedQuestion
+    ? searchPool.filter((locker) => matchesSearch(locker, trimmedQuestion))
+    : [];
+  const sameLandmarkPool =
+    selectedLocker && searchPool.some((locker) => locker.nearbyLandmark === selectedLocker.nearbyLandmark)
+      ? searchPool.filter((locker) => locker.nearbyLandmark === selectedLocker.nearbyLandmark)
+      : [];
   const sameRegionPool =
     selectedLocker && searchPool.some((locker) => locker.region === selectedLocker.region)
       ? searchPool.filter((locker) => locker.region === selectedLocker.region)
       : searchPool;
 
+  if (directQuestionMatches.length > 0) return directQuestionMatches;
+  if (sameLandmarkPool.length > 0) return sameLandmarkPool;
+  return sameRegionPool;
+}
+
+function getRecommendation(type, lockers, selectedLocker, question = "") {
+  const searchPool = getFocusedPool(lockers, selectedLocker, question);
+
   if (type === "large") {
-    return sortByAvailability(sameRegionPool.filter((locker) => locker.largeLuggage))[0] ?? null;
+    const largePool = searchPool.filter((locker) => locker.largeLuggage);
+    if (largePool.length > 0) {
+      return sortByAvailability(largePool)[0] ?? null;
+    }
+
+    return sortByAvailability(lockers.filter((locker) => locker.largeLuggage))[0] ?? null;
   }
 
   if (type === "bus") {
-    return [...sameRegionPool].sort((a, b) => a.estimatedBusMinutes - b.estimatedBusMinutes)[0] ?? null;
+    return [...searchPool].sort((a, b) => a.estimatedBusMinutes - b.estimatedBusMinutes)[0] ?? null;
   }
 
   if (type === "alternative") {
-    return sortByAvailability(
-      sameRegionPool.filter((locker) => locker.id !== selectedLocker?.id)
-    )[0] ?? null;
+    const alternativePool = searchPool.filter((locker) => locker.id !== selectedLocker?.id);
+    if (alternativePool.length > 0) {
+      return sortByAvailability(alternativePool)[0] ?? null;
+    }
+
+    return (
+      sortByAvailability(
+        lockers
+          .filter((locker) => locker.availabilityStatus !== "Full")
+          .filter((locker) => locker.id !== selectedLocker?.id)
+      )[0] ?? null
+    );
   }
 
-  return [...sameRegionPool].sort((a, b) => a.estimatedWalkMinutes - b.estimatedWalkMinutes)[0] ?? null;
+  return [...searchPool].sort((a, b) => a.estimatedWalkMinutes - b.estimatedWalkMinutes)[0] ?? null;
 }
 
 function buildAnswer(type, locker, t) {
@@ -116,7 +147,7 @@ export default function LockerAssistant({ t, lockers, selectedLocker, onSelectLo
   }, [t]);
 
   function askAssistant(type, label) {
-    const recommendedLocker = getRecommendation(type, lockers, selectedLocker);
+    const recommendedLocker = getRecommendation(type, lockers, selectedLocker, label);
     const nextMessages = [
       {
         id: `user-${Date.now()}`,
@@ -151,6 +182,9 @@ export default function LockerAssistant({ t, lockers, selectedLocker, onSelectLo
     <section id="tourist" className="bg-white py-14">
       <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:px-8">
         <div className="rounded-[2rem] bg-civic-900 p-6 text-white shadow-civic">
+          <div className="mb-6">
+            <RobotMascot message={t.assistantMascotGreeting ?? t.assistantInitial} />
+          </div>
           <p className="font-soft text-sm uppercase tracking-[0.2em] text-transit-300">
             {t.assistantEyebrow}
           </p>
