@@ -99,6 +99,11 @@ export default function MapExplorer({
   const displayedMapLockers = hasFocusedResults ? lockers : getRegionMapMarkers(regionSummaries, t);
   const selectedMapLocker =
     displayedMapLockers.some((locker) => locker.id === selectedLocker?.id) ? selectedLocker : null;
+  const selectedDetailLocker = hasFocusedResults
+    ? lockers.some((locker) => locker.id === selectedLocker?.id)
+      ? selectedLocker
+      : lockers[0] ?? null
+    : null;
 
   return (
     <section id="map" className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -194,8 +199,24 @@ export default function MapExplorer({
             )}
           </div>
 
-          {hasFocusedResults && selectedLocker && (
-            <LockerDetail locker={selectedLocker} lockers={mapLockers} t={t} />
+          {selectedDetailLocker ? (
+            <LockerDetail locker={selectedDetailLocker} lockers={mapLockers} t={t} />
+          ) : (
+            <aside className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-slate-200 lg:sticky lg:top-28">
+              <p className="font-soft text-sm text-civic-600">{t.detailTitle}</p>
+              <h2 className="mt-2 font-display font-bold text-2xl tracking-tight text-slate-950">
+                {t.detailEmptyTitle}
+              </h2>
+              <p className="mt-3 font-soft leading-7 text-slate-600">
+                {hasFocusedResults ? t.detailEmptyDescription : t.detailSelectRegionDescription}
+              </p>
+              <div className="mt-6 rounded-2xl bg-slate-50 p-4">
+                <p className="font-soft text-sm text-slate-500">{t.mapHint}</p>
+                <p className="mt-2 font-display font-semibold text-slate-900">
+                  {hasFocusedResults ? t.detailSelectLockerHint : t.detailSelectRegionHint}
+                </p>
+              </div>
+            </aside>
           )}
         </div>
       </div>

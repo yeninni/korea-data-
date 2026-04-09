@@ -117,6 +117,11 @@ function normalizeLocker(info, realtime, detail, index) {
     availabilityStatus: classifyAvailability(availableUnits, totalUnits),
     availableUnits,
     totalUnits,
+    sizeAvailability: {
+      small: availableSmall,
+      medium: availableMedium,
+      large: availableLarge
+    },
     largeLuggage: availableLarge > 0 || detail?.stlckHgtExpln?.includes("대형"),
     price:
       detail?.utztnCrgExpln?.split("\n").find((line) => line.includes("소형")) ||
