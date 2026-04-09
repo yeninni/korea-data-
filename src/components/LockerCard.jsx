@@ -3,6 +3,12 @@ import StatusBadge from "./StatusBadge";
 import { formatDistrict, formatDuration, formatLandmark, formatLockerName } from "../utils/lockerUtils";
 
 export default function LockerCard({ locker, t, selected, onSelect }) {
+  const landmarkLabel = formatLandmark(locker.nearbyLandmark, t);
+  const districtLabel = formatDistrict(locker.district, t);
+  const metaLabel = districtLabel && districtLabel !== landmarkLabel
+    ? `${landmarkLabel} · ${districtLabel}`
+    : landmarkLabel;
+
   return (
     <button
       type="button"
@@ -16,9 +22,7 @@ export default function LockerCard({ locker, t, selected, onSelect }) {
           <h3 className="font-display font-bold text-xl tracking-tight text-slate-950">
             {formatLockerName(locker, t)}
           </h3>
-          <p className="mt-1 font-soft text-sm text-slate-500">
-            {formatLandmark(locker.nearbyLandmark, t)} · {formatDistrict(locker.district, t)}
-          </p>
+          <p className="mt-1 font-soft text-sm text-slate-500">{metaLabel}</p>
         </div>
         <StatusBadge status={locker.availabilityStatus} t={t} />
       </div>

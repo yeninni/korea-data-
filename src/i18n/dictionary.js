@@ -129,6 +129,7 @@ export const dictionary = {
     mapErrorDetail: "잠시 후 다시 시도해 주세요.",
     zoomIn: "지도 확대",
     zoomOut: "지도 축소",
+    moreSuffix: "외",
     noResults: "조건에 맞는 보관함이 없습니다. 다른 지역을 선택하거나 대형 짐 필터를 해제해 보세요.",
     regionNames: {
       "All Korea": "전국",
@@ -159,7 +160,11 @@ export const dictionary = {
       "Hwangnidan-gil": "황리단길",
       "Dongdaegu Station": "동대구역",
       "Gangneung Station": "강릉역",
-      "수원시": "수원시"
+      "수원시": "수원시",
+      "광명시": "광명시",
+      "성남시": "성남시",
+      "고양시": "고양시",
+      "구리시": "구리시"
     }
   },
   en: {
@@ -285,6 +290,7 @@ export const dictionary = {
     mapErrorDetail: "Please try again in a moment.",
     zoomIn: "Zoom in",
     zoomOut: "Zoom out",
+    moreSuffix: "and more",
     noResults: "No lockers match the current search. Try another area or turn off the large luggage filter.",
     regionNames: {
       "All Korea": "All Korea",
@@ -315,7 +321,11 @@ export const dictionary = {
       "Hwangnidan-gil": "Hwangnidan-gil",
       "Dongdaegu Station": "Dongdaegu Station",
       "Gangneung Station": "Gangneung Station",
-      "수원시": "Suwon"
+      "수원시": "Suwon",
+      "광명시": "Gwangmyeong",
+      "성남시": "Seongnam",
+      "고양시": "Goyang",
+      "구리시": "Guri"
     }
   },
   zh: {
@@ -439,6 +449,7 @@ export const dictionary = {
     mapErrorDetail: "请稍后再试。",
     zoomIn: "放大地图",
     zoomOut: "缩小地图",
+    moreSuffix: "等",
     noResults: "当前条件下没有匹配的储物柜。请尝试其他区域或关闭大件行李筛选。",
     regionNames: {
       "All Korea": "韩国全境",
@@ -469,7 +480,11 @@ export const dictionary = {
       "Hwangnidan-gil": "皇理团路",
       "Dongdaegu Station": "东大邱站",
       "Gangneung Station": "江陵站",
-      "수원시": "水原市"
+      "수원시": "水原市",
+      "광명시": "光明市",
+      "성남시": "城南市",
+      "고양시": "高阳市",
+      "구리시": "九里市"
     }
   },
   ja: {
@@ -595,6 +610,7 @@ export const dictionary = {
     mapErrorDetail: "少し時間をおいて再度お試しください。",
     zoomIn: "地図を拡大",
     zoomOut: "地図を縮小",
+    moreSuffix: "ほか",
     noResults: "条件に合うロッカーが見つかりません。別のエリアを選ぶか、大型荷物フィルターを解除してください。",
     regionNames: {
       "All Korea": "韓国全域",
@@ -625,7 +641,11 @@ export const dictionary = {
       "Hwangnidan-gil": "皇理団通り",
       "Dongdaegu Station": "東大邱駅",
       "Gangneung Station": "江陵駅",
-      "수원시": "水原市"
+      "수원시": "水原市",
+      "광명시": "光明市",
+      "성남시": "城南市",
+      "고양시": "高陽市",
+      "구리시": "九里市"
     }
   }
 };

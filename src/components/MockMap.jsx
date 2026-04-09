@@ -102,7 +102,14 @@ function getMarkerPosition(locker, centerPoint, zoom, mapSize) {
   };
 }
 
-export default function MockMap({ lockers, selectedLocker, onSelect, onRegionSelect, t }) {
+export default function MockMap({
+  lockers,
+  selectedLocker,
+  focusedLockerId,
+  onSelect,
+  onRegionSelect,
+  t
+}) {
   const mapRef = useRef(null);
   const dragStateRef = useRef(null);
   const [mapSize, setMapSize] = useState(DEFAULT_MAP_SIZE);
@@ -132,13 +139,16 @@ export default function MockMap({ lockers, selectedLocker, onSelect, onRegionSel
     return () => observer.disconnect();
   }, []);
 
-  const defaultZoom = getZoomLevel(visibleLockers);
+  const shouldFocusSelectedLocker =
+    selectedVisibleLocker && !selectedVisibleLocker.isRegionMarker && focusedLockerId === selectedVisibleLocker.id;
+  const defaultZoom = shouldFocusSelectedLocker
+    ? Math.max(getZoomLevel(visibleLockers), 12)
+    : getZoomLevel(visibleLockers);
   const zoom = clampZoom(manualZoom ?? defaultZoom);
   const computedCenter = getMapCenter(visibleLockers, selectedVisibleLocker);
   const center = manualCenter ?? computedCenter;
   const centerPoint = projectCoordinate(center, zoom);
   const tiles = getVisibleTiles(centerPoint, zoom, mapSize);
-  const statusList = Object.entries(statusStyles);
 
   useEffect(() => {
     setManualCenter(null);
@@ -261,26 +271,10 @@ export default function MockMap({ lockers, selectedLocker, onSelect, onRegionSel
         </button>
       </div>
 
-      <div className="absolute left-6 top-6 z-10 max-w-sm rounded-2xl bg-white/95 p-4 shadow-sm ring-1 ring-slate-200 backdrop-blur">
-        <h3 className="font-display font-semibold text-slate-950">{t.mapTitle}</h3>
-        <p className="mt-1 font-soft text-sm text-slate-500">{t.mapHint}</p>
-        <div className="mt-3 flex flex-wrap gap-2">
-          {statusList.map(([status, style]) => (
-            <span
-              key={status}
-              className={`inline-flex items-center gap-2 rounded-full px-3 py-1 font-display text-xs font-semibold ring-1 ${style.badge}`}
-            >
-              <span className={`h-2.5 w-2.5 rounded-full ${style.marker}`} />
-              {t[style.labelKey]}
-            </span>
-          ))}
-        </div>
-      </div>
-
       {visibleLockers.map((locker) => {
         const isSelected = selectedVisibleLocker?.id === locker.id;
         const position = getMarkerPosition(locker, centerPoint, zoom, mapSize);
-        const markerLabel = locker.isRegionMarker ? locker.name : formatLandmark(locker.nearbyLandmark, t);
+        const markerLabel = locker.isRegionMarker ? locker.name : formatLockerName(locker, t);
 
         if (
           position.left < -40 ||

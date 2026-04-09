@@ -27,7 +27,15 @@ function withMockSizeAvailability(locker) {
 
 function mergeDemoCoverage(liveLockers) {
   const existingLandmarks = new Set(liveLockers.map((locker) => locker.nearbyLandmark));
+  const hasLiveGyeonggi = liveLockers.some((locker) => locker.region === "Gyeonggi");
   const supplementalLockers = mockLockers
+    .filter((locker) => {
+      if (locker.region === "Gyeonggi") {
+        return !hasLiveGyeonggi;
+      }
+
+      return true;
+    })
     .filter((locker) => !existingLandmarks.has(locker.nearbyLandmark))
     .map((locker) => ({
       ...withMockSizeAvailability(locker),

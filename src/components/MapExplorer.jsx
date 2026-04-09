@@ -2,7 +2,7 @@ import FilterBar from "./FilterBar";
 import LockerCard from "./LockerCard";
 import LockerDetail from "./LockerDetail";
 import MockMap from "./MockMap";
-import { getCrowdingScore } from "../utils/lockerUtils";
+import { formatDistrict, formatLandmark, getCrowdingScore } from "../utils/lockerUtils";
 
 function classifyAvailability(availableUnits, totalUnits) {
   if (availableUnits <= 0) return "Full";
@@ -28,20 +28,27 @@ function getRegionSummaries(lockers) {
         region,
         lockers: [],
         availableUnits: 0,
-        totalUnits: 0
+        totalUnits: 0,
+        subregions: new Set()
       };
 
     current.lockers.push(locker);
     current.availableUnits += locker.availableUnits;
     current.totalUnits += locker.totalUnits;
+    current.subregions.add(locker.district || locker.nearbyLandmark || locker.region);
     summaries.set(region, current);
   });
 
-  return [...summaries.values()].sort((a, b) => {
-    const aBest = Math.min(...a.lockers.map(getCrowdingScore));
-    const bBest = Math.min(...b.lockers.map(getCrowdingScore));
-    return aBest - bBest || b.lockers.length - a.lockers.length;
-  });
+  return [...summaries.values()]
+    .map((summary) => ({
+      ...summary,
+      subregions: [...summary.subregions]
+    }))
+    .sort((a, b) => {
+      const aBest = Math.min(...a.lockers.map(getCrowdingScore));
+      const bBest = Math.min(...b.lockers.map(getCrowdingScore));
+      return aBest - bBest || b.lockers.length - a.lockers.length;
+    });
 }
 
 function getRegionMapMarkers(regionSummaries, t) {
@@ -85,6 +92,7 @@ export default function MapExplorer({
   lockers,
   mapLockers = lockers,
   selectedLocker,
+  focusedLockerId,
   onSelectLocker,
   sortMode,
   onSortModeChange,
@@ -121,6 +129,7 @@ export default function MapExplorer({
             <MockMap
               lockers={displayedMapLockers}
               selectedLocker={selectedMapLocker}
+              focusedLockerId={focusedLockerId}
               onSelect={onSelectLocker}
               onRegionSelect={onRegionChange}
               t={t}
@@ -143,6 +152,10 @@ export default function MapExplorer({
                 {regionSummaries.map((summary) => {
                   const regionLabel = t.regionNames?.[summary.region] ?? summary.region;
                   const selected = selectedRegion === summary.region;
+                  const subregionPreview = summary.subregions
+                    .slice(0, 3)
+                    .map((subregion) => formatLandmark(formatDistrict(subregion, t), t))
+                    .join(" · ");
 
                   return (
                     <button
@@ -168,6 +181,12 @@ export default function MapExplorer({
                       <p className={`mt-3 font-soft text-sm ${selected ? "text-civic-50" : "text-slate-500"}`}>
                         {summary.availableUnits} / {summary.totalUnits} {t.availableUnits}
                       </p>
+                      {subregionPreview && (
+                        <p className={`mt-2 font-soft text-xs ${selected ? "text-civic-100" : "text-slate-400"}`}>
+                          {subregionPreview}
+                          {summary.subregions.length > 3 ? ` ${t.moreSuffix}` : ""}
+                        </p>
+                      )}
                     </button>
                   );
                 })}
