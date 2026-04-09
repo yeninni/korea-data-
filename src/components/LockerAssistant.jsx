@@ -130,11 +130,6 @@ export default function LockerAssistant({ t, lockers, selectedLocker, onSelectLo
     }
   ]);
 
-  const availableCount = useMemo(
-    () => lockers.filter((locker) => locker.availabilityStatus !== "Full").length,
-    [lockers]
-  );
-
   useEffect(() => {
     setMessages([
       {
@@ -204,10 +199,6 @@ export default function LockerAssistant({ t, lockers, selectedLocker, onSelectLo
                 {t[item.labelKey]}
               </button>
             ))}
-          </div>
-
-          <div className="mt-8 rounded-2xl bg-white/10 p-4 font-display text-sm font-semibold text-civic-50 ring-1 ring-white/15">
-            {availableCount} {t.availableNow}
           </div>
         </div>
 

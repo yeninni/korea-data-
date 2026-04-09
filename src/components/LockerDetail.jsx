@@ -70,10 +70,11 @@ export default function LockerDetail({ locker, lockers, t }) {
             <p className="mt-1 font-display font-semibold text-slate-900">{t.sizeAvailabilityHint}</p>
           </div>
           {selectedSizeOption && typeof selectedSizeOption.count === "number" && (
-            <span className="rounded-full bg-white px-3 py-1 font-display text-sm font-semibold text-civic-700 ring-1 ring-slate-200">
-              {t.sizeRemainingCount
-                .replace("{size}", selectedSizeOption.label)
-                .replace("{count}", selectedSizeOption.count)}
+            <span className="inline-flex min-h-14 min-w-14 items-center justify-center self-center rounded-full bg-white px-3 py-1 text-center font-display text-sm font-semibold leading-5 text-civic-700 ring-1 ring-slate-200">
+              <span className="flex flex-col items-center justify-center">
+                <span>{selectedSizeOption.label}</span>
+                <span>{selectedSizeOption.count}칸</span>
+              </span>
             </span>
           )}
         </div>
