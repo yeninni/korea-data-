@@ -18,6 +18,15 @@ export default function Hero({
   onSearchSubmit
 }) {
   const showSuggestions = query.trim().length > 0;
+  const dataSourceCredit =
+    {
+      ko: "행정안전부·한국지역정보개발원 제공 공공데이터를 활용해 제작되었습니다.",
+      en:
+        "Built using public data provided by the Ministry of the Interior and Safety and the Korea Local Information Research & Development Institute.",
+      zh: "本服务基于行政安全部与韩国地域信息开发院提供的公共数据制作。",
+      ja:
+        "本サービスは、行政安全部と韓国地域情報開発院が提供する公共データを活用して制作されています。"
+    }[t.locale] ?? "Built using public data provided by the source institutions.";
   const lockerSizeGuide = [
     {
       key: "small",
@@ -51,7 +60,7 @@ export default function Hero({
         <div>
           <p className="inline-flex max-w-2xl items-center gap-2 font-soft text-sm leading-6 text-civic-100/90">
             <Icon name="shield" className="h-4 w-4 shrink-0" />
-            <span>행정안전부·한국지역정보개발원 제공 공공데이터를 활용해 제작되었습니다.</span>
+            <span>{dataSourceCredit}</span>
           </p>
           <h1 className="mt-6 max-w-3xl font-display font-bold text-4xl tracking-[-0.045em] sm:text-5xl lg:text-6xl">
             {t.heroTitle}
@@ -123,7 +132,7 @@ export default function Hero({
           </form>
 
           <div className="mt-6">
-              <p className="font-soft text-sm uppercase tracking-[0.2em] text-civic-100">{t.region}</p>
+            <p className="font-soft text-sm uppercase tracking-[0.2em] text-civic-100">{t.region}</p>
             <div className="mt-3 flex flex-wrap gap-2">
               {regions.map((region) => (
                 <button
