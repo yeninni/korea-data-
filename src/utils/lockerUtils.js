@@ -545,6 +545,22 @@ export function formatDuration(minutes, t) {
   return `${minutes}${t.minuteSuffix ?? "m"}`;
 }
 
+export function formatAvailableUnits(value, total, t) {
+  if (t?.locale === "ko") {
+    return `${value}칸 남음 · 총 ${total}칸`;
+  }
+
+  if (t?.locale === "zh") {
+    return `剩余${value}格 · 共${total}格`;
+  }
+
+  if (t?.locale === "ja") {
+    return `${value}枠空き · 全${total}枠`;
+  }
+
+  return `${value} left · ${total} total`;
+}
+
 export function formatSupportLabel(supported, t) {
   return supported ? t.supported ?? "Yes" : t.notSupported ?? "No";
 }

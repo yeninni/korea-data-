@@ -1,3 +1,33 @@
+@import url("https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap");
+
+@font-face {
+  font-family: "Isamanru";
+  src: url("./assets/fonts/GongGothicBold.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Isamanru";
+  src: url("./assets/fonts/GongGothicBold.ttf") format("truetype");
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Isamanru";
+  src: url("./assets/fonts/GongGothicBold.ttf") format("truetype");
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Isamanru";
+  src: url("./assets/fonts/GongGothicBold.ttf") format("truetype");
+  font-weight: 700;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,7 +38,7 @@
   }
 
   body {
-    @apply bg-slate-50 text-slate-900 antialiased;
+    @apply bg-slate-50 font-sans text-slate-900 antialiased;
   }
 
   button,
@@ -23,15 +53,23 @@
     @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-civic-500;
   }
 
-  .kakao-map-overlay {
-    @apply flex max-w-[200px] flex-col rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-xs shadow-md;
+  .kakao-map-label {
+    @apply inline-flex cursor-pointer items-center gap-2 whitespace-nowrap rounded-full bg-white px-3 py-2 text-left shadow-lg ring-1 ring-slate-200 backdrop-blur transition hover:scale-105;
   }
 
-  .kakao-map-overlay strong {
-    @apply font-bold leading-5 text-slate-900;
+  .kakao-map-label.is-selected {
+    @apply scale-110 ring-4 ring-civic-500/25;
   }
 
-  .kakao-map-overlay span {
-    @apply mt-0.5 text-slate-500;
+  .kakao-map-label-dot {
+    @apply block h-3.5 w-3.5 rounded-full ring-4 ring-white shrink-0;
+  }
+
+  .kakao-map-label-text {
+    @apply max-w-[150px] truncate font-display text-xs font-semibold text-slate-700;
+  }
+
+  .kakao-map-label-count {
+    @apply rounded-full bg-slate-100 px-2 py-0.5 font-display text-[0.65rem] font-semibold text-slate-500;
   }
 }

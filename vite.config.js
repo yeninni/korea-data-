@@ -107,11 +107,8 @@ function normalizeLocker(info, realtime, detailEntries, index) {
   const availableSmall = parseNumber(realtime?.usePsbltySmlszStlckCnt);
   const rawAvailableUnits = availableLarge + availableMedium + availableSmall;
   const totalUnits = parseNumber(info.stlckCnt, rawAvailableUnits);
-  const hasRealtimeCounts = [
-    realtime?.usePsbltyLrgszStlckCnt,
-    realtime?.usePsbltyMdmszStlckCnt,
-    realtime?.usePsbltySmlszStlckCnt
-  ].some((value) => value !== undefined && value !== null && value !== "");
+  const hasRealtimeCounts = [realtime?.usePsbltyLrgszStlckCnt, realtime?.usePsbltyMdmszStlckCnt, realtime?.usePsbltySmlszStlckCnt]
+    .some((value) => value !== undefined && value !== null && value !== "");
   const availableUnits = hasRealtimeCounts ? Math.min(rawAvailableUnits, totalUnits) : 0;
   const landmark = nearestLandmark(lat, lon);
   const displayLandmark = getDisplayLandmark(info, landmark);

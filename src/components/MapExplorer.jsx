@@ -3,7 +3,9 @@ import FilterBar from "./FilterBar";
 import LockerCard from "./LockerCard";
 import LockerDetail from "./LockerDetail";
 import MockMap from "./MockMap";
-import { formatDistrict, formatLandmark, getCrowdingScore } from "../utils/lockerUtils";
+import { formatAvailableUnits, formatDistrict, formatLandmark, getCrowdingScore } from "../utils/lockerUtils";
+
+const INITIAL_LOCKER_CARD_COUNT = 6;
 
 const SEOUL_FEATURED_GROUPS = [
   {
@@ -160,6 +162,7 @@ function getDefaultDetailLocker(lockers) {
 
 export default function MapExplorer({
   t,
+  language,
   lockers,
   mapLockers = lockers,
   selectedLocker,
@@ -176,19 +179,23 @@ export default function MapExplorer({
   locationStatus,
   locationFocusToken
 }) {
-  const [showAllSeoulLockers, setShowAllSeoulLockers] = useState(false);
+  const [showAllLockers, setShowAllLockers] = useState(false);
   const regionSummaries = getRegionSummaries(mapLockers);
   const selectedRegionLabel = t.regionNames?.[selectedRegion] ?? selectedRegion;
   const hasFocusedResults =
     Boolean(currentLocation) || selectedRegion !== "All Korea" || lockers.length !== mapLockers.length;
   const shouldCollapseSeoulLockers = selectedRegion === "Seoul" && lockers.length > 6;
+  const shouldCollapseLockerCards = hasFocusedResults && lockers.length > INITIAL_LOCKER_CARD_COUNT;
   const featuredSeoulLockers = useMemo(
     () => (shouldCollapseSeoulLockers ? getFeaturedSeoulLockers(lockers) : lockers),
     [lockers, shouldCollapseSeoulLockers]
   );
+  const collapsedLockerCards = shouldCollapseSeoulLockers
+    ? featuredSeoulLockers
+    : lockers.slice(0, INITIAL_LOCKER_CARD_COUNT);
   const displayedLockerCards =
-    shouldCollapseSeoulLockers && !showAllSeoulLockers ? featuredSeoulLockers : lockers;
-  const hiddenSeoulLockerCount = Math.max(0, lockers.length - featuredSeoulLockers.length);
+    shouldCollapseLockerCards && !showAllLockers ? collapsedLockerCards : lockers;
+  const hiddenLockerCount = Math.max(0, lockers.length - displayedLockerCards.length);
   const displayedMapLockers = hasFocusedResults ? lockers : getRegionMapMarkers(regionSummaries, t);
   const selectedMapLocker =
     displayedMapLockers.some((locker) => locker.id === selectedLocker?.id) ? selectedLocker : null;
@@ -200,8 +207,8 @@ export default function MapExplorer({
     : defaultDetailLocker;
 
   useEffect(() => {
-    setShowAllSeoulLockers(false);
-  }, [selectedRegion]);
+    setShowAllLockers(false);
+  }, [currentLocation, lockers, selectedRegion]);
 
   return (
     <section id="map" className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -223,6 +230,7 @@ export default function MapExplorer({
               onSelect={onSelectLocker}
               onRegionSelect={onRegionChange}
               t={t}
+              language={language}
               currentLocation={currentLocation}
               onUseLocation={onUseLocation}
               locationStatus={locationStatus}
@@ -273,7 +281,7 @@ export default function MapExplorer({
                         </span>
                       </div>
                       <p className={`mt-3 font-soft text-sm ${selected ? "text-civic-50" : "text-slate-500"}`}>
-                        {summary.availableUnits} / {summary.totalUnits} {t.availableUnits}
+                        {formatAvailableUnits(summary.availableUnits, summary.totalUnits, t)}
                       </p>
                       {subregionPreview && (
                         <p className={`mt-2 font-soft text-xs ${selected ? "text-civic-100" : "text-slate-400"}`}>
@@ -304,22 +312,22 @@ export default function MapExplorer({
                     {t.noResults}
                   </div>
                 )}
-                {shouldCollapseSeoulLockers && !showAllSeoulLockers && hiddenSeoulLockerCount > 0 && (
+                {shouldCollapseLockerCards && !showAllLockers && hiddenLockerCount > 0 && (
                   <button
                     type="button"
-                    onClick={() => setShowAllSeoulLockers(true)}
+                    onClick={() => setShowAllLockers(true)}
                     className="focus-ring flex min-h-[250px] w-full flex-col items-center justify-center rounded-[1.75rem] bg-slate-50 p-6 text-center shadow-sm ring-1 ring-slate-200 transition hover:-translate-y-0.5 hover:bg-white hover:shadow-civic"
                   >
                     <span className="font-display text-lg font-semibold text-slate-900">{t.showMoreLockers}</span>
                     <span className="mt-2 font-soft text-sm text-slate-500">
-                      {fillTemplate(t.lockersCount, { count: hiddenSeoulLockerCount })}
+                      {fillTemplate(t.lockersCount, { count: hiddenLockerCount })}
                     </span>
                   </button>
                 )}
-                {shouldCollapseSeoulLockers && showAllSeoulLockers && (
+                {shouldCollapseLockerCards && showAllLockers && (
                   <button
                     type="button"
-                    onClick={() => setShowAllSeoulLockers(false)}
+                    onClick={() => setShowAllLockers(false)}
                     className="focus-ring rounded-[1.75rem] bg-slate-50 p-5 text-center font-display font-semibold text-civic-700 shadow-sm ring-1 ring-slate-200 transition hover:bg-white hover:shadow-civic md:col-span-2"
                   >
                     {t.showLessLockers}

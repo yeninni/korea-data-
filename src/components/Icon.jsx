@@ -9,7 +9,8 @@ const iconPaths = {
   shield: "M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6l-7-3Z",
   search: "m21 21-4.3-4.3M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z",
   sliders: "M4 7h10m4 0h2M4 17h2m4 0h10M14 5v4M8 15v4",
-  target: "M12 3v3m0 12v3M3 12h3m12 0h3M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"
+  target:
+    "M12 3v2.2M12 18.8V21M3 12h2.2M18.8 12H21M12 16.5a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm0-2.2a2.3 2.3 0 1 0 0-4.6 2.3 2.3 0 0 0 0 4.6Z"
 };
 
 export default function Icon({ name, className = "h-5 w-5" }) {

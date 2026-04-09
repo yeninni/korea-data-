@@ -1,6 +1,12 @@
 import Icon from "./Icon";
 import StatusBadge from "./StatusBadge";
-import { formatDistrict, formatDuration, formatLandmark, formatLockerName } from "../utils/lockerUtils";
+import {
+  formatAvailableUnits,
+  formatDistrict,
+  formatDuration,
+  formatLandmark,
+  formatLockerName
+} from "../utils/lockerUtils";
 
 export default function LockerCard({ locker, t, selected, onSelect }) {
   const landmarkLabel = formatLandmark(locker.nearbyLandmark, t);
@@ -31,7 +37,7 @@ export default function LockerCard({ locker, t, selected, onSelect }) {
         <div className="rounded-2xl bg-civic-50 p-3">
           <span className="block text-slate-500">{t.availableUnits}</span>
           <strong className="mt-1 block font-display text-lg font-bold text-civic-700">
-            {locker.availableUnits}/{locker.totalUnits}
+            {formatAvailableUnits(locker.availableUnits, locker.totalUnits, t)}
           </strong>
         </div>
         <div className="rounded-2xl bg-slate-50 p-3">

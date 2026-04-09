@@ -129,7 +129,7 @@ export default function App() {
       }));
 
     return [...regionSuggestions, ...lockerSuggestions].slice(0, 8);
-  }, [currentLocation, lockerData, query, sortMode, t]);
+  }, [currentLocation, lockerData, query, regions, sortMode, t]);
 
   function scrollToMap() {
     window.setTimeout(() => {
@@ -267,6 +267,7 @@ export default function App() {
       />
       <MapExplorer
         t={t}
+        language={language}
         lockers={filteredLockers}
         mapLockers={lockerData}
         selectedLocker={selectedLocker}

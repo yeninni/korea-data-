@@ -3,10 +3,9 @@ import Icon from "./Icon";
 import StatusBadge from "./StatusBadge";
 import {
   formatAddress,
-  formatLandmark,
-  formatBusRouteLabel,
+  formatAvailableUnits,
   formatBusStop,
-  formatDuration,
+  formatLandmark,
   formatLockerName,
   formatOpenHours,
   formatPrice,
@@ -51,7 +50,7 @@ export default function LockerDetail({ locker, lockers, t }) {
 
       <dl className="mt-6 grid gap-3">
         {[
-          [t.availableUnits, `${locker.availableUnits} / ${locker.totalUnits}`],
+          [t.availableUnits, formatAvailableUnits(locker.availableUnits, locker.totalUnits, t)],
           [t.openHours, formatOpenHours(locker.openHours, t)],
           [t.price, formatPrice(locker.price, t)],
           [t.largeLuggage, formatSupportLabel(locker.largeLuggage, t)]
@@ -73,7 +72,7 @@ export default function LockerDetail({ locker, lockers, t }) {
             <span className="inline-flex min-h-14 min-w-14 items-center justify-center self-center rounded-full bg-white px-3 py-1 text-center font-display text-sm font-semibold leading-5 text-civic-700 ring-1 ring-slate-200">
               <span className="flex flex-col items-center justify-center">
                 <span>{selectedSizeOption.label}</span>
-                <span>{selectedSizeOption.count}칸</span>
+                <span>{selectedSizeOption.count}</span>
               </span>
             </span>
           )}
@@ -111,24 +110,10 @@ export default function LockerDetail({ locker, lockers, t }) {
       <div className="mt-5 rounded-2xl bg-civic-50 p-4">
         <div className="flex items-center gap-2 font-display font-semibold text-civic-700">
           <Icon name="bus" className="h-5 w-5" />
-          {t.nearbyBusInfo}
+          {t.nearestStop}
         </div>
-        <p className="mt-2 font-soft text-sm text-slate-600">
-          {t.nearestStop}: <strong>{formatBusStop(locker.nearestBusStop, t)}</strong>
-        </p>
-        <div className="mt-3 flex flex-wrap gap-2">
-          {locker.nextBuses.map((bus) => (
-            <span
-              key={bus.route}
-              className="rounded-full bg-white px-3 py-1 font-display text-sm font-semibold text-civic-700"
-            >
-              {formatBusRouteLabel(bus.route, t)} · {formatDuration(bus.minutes, t)}
-            </span>
-          ))}
-        </div>
-        <p className="mt-3 font-soft text-sm text-slate-500">
-          {t.walk} {formatDuration(locker.estimatedWalkMinutes, t)} · {t.bus}{" "}
-          {formatDuration(locker.estimatedBusMinutes, t)}
+        <p className="mt-2 font-display text-lg font-semibold text-slate-900">
+          {formatBusStop(locker.nearestBusStop, t)}
         </p>
       </div>
 
@@ -137,18 +122,11 @@ export default function LockerDetail({ locker, lockers, t }) {
           <p className="font-soft text-sm text-amber-700">{t.recommendedAlternative}</p>
           <p className="mt-1 font-display font-semibold text-slate-900">{formatLockerName(alternative, t)}</p>
           <p className="mt-1 text-sm text-slate-600">
-            {alternative.availableUnits} / {alternative.totalUnits} ·{" "}
+            {formatAvailableUnits(alternative.availableUnits, alternative.totalUnits, t)} ·{" "}
             {formatLandmark(alternative.nearbyLandmark, t)}
           </p>
         </div>
       )}
-
-      <button
-        type="button"
-        className="focus-ring mt-5 inline-flex min-h-14 w-full items-center justify-center rounded-2xl bg-civic-600 px-5 font-display font-semibold text-white hover:bg-civic-700"
-      >
-        {t.directions}
-      </button>
     </aside>
   );
 }

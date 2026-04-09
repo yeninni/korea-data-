@@ -14,7 +14,6 @@
 
 ```bash
 npm install
-VITE_KAKAO_MAP_APP_KEY=your_kakao_javascript_key
 LOCKER_API_KEY=your_public_data_key npm run dev
 ```
 
