@@ -5,7 +5,9 @@ export default function AboutSection({ t }) {
   const conciseAboutText =
     {
       ko: "관광객이 짐 보관함을 바로 찾지 못하면 이동이 불편해지고 특정 장소에 수요가 몰립니다. 이 서비스는 실시간 보관함 정보와 대중교통 정보를 함께 보여줘 더 빠르게 선택하도록 돕습니다.",
-      en: "Travelers lose time when locker information is hard to find. This service combines real-time locker and transit data so people can choose faster and move more comfortably."
+      en: "Travelers lose time when locker information is hard to find. This service combines real-time locker and transit data so people can choose faster and move more comfortably.",
+      zh: "如果游客无法及时找到可用的行李寄存点，就容易耽误行程，也会让需求集中到少数地点。本服务结合储物柜实时信息与公共交通信息，帮助用户更快做出选择。",
+      ja: "旅行者が使えるロッカーをすぐ見つけられないと、移動が不便になり、利用が一部の場所に集中しやすくなります。このサービスは、ロッカーの空き情報と公共交通情報をあわせて案内し、より早く選べるようにします。"
     }[t.locale] ?? t.aboutText;
 
   return (

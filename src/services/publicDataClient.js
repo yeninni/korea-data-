@@ -1,5 +1,8 @@
 import { lockers as mockLockers } from "../data/lockers";
 
+const liveLockerEndpoint = `${import.meta.env.BASE_URL}api/lockers`;
+const snapshotLockerEndpoint = `${import.meta.env.BASE_URL}lockers.json`;
+
 function withMockSizeAvailability(locker) {
   if (locker.sizeAvailability) {
     return locker;
@@ -47,13 +50,25 @@ function mergeDemoCoverage(liveLockers) {
 }
 
 export async function fetchLockerStatus() {
-  const response = await fetch(`${import.meta.env.BASE_URL}api/lockers`);
+  const endpointCandidates = import.meta.env.PROD
+    ? [snapshotLockerEndpoint, liveLockerEndpoint]
+    : [liveLockerEndpoint, snapshotLockerEndpoint];
+  let payload = null;
 
-  if (!response.ok) {
-    throw new Error("Locker public-data API is not available.");
+  for (const endpoint of endpointCandidates) {
+    try {
+      const response = await fetch(endpoint, { cache: "no-store" });
+      if (!response.ok) continue;
+      payload = await response.json();
+      break;
+    } catch {
+      // Try the next available endpoint.
+    }
   }
 
-  const payload = await response.json();
+  if (!payload) {
+    throw new Error("Locker public-data API is not available.");
+  }
 
   return {
     ...payload,
