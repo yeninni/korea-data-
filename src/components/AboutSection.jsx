@@ -4,7 +4,7 @@ import Icon from "./Icon";
 export default function AboutSection({ t }) {
   const conciseAboutText =
     {
-      ko: "관광객이 짐 보관함을 바로 찾지 못하면 이동이 불편해지고 특정 장소에 수요가 몰립니다. 이 서비스는 실시간 보관함 정보와 대중교통 정보를 함께 보여줘 더 빠르게 선택하도록 돕습니다.",
+      ko: "짐 보관 시설에 대한 정보 접근성이 낮을 경우 관광객의 이동 편의성이 저하되며, 특정 장소로 수요가 집중되는 현상이 발생합니다. 본 서비스는 실시간 보관함 이용 정보와 대중교통 정보를 연계해 제공함으로써, 사용자가 의사결정에 맞는 보관 옵션을 빠르게 선택할 수 있도록 지원합니다.",
       en: "Travelers lose time when locker information is hard to find. This service combines real-time locker and transit data so people can choose faster and move more comfortably.",
       zh: "如果游客无法及时找到可用的行李寄存点，就容易耽误行程，也会让需求集中到少数地点。本服务结合储物柜实时信息与公共交通信息，帮助用户更快做出选择。",
       ja: "旅行者が使えるロッカーをすぐ見つけられないと、移動が不便になり、利用が一部の場所に集中しやすくなります。このサービスは、ロッカーの空き情報と公共交通情報をあわせて案内し、より早く選べるようにします。"
@@ -12,21 +12,21 @@ export default function AboutSection({ t }) {
 
   return (
     <section id="about" className="bg-civic-900 py-12 text-white">
-      <div className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-[0.92fr_1.08fr] lg:px-8">
-        <div>
+      <div className="mx-auto grid max-w-7xl items-start gap-6 px-4 sm:px-6 lg:grid-cols-[0.92fr_1.08fr] lg:px-8">
+        <div className="text-center lg:text-left">
           <p className="font-soft text-xs uppercase tracking-[0.2em] text-civic-100">
             {t.aboutEyebrow}
           </p>
           <h2 className="mt-3 font-display font-semibold text-3xl tracking-tight sm:text-[2.5rem]">
             {t.aboutTitle}
           </h2>
-          <p className="mt-4 max-w-2xl font-soft text-base leading-7 text-civic-100">
+          <p className="mt-4 max-w-2xl font-soft text-base leading-7 text-civic-100 lg:max-w-none">
             {conciseAboutText}
           </p>
         </div>
 
         <div className="rounded-[2rem] bg-white p-5 text-slate-900 shadow-civic">
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col items-center gap-3 text-center sm:flex-row sm:text-left">
             <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-civic-50 text-civic-700">
               <Icon name="shield" className="h-5 w-5" />
             </span>
