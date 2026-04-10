@@ -252,8 +252,10 @@ function publicLockerPlugin(env) {
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
+  const base = mode === "production" ? "/korea-data-/" : "/";
 
   return {
+    base,
     plugins: [react(), publicLockerPlugin(env)],
     server: {
       host: "127.0.0.1",

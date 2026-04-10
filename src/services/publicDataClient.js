@@ -47,7 +47,7 @@ function mergeDemoCoverage(liveLockers) {
 }
 
 export async function fetchLockerStatus() {
-  const response = await fetch("/api/lockers");
+  const response = await fetch(`${import.meta.env.BASE_URL}api/lockers`);
 
   if (!response.ok) {
     throw new Error("Locker public-data API is not available.");
