@@ -2,7 +2,7 @@
 
 전국 공영 물품보관함을 찾아주는 웹 서비스입니다. 공공데이터포털의 물품보관함 현황을 받아 위치, 운영시간, 요금, 크기별 남은 칸을 지도와 목록으로 보여줍니다.
 
-- 사이트: https://yeninni.github.io/korea-data/
+- 사이트: https://yeninni.github.io/korea-data-/
 
 ## 담긴 내용
 
